@@ -36,6 +36,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final Shooter m_shooter = new Shooter();
     private final Indexer m_indexer = new Indexer();
+    private final Intake m_intake = new Intake();
 
 
 
@@ -58,6 +59,8 @@ public class RobotContainer {
         //run shooter wheels as intake
         codriver.rightBumper().whileTrue(m_shooter.getIntakeCommand());
         //run intake forward
+        driver.leftBumper().whileTrue(new TeleIntake (m_intake));
+
 
         m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
 
