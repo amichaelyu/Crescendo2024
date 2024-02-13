@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    public static final CommandXboxController codriver = new CommandXboxController(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -32,6 +34,7 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final Shooter m_shooter = new Shooter();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -48,6 +51,13 @@ public class RobotContainer {
 
         // Configure the button bindings
         configureButtonBindings();
+
+        codriver.leftBumper().whileTrue(new TeleShooter (m_shooter));
+        //run shooter wheels as intake
+        codriver.rightBumper().whileTrue(m_shooter.getIntakeCommand());
+        //run intake forward
+
+
     }
 
     /**
