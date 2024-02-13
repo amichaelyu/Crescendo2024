@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Indexer extends SubsystemBase {
   private final TalonFX m_indexMotor = new TalonFX(indexMotorID);
 
-  /** Creates a new Intake. */
+  /** Creates a new Indexer. */
   public Indexer() {
     
 
@@ -30,7 +30,7 @@ public class Indexer extends SubsystemBase {
 
  
   public void stop() {
-    m_indexMotor.stopMotor();;
+    m_indexMotor.stopMotor();
   }
 
  

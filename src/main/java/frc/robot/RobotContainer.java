@@ -38,7 +38,7 @@ public class RobotContainer {
     private final Indexer m_indexer = new Indexer();
     private final Intake m_intake = new Intake();
     private final Tilter m_tilter = new Tilter();
-
+    private final Climber m_climber = new Climber();
 
 
 
@@ -66,6 +66,8 @@ public class RobotContainer {
 
         m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
         m_tilter.setDefaultCommand(new TeleTilter(m_tilter, () -> ((codriver.getRightTriggerAxis()-codriver.getLeftTriggerAxis()))));
+        m_climber.setDefaultCommand(new TeleClimber(m_climber, () -> (codriver.getRightY())));
+
     }
 
     /**

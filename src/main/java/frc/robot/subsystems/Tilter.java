@@ -9,13 +9,14 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class Tilter extends SubsystemBase {
   CANSparkMax m_tilterMotor;
 
-  /** Creates a new Intake. */
+  /** Creates a new Tilter. */
   public Tilter() {
     
 
-    m_tilterMotor=new CANSparkMax(intakeMotorID, MotorType.kBrushless);
+    m_tilterMotor=new CANSparkMax(tilterMotorID, MotorType.kBrushless);
 
     m_tilterMotor.setInverted(true);
+    m_tilterMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     
   }
 
@@ -29,7 +30,7 @@ public class Tilter extends SubsystemBase {
 
  
   public void stop() {
-    m_tilterMotor.stopMotor();;
+    m_tilterMotor.stopMotor();
   }
 
  

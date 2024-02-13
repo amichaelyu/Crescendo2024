@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
 
  
   public void stop() {
-    m_intakeMotor.stopMotor();;
+    m_intakeMotor.stopMotor();
   }
 
  

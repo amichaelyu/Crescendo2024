@@ -19,6 +19,11 @@ public final class Constants {
     public static final int leftShooterID = 21;
     public static final int indexMotorID = 22;
     public static final int intakeMotorID = 23;
+    public static final int tilterMotorID = 24;
+    public static final int rightClimberMotorID = 25;
+    public static final int leftClimberMotorID = 26;
+
+
 
 
 
