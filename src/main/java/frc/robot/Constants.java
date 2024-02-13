@@ -26,6 +26,8 @@ public final class Constants {
     public static final double kShooterIntakeSpeed = -0.3;
     public static final double kShooterLaunchSpeed = 1.0;
     public static final double kIntakeSpeed = 1.0;
+    public static final double kTilterSpeed = 1.0;
+
 
 
     public static final class Swerve {

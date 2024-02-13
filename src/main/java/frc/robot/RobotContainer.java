@@ -37,6 +37,8 @@ public class RobotContainer {
     private final Shooter m_shooter = new Shooter();
     private final Indexer m_indexer = new Indexer();
     private final Intake m_intake = new Intake();
+    private final Tilter m_tilter = new Tilter();
+
 
 
 
@@ -63,7 +65,7 @@ public class RobotContainer {
 
 
         m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
-
+        m_tilter.setDefaultCommand(new TeleTilter(m_tilter, () -> ((codriver.getRightTriggerAxis()-codriver.getLeftTriggerAxis()))));
     }
 
     /**
