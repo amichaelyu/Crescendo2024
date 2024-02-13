@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -20,7 +20,7 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-    private final Joystick driver = new Joystick(0);
+    public static final CommandXboxController driver = new CommandXboxController(0);
     public static final CommandXboxController codriver = new CommandXboxController(1);
 
     /* Drive Controls */
@@ -29,12 +29,14 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final Trigger zeroGyro = driver.y();
+    private final Trigger robotCentric = driver.leftBumper();
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final Shooter m_shooter = new Shooter();
+    private final Indexer m_indexer = new Indexer();
+
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -57,6 +59,7 @@ public class RobotContainer {
         codriver.rightBumper().whileTrue(m_shooter.getIntakeCommand());
         //run intake forward
 
+        m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
 
     }
 
