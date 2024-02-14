@@ -45,7 +45,7 @@ public class AutoIntake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // Stop the wheels when the command ends.
+    // Stop the wheels when the command ends.`
     if (durationMillis !=  0)
     { 
       m_intake.stop();
