@@ -16,7 +16,6 @@ public class Tilter extends SubsystemBase {
     m_tilterMotor.getConfigurator().apply(new TalonFXConfiguration());
 
     m_tilterMotor.setInverted(true);
-    m_tilterMotor.setNeutralMode(null);
     
   }
 

@@ -26,7 +26,7 @@ public class TeleClimber extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void initialize() {
-        m_climber.move(MathUtil.applyDeadband(pwr.getAsDouble(), 0.1));
+        m_climber.move(pwr.getAsDouble());
   }
 
   // Returns true when the command should end.

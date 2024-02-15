@@ -59,12 +59,12 @@ public class RobotContainer {
         //run shooter wheels as intake
         codriver.rightBumper().whileTrue(m_shooter.getIntakeCommand());
         //run intake forward
-        driver.leftBumper().whileTrue(new TeleIntake (m_intake));
+        driver.rightBumper().whileTrue(new TeleIntake (m_intake));
 
 
         m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
         m_tilter.setDefaultCommand(new TeleTilter(m_tilter, () -> ((codriver.getRightTriggerAxis()-codriver.getLeftTriggerAxis()))));
-        m_climber.setDefaultCommand(new TeleClimber(m_climber, () -> (codriver.getRightY())));
+        m_climber.setDefaultCommand(new TeleClimber(m_climber, () -> (codriver.getRawAxis(5))));
 
     }
 

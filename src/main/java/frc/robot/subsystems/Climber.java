@@ -7,8 +7,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 public class Climber extends SubsystemBase {
-  private final TalonFX  m_rightClimberMotor = new TalonFX(indexMotorID);
-  private final TalonFX m_leftClimberMotor = new TalonFX(indexMotorID);
+  private final TalonFX  m_rightClimberMotor = new TalonFX(rightClimberMotorID);
+  private final TalonFX m_leftClimberMotor = new TalonFX(leftClimberMotorID);
 
 
 
@@ -23,8 +23,7 @@ public class Climber extends SubsystemBase {
     m_rightClimberMotor.setInverted(true);
     m_leftClimberMotor.setInverted(true);
 
-    m_rightClimberMotor.setNeutralMode(null);;
-    m_leftClimberMotor.setNeutralMode(null);;
+ 
     
   }
 
