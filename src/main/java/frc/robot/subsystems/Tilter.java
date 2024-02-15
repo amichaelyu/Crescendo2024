@@ -3,20 +3,20 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 public class Tilter extends SubsystemBase {
-  CANSparkMax m_tilterMotor;
+  private final TalonFX m_tilterMotor = new TalonFX(tilterMotorID);
 
   /** Creates a new Tilter. */
   public Tilter() {
     
 
-    m_tilterMotor=new CANSparkMax(tilterMotorID, MotorType.kBrushless);
+    m_tilterMotor.getConfigurator().apply(new TalonFXConfiguration());
 
     m_tilterMotor.setInverted(true);
-    m_tilterMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    m_tilterMotor.setNeutralMode(null);
     
   }
 

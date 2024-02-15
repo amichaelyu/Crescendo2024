@@ -3,25 +3,28 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 public class Climber extends SubsystemBase {
-  CANSparkMax m_rightClimberMotor;
-  CANSparkMax m_leftClimberMotor;
+  private final TalonFX  m_rightClimberMotor = new TalonFX(indexMotorID);
+  private final TalonFX m_leftClimberMotor = new TalonFX(indexMotorID);
+
+
 
   /** Creates a new Climber. */
   public Climber() {
     
 
-    m_rightClimberMotor=new CANSparkMax(rightClimberMotorID, MotorType.kBrushless);
-    m_leftClimberMotor=new CANSparkMax(leftClimberMotorID, MotorType.kBrushless);
+    m_rightClimberMotor.getConfigurator().apply(new TalonFXConfiguration());
+    m_leftClimberMotor.getConfigurator().apply(new TalonFXConfiguration());
+
 
     m_rightClimberMotor.setInverted(true);
     m_leftClimberMotor.setInverted(true);
 
-    m_rightClimberMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    m_leftClimberMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    m_rightClimberMotor.setNeutralMode(null);;
+    m_leftClimberMotor.setNeutralMode(null);;
     
   }
 
