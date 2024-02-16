@@ -1,11 +1,13 @@
 package frc.robot;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -15,30 +17,95 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
-    public static final int rightShooterID = 20;
-    public static final int leftShooterID = 21;
-    public static final int indexMotorID = 22;
-    public static final int intakeMotorID = 23;
-    public static final int tilterMotorID = 24;
-    public static final int rightClimberMotorID = 25;
-    public static final int leftClimberMotorID = 26;
+    public static final class IntakeConstants {
+        public static final int intakeMotorID = 23;
+        public static final double kIntakeSpeed = 1.0;
+    }
 
+    public static final class IndexerConstants {
+        public static final int indexerMotorID = 22;
+    }
 
+    public static final class ShooterConstants {
+        public static final double intakeVoltage = -0.3 * 12;
+        public static final double launchVoltage = 12.0;
 
+        public static final InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
 
+        public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
+        public static final int rightShooterID = 20;
+        public static final int leftShooterID = 21;
 
+        static {
+            shooterMap.put(1.1, 1000.0);
+            shooterMap.put(2.0, 5000.0);
 
-    public static final double kShooterIntakeSpeed = -0.3;
-    public static final double kShooterLaunchSpeed = 1.0;
-    public static final double kIntakeSpeed =1.0;
-    public static final double kTilterSpeed = 1.0;
+            // set slot 0 gains
+            var slot0Configs = talonFXConfigs.Slot0;
+            slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
+            slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+            slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+            slot0Configs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
+            slot0Configs.kI = 0; // no output for integrated error
+            slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
 
+            // set Motion Magic settings
+            var motionMagicConfigs = talonFXConfigs.MotionMagic;
+            motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
+            motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
+            motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        }
+    }
 
+    public static final class TilterConstants {
+        public static final int tilterMotorID = 24;
+        public static final InterpolatingDoubleTreeMap tilterMap = new InterpolatingDoubleTreeMap();
 
-    public static final class Swerve {
+        public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
+        static {
+            // set slot 0 gains
+            var slot0Configs = talonFXConfigs.Slot0;
+            slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
+            slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+            slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+            slot0Configs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
+            slot0Configs.kI = 0; // no output for integrated error
+            slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
 
+            // set Motion Magic settings
+            var motionMagicConfigs = talonFXConfigs.MotionMagic;
+            motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
+            motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
+            motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        }
+    }
 
-        
+    public static final class ClimberConstants {
+        public static final double climbHeight = 0;
+
+        public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
+        public static final int rightClimberMotorID = 25;
+        public static final int leftClimberMotorID = 26;
+
+        static {
+            // set slot 0 gains
+            var slot0Configs = talonFXConfigs.Slot0;
+            slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
+            slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+            slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+            slot0Configs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
+            slot0Configs.kI = 0; // no output for integrated error
+            slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
+
+            // set Motion Magic settings
+            var motionMagicConfigs = talonFXConfigs.MotionMagic;
+            motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
+            motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
+            motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+        }
+    }
+
+    public static final class SwerveConstants {
         public static final int pigeonID = 28;
 
         public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
@@ -49,7 +116,7 @@ public final class Constants {
         public static final double wheelBase = Units.inchesToMeters(23); //TODO: This must be tuned to specific robot
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
-        /* Swerve Kinematics 
+        /* SwerveConstants Kinematics
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
          public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
@@ -68,7 +135,7 @@ public final class Constants {
         /* Angle Encoder Invert */
         public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
 
-        /* Swerve Current Limiting */
+        /* SwerveConstants Current Limiting */
         public static final int angleCurrentLimit = 25;
         public static final int angleCurrentThreshold = 40;
         public static final double angleCurrentThresholdTime = 0.1;
@@ -100,7 +167,7 @@ public final class Constants {
         public static final double driveKV = 1.51;
         public static final double driveKA = 0.27;
 
-        /* Swerve Profiling Values */
+        /* SwerveConstants Profiling Values */
         /** Meters per Second */
         public static final double maxSpeed = 4.5; //TODO: This must be tuned to specific robot
         /** Radians per Second */

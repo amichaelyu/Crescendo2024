@@ -11,19 +11,15 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    
+    m_intakeMotor = new CANSparkMax(IntakeConstants.intakeMotorID, MotorType.kBrushless);
 
-    m_intakeMotor=new CANSparkMax(intakeMotorID, MotorType.kBrushless);
-
+    m_intakeMotor.enableVoltageCompensation(12.0);
     m_intakeMotor.setInverted(true);
-    
   }
 
   
   public void move(double pwr) {
-   
     m_intakeMotor.set(pwr);
-
   }
 
 
