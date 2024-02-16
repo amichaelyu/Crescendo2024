@@ -16,17 +16,14 @@ public class TeleIntake extends Command {
 
 
   public TeleIntake(Intake intake) {
-
-  
       m_intake = intake;
       addRequirements(m_intake);
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void initialize() {
-    m_intake.move(kIntakeSpeed);
+    m_intake.move(IntakeConstants.kIntakeSpeed);
   }
 
   // Returns true when the command should end.
