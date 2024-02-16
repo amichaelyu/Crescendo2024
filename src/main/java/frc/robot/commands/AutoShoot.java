@@ -30,7 +30,7 @@ public class AutoShoot extends Command {
   @Override
   public void initialize() {
     startTime = System.currentTimeMillis();
-    m_shooter.launch(pwr);
+    m_shooter.setVoltage(pwr);
 
   }
 
