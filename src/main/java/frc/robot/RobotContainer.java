@@ -18,8 +18,8 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-    public static final CommandXboxController driver = new CommandXboxController(0);
-    public static final CommandXboxController codriver = new CommandXboxController(1);
+    public static CommandXboxController driver = new CommandXboxController(0);
+    public static CommandXboxController codriver = new CommandXboxController(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -77,6 +77,9 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+
+
+        
     }
 
     /**
