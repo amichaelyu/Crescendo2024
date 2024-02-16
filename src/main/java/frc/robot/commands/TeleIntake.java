@@ -24,7 +24,13 @@ public class TeleIntake extends Command {
   @Override
   public void initialize() {
     m_intake.move(IntakeConstants.kIntakeSpeed);
+
   }
+
+   // Called every time the scheduler runs while the command is scheduled.
+   @Override
+   public void execute() {
+     }
 
   // Returns true when the command should end.
   @Override

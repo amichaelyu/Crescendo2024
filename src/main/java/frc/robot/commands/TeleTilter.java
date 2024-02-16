@@ -26,9 +26,11 @@ public class TeleTilter extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void initialize() {
+  public void execute() {
     m_tilter.move(pwr.getAsDouble());
   }
+
+  
 
   // Returns true when the command should end.
   @Override
