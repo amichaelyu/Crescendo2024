@@ -62,7 +62,7 @@ public class RobotContainer {
         driver.rightBumper().whileTrue(new TeleIntake (m_intake));
 
 
-        m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
+        m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((-driver.getRightTriggerAxis()+driver.getLeftTriggerAxis()))));
         m_tilter.setDefaultCommand(new TeleTilter(m_tilter, () -> ((codriver.getRightTriggerAxis()-codriver.getLeftTriggerAxis()))));
         m_climber.setDefaultCommand(new TeleClimber(m_climber, () -> (codriver.getRawAxis(5))));
 
