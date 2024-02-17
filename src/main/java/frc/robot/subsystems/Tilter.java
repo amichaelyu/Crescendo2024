@@ -35,10 +35,10 @@ public class Tilter extends SubsystemBase {
   @Override
   public void periodic() {
 //    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
-    if (isAtBottom()) {
-      stop();
-      System.out.println("Lifter at Bottom; not going down.");
-    }
+//    if (isAtBottom()) {
+//      stop();
+//      System.out.println("Lifter at Bottom; not going down.");
+//    }
   }
 
   public void setVoltage(double voltage) {
@@ -58,13 +58,23 @@ public class Tilter extends SubsystemBase {
   }
 
   public void setPosition(double position) {
+    if (isAtBottom()) {
+      stop();
+      System.out.println("Lifter at Bottom; not going down.");
+    }
     if (isHomed) {
       m_tilterMotor.setControl(new MotionMagicVoltage(position));
     }
   }
 
   public void move(double pwr) {
-    m_tilterMotor.set(pwr);
+    if (isAtBottom()) {
+      stop();
+      System.out.println("Lifter at Bottom; not going down.");
+    }
+    else {
+      m_tilterMotor.set(pwr);
+    }
   }
  
   public void stop() {
