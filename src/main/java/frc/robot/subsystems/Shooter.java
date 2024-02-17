@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -24,14 +23,16 @@ public class Shooter extends SubsystemBase {
 
     m_leftShooter.setControl(new Follower(ShooterConstants.rightShooterID, true));
 
-    SmartDashboard.putNumber("shooter p", 0);
+//    SmartDashboard.putNumber("shooter p", 0);
+    SmartDashboard.putNumber("shooter voltage", 0);
   }
 
   @Override
   public void periodic() {
-    TalonFXConfiguration tempConfig = ShooterConstants.talonFXConfigs;
-    tempConfig.Slot0.kP = SmartDashboard.getNumber("shooter p", 0);
-    m_rightShooter.getConfigurator().apply(tempConfig);
+//    TalonFXConfiguration tempConfig = ShooterConstants.talonFXConfigs;
+//    tempConfig.Slot0.kP = SmartDashboard.getNumber("shooter p", 0);
+//    m_rightShooter.getConfigurator().apply(tempConfig);
+    setVoltage(SmartDashboard.getNumber("shooter voltage", 0));
   }
 
   public void setSpeed(double speed) {
