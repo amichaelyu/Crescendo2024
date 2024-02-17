@@ -11,7 +11,6 @@ import java.util.function.DoubleSupplier;
 
 
 public class TeleTilter extends Command {
-
       private final Tilter m_tilter;
       private DoubleSupplier pwr;
 
@@ -30,7 +29,7 @@ public class TeleTilter extends Command {
     m_tilter.move(pwr.getAsDouble());
   }
 
-  
+
 
   // Returns true when the command should end.
   @Override

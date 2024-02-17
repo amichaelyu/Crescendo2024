@@ -1,11 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.lib.controller.BetterXboxController;
+import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -18,13 +18,8 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-    public static CommandXboxController driver = new CommandXboxController(0);
-    public static CommandXboxController codriver = new CommandXboxController(1);
-
-    /* Drive Controls */
-    private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
+    public static BetterXboxController driver = new BetterXboxController(0, Humans.DRIVER);
+    public static BetterXboxController operator = new BetterXboxController(1, Humans.OPERATOR);
 
     /* Driver Buttons */
     private final Trigger zeroGyro = driver.y();
@@ -37,6 +32,7 @@ public class RobotContainer {
     private final Intake m_intake = new Intake();
     private final Tilter m_tilter = new Tilter();
     private final Climber m_climber = new Climber();
+    private final Limelight m_limelight = new Limelight();
 
 
 
@@ -44,41 +40,31 @@ public class RobotContainer {
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
-                s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
-                () -> robotCentric.getAsBoolean()
+                s_Swerve,
+                robotCentric
             )
         );
 
-        // Configure the button bindings
         configureButtonBindings();
 
-        codriver.leftBumper().whileTrue(new TeleShooter (m_shooter));
-        //run shooter wheels as intake
-        codriver.rightBumper().whileTrue(m_shooter.getIntakeCommand());
-        //run intake forward
-        driver.rightBumper().whileTrue(new TeleIntake (m_intake));
-
-
-        m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((-driver.getRightTriggerAxis()+driver.getLeftTriggerAxis()))));
-        m_tilter.setDefaultCommand(new TeleTilter(m_tilter, () -> ((codriver.getRightTriggerAxis()-codriver.getLeftTriggerAxis()))));
-        m_climber.setDefaultCommand(new TeleClimber(m_climber, () -> (codriver.getRawAxis(5))));
-
+        m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
+        m_tilter.setDefaultCommand(new TeleTilter(m_tilter, () -> ((operator.getRightTriggerAxis()- operator.getLeftTriggerAxis()))));
+        m_climber.setDefaultCommand(new TeleClimber(m_climber, () -> (operator.getRawAxis(5))));
     }
 
-    /**
-     * Use this method to define your button->command mappings. Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
+
     private void configureButtonBindings() {
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        driver.y()
+            .onTrue(new InstantCommand(s_Swerve::zeroHeading));
 
+        operator.leftBumper().whileTrue(new TeleShooter(m_shooter));
 
+        //run shooter wheels as intake
+        operator.rightBumper().whileTrue(new RepeatCommand(new ShooterIntake(m_shooter)));
+
+        //run intake forward
+        driver.rightBumper().whileTrue(new TeleIntake(m_intake));
         
     }
 
