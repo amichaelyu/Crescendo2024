@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed));
+    m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed).withFeedForward(ShooterConstants.FEEDFORWARD));
   }
 
   public void setVoltage(double volts) {
