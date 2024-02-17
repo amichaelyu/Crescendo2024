@@ -54,6 +54,8 @@ public class RobotContainer {
 
 
     private void configureButtonBindings() {
+        driver.a().whileTrue(new ShooterSetpointSpeed(m_shooter));
+
         /* Driver Buttons */
         driver.y()
             .onTrue(new InstantCommand(s_Swerve::zeroHeading));

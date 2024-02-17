@@ -11,7 +11,7 @@ public class ShooterSetpointSpeed extends Command {
     public ShooterSetpointSpeed(Shooter shooter) {
         this.shooter = shooter;
         addRequirements(this.shooter);
-//        SmartDashboard.putNumber("shooter speed", 0);
+        SmartDashboard.putNumber("shooter speed", 0);
     }
 
     @Override
