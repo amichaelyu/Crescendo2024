@@ -70,11 +70,11 @@ public final class Constants {
 
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
-            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
-            softLimit.ForwardSoftLimitThreshold = ROTATIONS_TO_FULL_EXTENSION;
-            softLimit.ForwardSoftLimitEnable = true;
-            softLimit.ReverseSoftLimitThreshold = 0;
-            softLimit.ReverseSoftLimitEnable = false;
+//            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
+//            softLimit.ForwardSoftLimitThreshold = ROTATIONS_TO_FULL_EXTENSION;
+//            softLimit.ForwardSoftLimitEnable = true;
+//            softLimit.ReverseSoftLimitThreshold = 0;
+//            softLimit.ReverseSoftLimitEnable = false;
 
             // set slot 0 gains
             var slot0Configs = talonFXConfigs.Slot0;

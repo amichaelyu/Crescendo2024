@@ -38,14 +38,14 @@ public class Tilter extends SubsystemBase {
   @Override
   public void periodic() {
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
-//    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
+    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
 
     TalonFXConfiguration tempConfig = TilterConstants.talonFXConfigs;
     tempConfig.Slot0.kP = SmartDashboard.getNumber("tilter p", 0);
     m_tilterMotor.getConfigurator().apply(tempConfig);
 
     if (isAtBottom()) {
-      resetEncoder();
+      homed();
       System.out.println("Lifter at Bottom; not going down.");
     }
   }
@@ -74,6 +74,16 @@ public class Tilter extends SubsystemBase {
 
   public void setPosition(double position) {
     if (isHomed) {
+      if (m_tilterMotor.getPosition().getValue() > position) {
+        TalonFXConfiguration config = TilterConstants.talonFXConfigs;
+        config.Slot0.kS = 1;
+        m_tilterMotor.getConfigurator().apply(config);
+      }
+      else {
+        TalonFXConfiguration config = TilterConstants.talonFXConfigs;
+        config.Slot0.kS = 3;
+        m_tilterMotor.getConfigurator().apply(config);
+      }
       m_tilterMotor.setControl(new MotionMagicVoltage(position));
     }
   }
