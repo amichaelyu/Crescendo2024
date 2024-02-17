@@ -45,8 +45,14 @@ public class Tilter extends SubsystemBase {
   }
 
   public void setVoltage(double voltage) {
-    m_tilterMotor.setControl(new VoltageOut(voltage));
-  }
+      if (isAtBottom() && voltage > 0) {
+        m_tilterMotor.setControl(new VoltageOut(0));
+        System.out.println("Lifter at Bottom; not going down.");
+      }
+      else{
+        m_tilterMotor.setControl(new VoltageOut(voltage));
+      }
+    }
 
   public void resetEncoder() {
     m_tilterMotor.setPosition(0);
@@ -61,24 +67,21 @@ public class Tilter extends SubsystemBase {
   }
 
   public void setPosition(double position) {
-    if (isAtBottom()) {
-      stop();
-      System.out.println("Lifter at Bottom; not going down.");
-    }
     if (isHomed) {
       m_tilterMotor.setControl(new MotionMagicVoltage(position));
     }
   }
 
   public void move(double pwr) {
-    if (isAtBottom()) {
-      stop();
+    if (isAtBottom() && pwr > 0) {
+      m_tilterMotor.set(0);
       System.out.println("Lifter at Bottom; not going down.");
     }
-    else {
+    else{
       m_tilterMotor.set(pwr);
     }
   }
+
  
   public void stop() {
     m_tilterMotor.stopMotor();
