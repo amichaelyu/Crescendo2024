@@ -29,7 +29,6 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final double intakeVoltage = -0.3 * 12;
         public static final double launchVoltage = 12.0;
-        public static final double FEEDFORWARD = 0.17;
 
         public static final InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
 
@@ -44,15 +43,15 @@ public final class Constants {
             // set slot 0 gains
             var slot0Configs = talonFXConfigs.Slot0;
             slot0Configs.kS = 0.17;
-            slot0Configs.kV = 0.07;
+            slot0Configs.kV = 0.1;
 //            slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            slot0Configs.kP = 0.001; // A position error of 2.5 rotations results in 12 V output
+            slot0Configs.kP = 0.42; // A position error of 2.5 rotations results in 12 V output
             slot0Configs.kI = 0.0; // no output for integrated error
             slot0Configs.kD = 0.0; // A velocity error of 1 rps results in 0.1 V output
 
             // set Motion Magic settings
             var motionMagicConfigs = talonFXConfigs.MotionMagic;
-            motionMagicConfigs.MotionMagicAcceleration = 10; // Target acceleration of 160 rps/s (0.5 seconds)
+            motionMagicConfigs.MotionMagicAcceleration = 1000; // Target acceleration of 160 rps/s (0.5 seconds)
         }
     }
 
