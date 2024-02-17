@@ -25,6 +25,7 @@ public class Shooter extends SubsystemBase {
     m_leftShooter.setControl(new Follower(ShooterConstants.rightShooterID, true));
 
     SmartDashboard.putNumber("shooter p", 0);
+    SmartDashboard.putNumber("shooter d", 0);
 //    SmartDashboard.putNumber("shooter voltage", 0);
   }
 
@@ -33,13 +34,14 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("shooter actual speed", m_rightShooter.getRotorVelocity().getValue());
     TalonFXConfiguration tempConfig = ShooterConstants.talonFXConfigs;
     tempConfig.Slot0.kP = SmartDashboard.getNumber("shooter p", 0);
+    tempConfig.Slot0.kD = SmartDashboard.getNumber("shooter d", 0);
     m_rightShooter.getConfigurator().apply(tempConfig);
 
 //    setVoltage(SmartDashboard.getNumber("shooter voltage", 0));
   }
 
   public void setSpeed(double speed) {
-    m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed).withFeedForward(ShooterConstants.FEEDFORWARD));
+    m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed));
   }
 
   public void setVoltage(double volts) {
