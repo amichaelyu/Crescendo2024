@@ -70,6 +70,12 @@ public final class Constants {
 
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
+            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
+            softLimit.ForwardSoftLimitThreshold = 25;
+            softLimit.ForwardSoftLimitEnable = true;
+            softLimit.ReverseSoftLimitThreshold = 0;
+            softLimit.ReverseSoftLimitEnable = false;
+
             // set slot 0 gains
             var slot0Configs = talonFXConfigs.Slot0;
             slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
@@ -100,6 +106,12 @@ public final class Constants {
         public static final int leftClimberMotorID = 26;
 
         static {
+            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
+            softLimit.ForwardSoftLimitThreshold = 25;
+            softLimit.ForwardSoftLimitEnable = true;
+            softLimit.ReverseSoftLimitThreshold = 0;
+            softLimit.ReverseSoftLimitEnable = false;
+
             // set slot 0 gains
             var slot0Configs = talonFXConfigs.Slot0;
             slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction

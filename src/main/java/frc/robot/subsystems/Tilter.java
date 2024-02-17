@@ -1,4 +1,11 @@
+package frc.robot.subsystems;
+
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.TilterConstants;
@@ -7,20 +14,47 @@ public class Tilter extends SubsystemBase {
   private final TalonFX m_tilterMotor = new TalonFX(TilterConstants.tilterMotorID);
   private boolean isHomed;
   private DigitalInput limitSwitchTop;
-	private DigitalInput limitSwitchBottom;
-  
-  /** Creates a new Tilter. */
+  private final DigitalInput limitSwitchBottom;
+
+  /**
+   * Creates a new Tilter.
+   */
   public Tilter() {
-    limitSwitchBottom = new DigitalInput(kLIFTER_LIMIT_BOTTOM);
-    
+    limitSwitchBottom = new DigitalInput(TilterConstants.kLIFTER_LIMIT_BOTTOM);
+
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
+    m_tilterMotor.setPosition(0);
+
+    TilterConstants.talonFXConfigs.HardwareLimitSwitch.ForwardLimitRemoteSensorID = TilterConstants.kLIFTER_LIMIT_BOTTOM;
     m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
+
     m_tilterMotor.setInverted(true);
     isHomed = false;
   }
 
-  public void home() {
+  @Override
+  public void periodic() {
+//    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
+    if (isAtBottom()) {
+      stop();
+      System.out.println("Lifter at Bottom; not going down.");
+    }
+  }
+
+  public void setVoltage(double voltage) {
     m_tilterMotor.setControl(new VoltageOut(-1));
+  }
+
+  public void resetEncoder() {
+    m_tilterMotor.setPosition(0);
+  }
+
+  public void homed() {
+    isHomed = true;
+    TalonFXConfiguration config = TilterConstants.talonFXConfigs;
+    config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    m_tilterMotor.getConfigurator().apply(config);
+    resetEncoder();
   }
 
   public void setPosition(double position) {
@@ -30,16 +64,8 @@ public class Tilter extends SubsystemBase {
   }
 
   public void move(double pwr) {
-    if (isAtBottom() && pwr > 0) {
-			m_tilterMotor.set(0);
-			System.out.println("Lifter at Bottom; not going down.");
-		}
-    else{
     m_tilterMotor.set(pwr);
-    }
   }
-
-
  
   public void stop() {
     m_tilterMotor.stopMotor();
@@ -48,5 +74,3 @@ public class Tilter extends SubsystemBase {
 		return !limitSwitchBottom.get();
     }
   }
-
- 
