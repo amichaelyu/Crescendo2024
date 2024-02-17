@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.*;
-
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import static frc.robot.Constants.TilterConstants;
 
 public class Tilter extends SubsystemBase {
   private final TalonFX m_tilterMotor = new TalonFX(TilterConstants.tilterMotorID);
@@ -15,6 +15,7 @@ public class Tilter extends SubsystemBase {
   /** Creates a new Tilter. */
   public Tilter() {
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
+    m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
     m_tilterMotor.setInverted(true);
     isHomed = false;
   }

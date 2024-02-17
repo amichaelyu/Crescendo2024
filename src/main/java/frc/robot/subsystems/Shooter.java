@@ -1,17 +1,13 @@
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.*;
-
-
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj2.command.Command;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.GenericHID;
+
+import static frc.robot.Constants.ShooterConstants;
 
 
 public class Shooter extends SubsystemBase {
@@ -21,7 +17,19 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     m_rightShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
     m_rightShooter.setInverted(true);
+    m_rightShooter.setNeutralMode(NeutralModeValue.Coast);
+    m_leftShooter.setNeutralMode(NeutralModeValue.Coast);
+
     m_leftShooter.setControl(new Follower(ShooterConstants.rightShooterID, true));
+
+//    SmartDashboard.putNumber("shooter p", 0);
+  }
+
+  @Override
+  public void periodic() {
+//    TalonFXConfiguration tempConfig = ShooterConstants.talonFXConfigs;
+//    tempConfig.Slot0.kP = SmartDashboard.getNumber("shooter p", 0);
+//    m_rightShooter.getConfigurator().apply(tempConfig);
   }
 
   public void setSpeed(double speed) {

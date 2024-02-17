@@ -1,11 +1,12 @@
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.*;
-
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import static frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
   private final TalonFX  m_rightClimberMotor = new TalonFX(ClimberConstants.rightClimberMotorID);
@@ -16,6 +17,9 @@ public class Climber extends SubsystemBase {
   public Climber() {
     m_rightClimberMotor.getConfigurator().apply(ClimberConstants.talonFXConfigs);
     m_leftClimberMotor.getConfigurator().apply(ClimberConstants.talonFXConfigs);
+
+    m_rightClimberMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_leftClimberMotor.setNeutralMode(NeutralModeValue.Brake);
 
     m_rightClimberMotor.setInverted(true);
     m_leftClimberMotor.setInverted(true);
