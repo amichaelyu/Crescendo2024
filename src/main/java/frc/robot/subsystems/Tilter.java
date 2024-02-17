@@ -42,7 +42,7 @@ public class Tilter extends SubsystemBase {
   }
 
   public void setVoltage(double voltage) {
-    m_tilterMotor.setControl(new VoltageOut(-1));
+    m_tilterMotor.setControl(new VoltageOut(voltage));
   }
 
   public void resetEncoder() {

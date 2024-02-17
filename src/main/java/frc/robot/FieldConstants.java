@@ -7,12 +7,14 @@
 
 package frc.robot;
 
-import static edu.wpi.first.apriltag.AprilTagFields.k2024Crescendo;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 import java.io.IOException;
+
+import static edu.wpi.first.apriltag.AprilTagFields.k2024Crescendo;
 
 /**
  * Contains various field dimensions and useful reference points. Dimensions are in meters, and sets
@@ -88,6 +90,27 @@ public class FieldConstants {
     /** Center of the speaker opening (blue alliance) */
     public static Translation3d centerSpeakerOpening =
         bottomLeftSpeaker.interpolate(topRightSpeaker, 0.5);
+  }
+
+  // keeps blue origin
+  public static Pose2d allianceFlipper(Pose2d pose, Alliance alliance) {
+    if (alliance == Alliance.Blue) {
+      return pose;
+    }
+    Translation2d transformedTranslation =
+            new Translation2d(fieldLength - pose.getTranslation().getX(), pose.getTranslation().getY());
+    Rotation2d transformedHolonomicRotation = pose.getRotation().times(-1);
+    return new Pose2d(transformedTranslation, pose.getRotation());
+  }
+
+  // keeps blue origin
+  public static Pose3d allianceFlipper(Pose3d pose, Alliance alliance) {
+    if (alliance == Alliance.Blue) {
+      return pose;
+    }
+    Translation3d transformedTranslation =
+            new Translation3d(fieldLength - pose.getTranslation().getX(), pose.getTranslation().getY(), pose.getTranslation().getZ());
+    return new Pose3d(transformedTranslation, pose.getRotation());
   }
 
   public static double aprilTagWidth = Units.inchesToMeters(6.50);

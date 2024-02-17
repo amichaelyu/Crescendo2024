@@ -5,13 +5,15 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.Speaker;
 
 public class Limelight extends SubsystemBase {
 
-    enum Pipelines {
+    public enum Pipelines {
         APRIL(0);
 
         private final int num;
@@ -24,7 +26,7 @@ public class Limelight extends SubsystemBase {
         }
     }
 
-    enum LED {
+    public enum LED {
         PIPELINE(0), OFF(1), BLINK(2), ON(3);
 
         private final int num;
@@ -38,7 +40,7 @@ public class Limelight extends SubsystemBase {
         }
     }
 
-    enum CameraMode {
+    public enum CameraMode {
         VISION_PROCESSING(0), DRIVER_CAMERA(1);
 
         private final int num;
@@ -86,14 +88,16 @@ public class Limelight extends SubsystemBase {
         return null;
     }
 
+    // in meters
     public double distanceToTarget() {
         Pose2d botPose = getBotPose();
         if (botPose != null) {
-            return distance(botPose, new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()));
+                if (DriverStation.getAlliance().isPresent()) {
+                    Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
+                    return distance(botPose, adjustedSpeaker);
+                }
         }
-        else {
-            return 0.0;
-        }
+        return 0.0;
     }
 
     public void setPipeline(Pipelines pipeline) {
