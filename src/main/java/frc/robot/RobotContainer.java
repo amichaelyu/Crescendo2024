@@ -50,7 +50,6 @@ public class RobotContainer {
         m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
         m_tilter.setDefaultCommand(new TeleTilter(m_tilter, () -> ((operator.getRightTriggerAxis()- operator.getLeftTriggerAxis()))));
         m_climber.setDefaultCommand(new TeleClimber(m_climber, () -> (operator.getRawAxis(5))));
-
     }
 
 
