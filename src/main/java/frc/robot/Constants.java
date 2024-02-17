@@ -87,8 +87,8 @@ public final class Constants {
 
             // set Motion Magic settings
             var motionMagicConfigs = talonFXConfigs.MotionMagic;
-            motionMagicConfigs.MotionMagicCruiseVelocity = 10; // Target cruise velocity of 80 rps
-            motionMagicConfigs.MotionMagicAcceleration = 5; // Target acceleration of 160 rps/s (0.5 seconds)
+            motionMagicConfigs.MotionMagicCruiseVelocity = 3; // Target cruise velocity of 80 rps
+            motionMagicConfigs.MotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
 //            motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         }
     }

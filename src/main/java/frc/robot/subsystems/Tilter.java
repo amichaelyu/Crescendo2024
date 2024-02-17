@@ -6,6 +6,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.TilterConstants;
@@ -30,10 +31,12 @@ public class Tilter extends SubsystemBase {
 
     m_tilterMotor.setInverted(true);
     isHomed = false;
+    SmartDashboard.putNumber("tilter voltage", 0);
   }
 
   @Override
   public void periodic() {
+      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
 //    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
 //    if (isAtBottom()) {
 //      stop();
