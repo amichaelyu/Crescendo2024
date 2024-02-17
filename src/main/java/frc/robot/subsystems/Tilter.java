@@ -31,17 +31,23 @@ public class Tilter extends SubsystemBase {
 
     m_tilterMotor.setInverted(true);
     isHomed = false;
-    SmartDashboard.putNumber("tilter voltage", 0);
+//    SmartDashboard.putNumber("tilter voltage", 0);
+    SmartDashboard.putNumber("tilter p", 0);
   }
 
   @Override
   public void periodic() {
-      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
+//      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
 //    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
-//    if (isAtBottom()) {
-//      stop();
-//      System.out.println("Lifter at Bottom; not going down.");
-//    }
+
+    TalonFXConfiguration tempConfig = TilterConstants.talonFXConfigs;
+    tempConfig.Slot0.kP = SmartDashboard.getNumber("tilter p", 0);
+    m_tilterMotor.getConfigurator().apply(tempConfig);
+
+    if (isAtBottom()) {
+      resetEncoder();
+      System.out.println("Lifter at Bottom; not going down.");
+    }
   }
 
   public void setVoltage(double voltage) {
@@ -60,9 +66,9 @@ public class Tilter extends SubsystemBase {
 
   public void homed() {
     isHomed = true;
-    TalonFXConfiguration config = TilterConstants.talonFXConfigs;
-    config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    m_tilterMotor.getConfigurator().apply(config);
+//    TalonFXConfiguration config = TilterConstants.talonFXConfigs;
+//    config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+//    m_tilterMotor.getConfigurator().apply(config);
     resetEncoder();
   }
 

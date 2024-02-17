@@ -54,7 +54,7 @@ public class RobotContainer {
 
 
     private void configureButtonBindings() {
-        driver.a().whileTrue(new ShooterSetpointSpeed(m_shooter));
+        driver.a().whileTrue(new TilterSetpoint(m_tilter));
 
         /* Driver Buttons */
         driver.y()

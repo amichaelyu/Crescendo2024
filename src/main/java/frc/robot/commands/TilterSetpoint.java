@@ -11,7 +11,7 @@ public class TilterSetpoint extends Command {
     public TilterSetpoint(Tilter tilter) {
         this.tilter = tilter;
         addRequirements(this.tilter);
-//        SmartDashboard.putNumber("tilter setpoint", 0);
+        SmartDashboard.putNumber("tilter setpoint", 0);
     }
 
     @Override
