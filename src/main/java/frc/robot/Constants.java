@@ -65,6 +65,8 @@ public final class Constants {
         public static final double ROTATION_TO_INCHES = Units.metersToInches(0.012);
         public static final double LENGTH_INCHES = Units.inchesToMeters(8);
         public static final double ROTATIONS_TO_FULL_EXTENSION = LENGTH_INCHES / ROTATION_TO_INCHES; // 17.02 rotation for full extension
+        // 219 rotations
+        // 12:1
 
         public static final InterpolatingDoubleTreeMap tilterMap = new InterpolatingDoubleTreeMap();
 
@@ -87,8 +89,8 @@ public final class Constants {
 
             // set Motion Magic settings
             var motionMagicConfigs = talonFXConfigs.MotionMagic;
-            motionMagicConfigs.MotionMagicCruiseVelocity = 3; // Target cruise velocity of 80 rps
-            motionMagicConfigs.MotionMagicAcceleration = 1; // Target acceleration of 160 rps/s (0.5 seconds)
+            motionMagicConfigs.MotionMagicCruiseVelocity = 50; // Target cruise velocity of 80 rps
+            motionMagicConfigs.MotionMagicAcceleration = 10; // Target acceleration of 160 rps/s (0.5 seconds)
 //            motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         }
     }
