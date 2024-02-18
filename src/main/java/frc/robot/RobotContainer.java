@@ -57,9 +57,10 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
 //        driver.a().whileTrue(new TilterDashboardPosition(m_tilter));
-        driver.a().whileTrue(new ShooterDashboardSpeed(m_shooter));
-        driver.b().whileTrue(new TilterDashboardPosition(m_tilter));
-        driver.x().whileTrue(new IndexerRun(m_indexer));
+        driver.a().whileTrue(new CG_ShootingLime(s_Swerve, m_limelight, m_shooter, m_tilter, m_indexer));
+//        driver.a().whileTrue(new ShooterDashboardSpeed(m_shooter));
+//        driver.b().whileTrue(new TilterDashboardPosition(m_tilter));
+//        driver.x().whileTrue(new IndexerRun(m_indexer));
 
         /* Driver Buttons */
         driver.y()

@@ -31,7 +31,8 @@ public final class Constants {
         public static final double launchVoltage = 12.0;
 
         public static final double SHOOTER_PID_TOLERANCE = 3;
-        public static final double INTAKE_SPEED = -30;
+        public static final double MAX_SPEED = 106;
+        public static final double INTAKE_SPEED = -20;
         public static final double SPEAKER_SPEED = 100; // 0-100 rev per second
         public static final double AMP_SPEED = 100; // 0-100
 
@@ -42,8 +43,9 @@ public final class Constants {
         public static final int leftShooterID = 21;
 
         static {
-            shooterMap.put(1.1, 1000.0);
-            shooterMap.put(2.0, 5000.0);
+//            shooterMap.put(0.97, 100.0);
+//            shooterMap.put(1.28, 100.0);
+//            shooterMap.put(2.63, 100.0);
 
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
@@ -66,9 +68,10 @@ public final class Constants {
         public static final int tilterMotorID = 24;
         public static final double PID_TOLERANCE = 1;
         public static final double IDLE_POSITION = 100; // 0-200
-        public static final double SPEAKER_POSITION = 100; // 0-200
+        public static final double SPEAKER_CENTER_POSITION = 130.0; // 0-200
+        public static final double SPEAKER_CORNER__POSITION = 145.0; // 0-200
         public static final double AMP_POSITION = 100; // 0-200
-        public static final double INTAKE_POSITION = 100; // 0-200
+        public static final double INTAKE_POSITION = 130.0; // 0-200
       
         public static final int kLIFTER_LIMIT_BOTTOM = 0;
 
@@ -86,6 +89,14 @@ public final class Constants {
 
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
+            tilterMap.put(0.97, 130.0);
+            tilterMap.put(1.285, 145.0);
+            tilterMap.put(1.76, 90.0);
+            tilterMap.put(1.87, 85.0);
+            tilterMap.put(2.63, 50.0);
+            tilterMap.put(2.78, 40.0);
+            tilterMap.put(2.96, 40.0);
+
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 

@@ -13,7 +13,7 @@ public class CG_ShootingSpeaker extends ParallelCommandGroup {
     public CG_ShootingSpeaker(Shooter shooter, Tilter tilter, Indexer indexer) {
         super(
                 new ShooterSetpointSpeed(shooter, ShooterConstants.SPEAKER_SPEED),
-                new TilterSetpointPosition(tilter, TilterConstants.SPEAKER_POSITION),
+                new TilterSetpointPosition(tilter, TilterConstants.SPEAKER_CENTER_POSITION),
                 new SequentialCommandGroup(
                         new ShooterTilterArmed(shooter, tilter),
                         new IndexerKick(indexer)
