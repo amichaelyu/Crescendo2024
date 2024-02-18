@@ -24,7 +24,7 @@ public final class Constants {
 
     public static final class IndexerConstants {
         public static final int indexerMotorID = 22;
-        public static final double INDEXER_DUTY_CYCLE = 1;
+        public static final double INDEXER_DUTY_CYCLE = -1;
     }
 
     public static final class ShooterConstants {
