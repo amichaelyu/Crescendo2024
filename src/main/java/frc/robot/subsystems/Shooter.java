@@ -18,6 +18,7 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     m_rightShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
+    m_leftShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
     m_rightShooter.setInverted(true);
     m_rightShooter.setNeutralMode(NeutralModeValue.Coast);
     m_leftShooter.setNeutralMode(NeutralModeValue.Coast);

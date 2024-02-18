@@ -45,6 +45,9 @@ public final class Constants {
             shooterMap.put(1.1, 1000.0);
             shooterMap.put(2.0, 5000.0);
 
+//            talonFXConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+//            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
             // set slot 0 gains
             var slot0Configs = talonFXConfigs.Slot0;
             slot0Configs.kS = 0.17;

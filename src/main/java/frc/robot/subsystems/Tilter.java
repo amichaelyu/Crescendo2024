@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -54,7 +53,7 @@ public class Tilter extends SubsystemBase {
     m_tilterMotor.getConfigurator().apply(magicConfig);
 
     SmartDashboard.putBoolean("At Bottom", isAtBottom());
-    if (isAtBottom() && !isHomed) {
+    if (isAtBottom()) {
       homed();
 //      System.out.println("Lifter at Bottom; not going down.");
     }
@@ -76,10 +75,10 @@ public class Tilter extends SubsystemBase {
 
   public void homed() {
     isHomed = true;
-    SoftwareLimitSwitchConfigs config = TilterConstants.talonFXConfigs.SoftwareLimitSwitch;
-    config.ReverseSoftLimitEnable = true;
-    config.ForwardSoftLimitEnable = true;
-    m_tilterMotor.getConfigurator().apply(config);
+//    SoftwareLimitSwitchConfigs config = TilterConstants.talonFXConfigs.SoftwareLimitSwitch;
+//    config.ReverseSoftLimitEnable = true;
+//    config.ForwardSoftLimitEnable = true;
+//    m_tilterMotor.getConfigurator().apply(config);
     resetEncoder();
   }
 
