@@ -41,7 +41,6 @@ public class Tilter extends SubsystemBase {
   @Override
   public void periodic() {
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
-    SmartDashboard.getBoolean("is motor inverted", m_tilterMotor.getInverted());
     SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
 
     Slot0Configs slotConfig = TilterConstants.talonFXConfigs.Slot0;
