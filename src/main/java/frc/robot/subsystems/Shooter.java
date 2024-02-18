@@ -4,7 +4,6 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,9 +19,6 @@ public class Shooter extends SubsystemBase {
     m_rightShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
     m_leftShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
     m_rightShooter.setInverted(true);
-    m_rightShooter.setNeutralMode(NeutralModeValue.Coast);
-    m_leftShooter.setNeutralMode(NeutralModeValue.Coast);
-
     m_leftShooter.setControl(new Follower(ShooterConstants.rightShooterID, true));
 
 //    SmartDashboard.putNumber("shooter p", 0);
