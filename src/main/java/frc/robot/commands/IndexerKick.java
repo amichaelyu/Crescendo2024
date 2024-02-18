@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.IndexerConstants;
 import frc.robot.subsystems.Indexer;
 
 public class IndexerKick extends Command {
@@ -22,7 +23,7 @@ public class IndexerKick extends Command {
 
     @Override
     public void execute() {
-        indexer.move(1.0);
+        indexer.move(IndexerConstants.INDEXER_DUTY_CYCLE);
     }
 
     @Override
