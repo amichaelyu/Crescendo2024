@@ -1,35 +1,33 @@
-package frc.robot.commands;
+package frc.robot.commands.old;
 
 
 
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Shooter;
 
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import static frc.robot.Constants.*;
 
 
-public class TeleIndexer extends Command {
+public class TeleShooter extends Command {
 
-      private final Indexer m_indexer;
-      private DoubleSupplier pwr;
+      private final Shooter m_shooter;
 
  
 
 
-  public TeleIndexer(Indexer indexer, DoubleSupplier pwr) {
+  public TeleShooter(Shooter shooter) {
 
   
-      m_indexer = indexer;
-      this.pwr=pwr;
-      addRequirements(m_indexer);
+      m_shooter = shooter;
+      addRequirements(m_shooter);
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_indexer.move(pwr.getAsDouble());
+  public void initialize() {
+    m_shooter.setVoltage(ShooterConstants.launchVoltage);
   }
 
   // Returns true when the command should end.
@@ -44,6 +42,6 @@ public class TeleIndexer extends Command {
   @Override
   public void end(boolean interrupted) {
     // Stop the wheels when the command ends.
-    m_indexer.stop();
+    m_shooter.stop();
   }
 }

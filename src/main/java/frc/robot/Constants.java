@@ -24,11 +24,16 @@ public final class Constants {
 
     public static final class IndexerConstants {
         public static final int indexerMotorID = 22;
+        public static final double INDEXER_DUTY_CYCLE = 1;
     }
 
     public static final class ShooterConstants {
-        public static final double intakeVoltage = -0.3 * 12;
         public static final double launchVoltage = 12.0;
+
+        public static final double SHOOTER_PID_TOLERANCE = 3;
+        public static final double INTAKE_SPEED = -30;
+        public static final double SPEAKER_SPEED = 100; // 0-100 rev per second
+        public static final double AMP_SPEED = 100; // 0-100
 
         public static final InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
 
@@ -43,28 +48,35 @@ public final class Constants {
             // set slot 0 gains
             var slot0Configs = talonFXConfigs.Slot0;
             slot0Configs.kS = 0.17;
-            slot0Configs.kV = 0.1;
-//            slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            slot0Configs.kP = 0.42; // A position error of 2.5 rotations results in 12 V output
-            slot0Configs.kI = 0.0; // no output for integrated error
-            slot0Configs.kD = 0.0; // A velocity error of 1 rps results in 0.1 V output
+            slot0Configs.kV = 0.11;
+//            slot0Configs.kA = 0.01;
+            slot0Configs.kP = 0.42;
+            slot0Configs.kI = 0.0;
+            slot0Configs.kD = 0.0;
 
             // set Motion Magic settings
             var motionMagicConfigs = talonFXConfigs.MotionMagic;
-            motionMagicConfigs.MotionMagicAcceleration = 1000; // Target acceleration of 160 rps/s (0.5 seconds)
+            motionMagicConfigs.MotionMagicAcceleration = 1000;
         }
     }
 
     public static final class TilterConstants {
         public static final int tilterMotorID = 24;
+        public static final double PID_TOLERANCE = 2;
+        public static final double IDLE_POSITION = 100; // 0-200
+        public static final double SPEAKER_POSITION = 100; // 0-200
+        public static final double AMP_POSITION = 100; // 0-200
+        public static final double INTAKE_POSITION = 100; // 0-200
       
         public static final int kLIFTER_LIMIT_BOTTOM = 0;
 
         // 1 falcon rotation = 12 mm of travel (0.47 inches)
         // 25.53 rotation for full extension
-        public static final double ROTATION_TO_INCHES = Units.metersToInches(0.012);
+        // 8 inches long
+        public static final double ROTATION_TO_INCHES = 0.012;
         public static final double LENGTH_INCHES = Units.inchesToMeters(8);
-        public static final double ROTATIONS_TO_FULL_EXTENSION = LENGTH_INCHES / ROTATION_TO_INCHES; // 17.02 rotation for full extension
+        public static final double GEAR_RATIO = 12.0;
+        public static final double ROTATIONS_TO_FULL_EXTENSION = LENGTH_INCHES / ROTATION_TO_INCHES * GEAR_RATIO; // 17.02 rotation for full extension
         // 219 rotations
         // 12:1
 
@@ -72,18 +84,18 @@ public final class Constants {
 
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
-//            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
-//            softLimit.ForwardSoftLimitThreshold = ROTATIONS_TO_FULL_EXTENSION;
-//            softLimit.ForwardSoftLimitEnable = true;
-//            softLimit.ReverseSoftLimitThreshold = 0;
-//            softLimit.ReverseSoftLimitEnable = false;
+            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
+            softLimit.ForwardSoftLimitThreshold = ROTATIONS_TO_FULL_EXTENSION;
+            softLimit.ForwardSoftLimitEnable = false;
+            softLimit.ReverseSoftLimitThreshold = 0;
+            softLimit.ReverseSoftLimitEnable = false;
 
             // set slot 0 gains
             var slot0Configs = talonFXConfigs.Slot0;
             slot0Configs.kS = 1; // Add 0.25 V output to overcome static friction
 //            slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
 //            slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            slot0Configs.kP = 0.1; // A position error of 2.5 rotations results in 12 V output
+            slot0Configs.kP = 0.05; // A position error of 2.5 rotations results in 12 V output
             slot0Configs.kI = 0; // no output for integrated error
             slot0Configs.kD = 0; // A velocity error of 1 rps results in 0.1 V output
 

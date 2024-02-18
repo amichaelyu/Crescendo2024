@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.old;
 
 
 
@@ -6,20 +6,22 @@ import frc.robot.subsystems.Shooter;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
-import static frc.robot.Constants.*;
 
 
-public class TeleShooter extends Command {
+public class AutoShoot extends Command {
 
       private final Shooter m_shooter;
-
+      private double pwr;
+      private double durationMillis;
+      private long startTime;
  
 
 
-  public TeleShooter(Shooter shooter) {
+  public AutoShoot(Shooter shooter, double pwr, double seconds) {
 
-  
       m_shooter = shooter;
+      this.pwr=pwr;
+      durationMillis=seconds*1000;
       addRequirements(m_shooter);
 
   }
@@ -27,7 +29,9 @@ public class TeleShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void initialize() {
-    m_shooter.setVoltage(ShooterConstants.launchVoltage);
+    startTime = System.currentTimeMillis();
+    m_shooter.setVoltage(pwr);
+
   }
 
   // Returns true when the command should end.
@@ -35,13 +39,16 @@ public class TeleShooter extends Command {
   public boolean isFinished() {
     // Always return false so the command never ends on it's own. In this project we use the
     // scheduler to end the command when the button is released.
-    return false;
+    return System.currentTimeMillis() >startTime+durationMillis;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     // Stop the wheels when the command ends.
-    m_shooter.stop();
+    if (durationMillis !=  0)
+    { 
+      m_shooter.stop();
+    }
   }
 }

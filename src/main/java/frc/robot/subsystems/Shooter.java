@@ -14,6 +14,7 @@ import static frc.robot.Constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
   private final TalonFX m_rightShooter = new TalonFX(ShooterConstants.rightShooterID);
   private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID);
+  private double setpoint = 0;
 
   public Shooter() {
     m_rightShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
@@ -39,12 +40,21 @@ public class Shooter extends SubsystemBase {
 //    setVoltage(SmartDashboard.getNumber("shooter voltage", 0));
   }
 
+  public boolean atSetpoint() {
+    return getVelocity() > (setpoint - ShooterConstants.SHOOTER_PID_TOLERANCE);
+  }
+
   public void setSpeed(double speed) {
+    setpoint = speed;
     m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed));
   }
 
   public void setVoltage(double volts) {
     m_rightShooter.setControl(new VoltageOut(volts));
+  }
+
+  public double getVelocity() {
+    return m_rightShooter.getVelocity().getValue();
   }
  
   public void stop() {

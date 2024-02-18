@@ -1,28 +1,28 @@
-package frc.robot.commands;
+package frc.robot.commands.old;
 
 
 
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class AutoIndex extends Command {
+public class AutoIntake extends Command {
 
-      private final Indexer m_indexer;
+      private final Intake m_intake;
       private double pwr;
       private double durationMillis;
       private long startTime;
  
 
 
-  public AutoIndex(Indexer indexer, double pwr, double seconds) {
+  public AutoIntake(Intake intake, double pwr, double seconds) {
 
-      m_indexer = indexer;
+      m_intake = intake;
       this.pwr=pwr;
       durationMillis=seconds*1000;
-      addRequirements(m_indexer);
+      addRequirements(m_intake);
 
   }
 
@@ -30,7 +30,7 @@ public class AutoIndex extends Command {
   @Override
   public void initialize() {
     startTime = System.currentTimeMillis();
-    m_indexer.move(pwr);
+    m_intake.move(pwr);
 
   }
 
@@ -45,10 +45,10 @@ public class AutoIndex extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // Stop the wheels when the command ends.
+    // Stop the wheels when the command ends.`
     if (durationMillis !=  0)
     { 
-      m_indexer.stop();
+      m_intake.stop();
     }
   }
 }

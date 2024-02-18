@@ -1,15 +1,17 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Tilter;
 
 
-public class TilterHome extends Command {
+public class TilterDashboardPosition extends Command {
     private final Tilter tilter;
 
-    public TilterHome(Tilter tilter) {
+    public TilterDashboardPosition(Tilter tilter) {
         this.tilter = tilter;
         addRequirements(this.tilter);
+        SmartDashboard.putNumber("tilter setpoint", 0);
     }
 
     @Override
@@ -19,17 +21,16 @@ public class TilterHome extends Command {
 
     @Override
     public void execute() {
-        tilter.setVoltage(-3);
+        tilter.setPosition(SmartDashboard.getNumber("tilter setpoint", 0));
     }
 
     @Override
     public boolean isFinished() {
-        return !tilter.isAtBottom();
+        return false;
     }
 
     @Override
     public void end(boolean interrupted) {
         tilter.stop();
-        tilter.homed();
     }
 }

@@ -2,12 +2,19 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
-import frc.robot.autos.*;
-import frc.robot.commands.*;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.autos.exampleAuto;
+import frc.robot.commands.ShooterSetpointSpeed;
+import frc.robot.commands.TeleClimber;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.TilterDashboardPosition;
+import frc.robot.commands.old.TeleIndexer;
+import frc.robot.commands.old.TeleIntake;
+import frc.robot.commands.old.TeleShooter;
+import frc.robot.commands.old.TeleTilter;
 import frc.robot.subsystems.*;
 
 /**
@@ -34,8 +41,6 @@ public class RobotContainer {
     private final Climber m_climber = new Climber();
     private final Limelight m_limelight = new Limelight();
 
-
-
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
@@ -54,7 +59,12 @@ public class RobotContainer {
 
 
     private void configureButtonBindings() {
-        driver.a().whileTrue(new TilterSetpoint(m_tilter));
+        driver.a().whileTrue(new TilterDashboardPosition(m_tilter));
+//        driver.a().whileTrue(new ParallelCommandGroup(
+//                new TilterDashboardPosition(m_tilter),
+//                new ShooterDashboardSpeed(m_shooter)
+//        ));
+//        driver.b().whileTrue(new IndexerRun(m_indexer));
 
         /* Driver Buttons */
         driver.y()
@@ -63,7 +73,7 @@ public class RobotContainer {
         operator.leftBumper().whileTrue(new TeleShooter(m_shooter));
 
         //run shooter wheels as intake
-        operator.rightBumper().whileTrue(new RepeatCommand(new ShooterIntake(m_shooter)));
+        operator.rightBumper().whileTrue(new ShooterSetpointSpeed(m_shooter, ShooterConstants.INTAKE_SPEED));
 
         //run intake forward
         driver.rightBumper().whileTrue(new TeleIntake(m_intake));

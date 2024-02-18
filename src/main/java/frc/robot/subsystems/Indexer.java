@@ -15,7 +15,7 @@ public class Indexer extends SubsystemBase {
   public Indexer() {
     m_indexMotor.getConfigurator().apply(new TalonFXConfiguration());
 
-    m_indexMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_indexMotor.setNeutralMode(NeutralModeValue.Coast);
 
     m_indexMotor.setInverted(true);
   }
@@ -27,9 +27,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void move(double pwr) {
-   
     m_indexMotor.set(pwr);
-
   }
 
 

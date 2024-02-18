@@ -1,17 +1,17 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 
-public class ShooterSetpointSpeed extends Command {
+public class ShooterDashboardSpeed extends Command {
     private final Shooter shooter;
-    private final double speed;
 
-    public ShooterSetpointSpeed(Shooter shooter, double speed) {
+    public ShooterDashboardSpeed(Shooter shooter) {
         this.shooter = shooter;
         addRequirements(this.shooter);
-        this.speed = speed;
+        SmartDashboard.putNumber("shooter speed", 0);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ShooterSetpointSpeed extends Command {
 
     @Override
     public void execute() {
-        shooter.setSpeed(speed);
+        shooter.setSpeed(SmartDashboard.getNumber("shooter speed", 0));
     }
 
     @Override

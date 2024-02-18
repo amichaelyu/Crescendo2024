@@ -11,7 +11,7 @@ import frc.robot.subsystems.Swerve;
 public class SwerveAutoRotate extends Command {
     private final Swerve swerve;
     private final Rotation2d rotation2d;
-    private PIDController pidController;
+    private final PIDController pidController;
 
     /**
      * Creates a new SwerveAutoRotate.
@@ -44,6 +44,6 @@ public class SwerveAutoRotate extends Command {
 
     @Override
     public void end(boolean interrupted) {
-
+        swerve.driveX();
     }
 }
