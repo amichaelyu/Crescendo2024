@@ -85,21 +85,22 @@ public class Tilter extends SubsystemBase {
   public void setPosition(double position) {
     setpoint = position;
     if (isHomed) {
-//      if (m_tilterMotor.getPosition().getValue() > position) {
+      if (m_tilterMotor.getPosition().getValue() > position) {
+        m_tilterMotor.setControl(new MotionMagicVoltage(position).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.01));
 //        Slot0Configs config = TilterConstants.talonFXConfigs.Slot0;
 //        config.kS = SmartDashboard.getNumber("tilter kS up", 2);
 //        config.kS = 1;
 //        m_tilterMotor.getConfigurator().apply(config);
-//      }
-//      else {
+      }
+      else {
+        m_tilterMotor.setControl(new MotionMagicVoltage(position).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.01));
 //        Slot0Configs config = TilterConstants.talonFXConfigs.Slot0;
 //        config.kS = 1;
 ////        SmartDashboard.putNumber("tilter kS", 1);
 ////        config.Slot0.kS = 2;
 //        config.kS = SmartDashboard.getNumber("tilter kS up", 2);
 //        m_tilterMotor.getConfigurator().apply(config);
-//      }
-      m_tilterMotor.setControl(new MotionMagicVoltage(position).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.1));
+      }
     }
   }
 
