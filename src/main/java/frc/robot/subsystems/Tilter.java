@@ -6,7 +6,6 @@ import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,9 +28,9 @@ public class Tilter extends SubsystemBase {
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
     m_tilterMotor.setPosition(TilterConstants.IDLE_POSITION);
 
-    m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
+//    m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
 
-    m_tilterMotor.setInverted(true);
+//    m_tilterMotor.setInverted(true);
     isHomed = false;
 //    SmartDashboard.putNumber("tilter voltage", 0);
     SmartDashboard.putNumber("tilter p", 0.05); // 0.05
@@ -54,9 +53,10 @@ public class Tilter extends SubsystemBase {
     magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 10);
     m_tilterMotor.getConfigurator().apply(magicConfig);
 
+    SmartDashboard.putBoolean("At Bottom", isAtBottom());
     if (isAtBottom() && !isHomed) {
       homed();
-      System.out.println("Lifter at Bottom; not going down.");
+//      System.out.println("Lifter at Bottom; not going down.");
     }
   }
 

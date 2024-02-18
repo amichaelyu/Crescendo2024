@@ -84,6 +84,9 @@ public final class Constants {
 
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
+            talonFXConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
             var softLimit = talonFXConfigs.SoftwareLimitSwitch;
             softLimit.ForwardSoftLimitThreshold = ROTATIONS_TO_FULL_EXTENSION;
             softLimit.ForwardSoftLimitEnable = false;

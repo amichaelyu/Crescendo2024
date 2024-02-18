@@ -32,6 +32,9 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("shooter actual speed", m_rightShooter.getRotorVelocity().getValue());
+//    SmartDashboard.putNumber("shooter setpoint speed", setpoint);
+//    SmartDashboard.putNumber("shooter setpoint speed", );
+
 //    TalonFXConfiguration tempConfig = ShooterConstants.talonFXConfigs;
 //    tempConfig.Slot0.kP = SmartDashboard.getNumber("shooter p", 0);
 //    tempConfig.Slot0.kD = SmartDashboard.getNumber("shooter d", 0);
