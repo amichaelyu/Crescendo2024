@@ -7,10 +7,7 @@ import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.autos.exampleAuto;
-import frc.robot.commands.ShooterSetpointSpeed;
-import frc.robot.commands.TeleClimber;
-import frc.robot.commands.TeleopSwerve;
-import frc.robot.commands.TilterDashboardPosition;
+import frc.robot.commands.*;
 import frc.robot.commands.old.TeleIndexer;
 import frc.robot.commands.old.TeleIntake;
 import frc.robot.commands.old.TeleShooter;
@@ -59,12 +56,10 @@ public class RobotContainer {
 
 
     private void configureButtonBindings() {
-        driver.a().whileTrue(new TilterDashboardPosition(m_tilter));
-//        driver.a().whileTrue(new ParallelCommandGroup(
-//                new TilterDashboardPosition(m_tilter),
-//                new ShooterDashboardSpeed(m_shooter)
-//        ));
-//        driver.b().whileTrue(new IndexerRun(m_indexer));
+//        driver.a().whileTrue(new TilterDashboardPosition(m_tilter));
+        driver.a().whileTrue(new ShooterDashboardSpeed(m_shooter));
+        driver.b().whileTrue(new TilterDashboardPosition(m_tilter));
+        driver.x().whileTrue(new IndexerRun(m_indexer));
 
         /* Driver Buttons */
         driver.y()

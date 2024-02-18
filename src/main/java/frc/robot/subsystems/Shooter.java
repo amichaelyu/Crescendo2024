@@ -20,24 +20,12 @@ public class Shooter extends SubsystemBase {
     m_leftShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
     m_rightShooter.setInverted(true);
     m_leftShooter.setControl(new Follower(ShooterConstants.rightShooterID, true));
-
-//    SmartDashboard.putNumber("shooter p", 0);
-//    SmartDashboard.putNumber("shooter d", 0);
-//    SmartDashboard.putNumber("shooter voltage", 0);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("shooter actual speed", m_rightShooter.getRotorVelocity().getValue());
-//    SmartDashboard.putNumber("shooter setpoint speed", setpoint);
-//    SmartDashboard.putNumber("shooter setpoint speed", );
-
-//    TalonFXConfiguration tempConfig = ShooterConstants.talonFXConfigs;
-//    tempConfig.Slot0.kP = SmartDashboard.getNumber("shooter p", 0);
-//    tempConfig.Slot0.kD = SmartDashboard.getNumber("shooter d", 0);
-//    m_rightShooter.getConfigurator().apply(tempConfig);
-
-//    setVoltage(SmartDashboard.getNumber("shooter voltage", 0));
+    SmartDashboard.putBoolean("shooter at setpoint", atSetpoint());
   }
 
   public boolean atSetpoint() {

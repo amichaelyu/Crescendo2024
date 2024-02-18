@@ -1,9 +1,9 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,11 +30,6 @@ public class Tilter extends SubsystemBase {
 
 //    m_tilterMotor.setInverted(true);
     isHomed = false;
-//    SmartDashboard.putNumber("tilter voltage", 0);
-    SmartDashboard.putNumber("tilter p", 0.05); // 0.05
-    SmartDashboard.putNumber("tilter kS", 2);
-    SmartDashboard.putNumber("tilter magicVel", 50);
-    SmartDashboard.putNumber("tilter magicAcc", 10);
   }
 
   @Override
@@ -42,13 +37,8 @@ public class Tilter extends SubsystemBase {
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
     SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
 
-    TalonFXConfiguration tempConfig = TilterConstants.talonFXConfigs;
-    tempConfig.Slot0.kP = SmartDashboard.getNumber("tilter p", 0);
-    tempConfig.MotionMagic.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVel", 50);
-    tempConfig.MotionMagic.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 10);
-    m_tilterMotor.getConfigurator().apply(tempConfig);
-
     SmartDashboard.putBoolean("At Bottom", isAtBottom());
+    SmartDashboard.putBoolean("tilter at setpoint", atSetpoint());
     if (isAtBottom()) {
       homed();
 //      System.out.println("Lifter at Bottom; not going down.");
@@ -71,10 +61,6 @@ public class Tilter extends SubsystemBase {
 
   public void homed() {
     isHomed = true;
-//    SoftwareLimitSwitchConfigs config = TilterConstants.talonFXConfigs.SoftwareLimitSwitch;
-//    config.ReverseSoftLimitEnable = true;
-//    config.ForwardSoftLimitEnable = true;
-//    m_tilterMotor.getConfigurator().apply(config);
     resetEncoder();
   }
 
@@ -83,23 +69,13 @@ public class Tilter extends SubsystemBase {
   }
 
   public void setPosition(double position) {
-    setpoint = position;
+    setpoint = MathUtil.clamp(position, 0, 200);
     if (isHomed) {
-      if (m_tilterMotor.getPosition().getValue() > position) {
-        m_tilterMotor.setControl(new MotionMagicVoltage(position).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.01));
-//        Slot0Configs config = TilterConstants.talonFXConfigs.Slot0;
-//        config.kS = SmartDashboard.getNumber("tilter kS up", 2);
-//        config.kS = 1;
-//        m_tilterMotor.getConfigurator().apply(config);
+      if (m_tilterMotor.getPosition().getValue() > setpoint) {
+        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.01));
       }
       else {
-        m_tilterMotor.setControl(new MotionMagicVoltage(position).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.01));
-//        Slot0Configs config = TilterConstants.talonFXConfigs.Slot0;
-//        config.kS = 1;
-////        SmartDashboard.putNumber("tilter kS", 1);
-////        config.Slot0.kS = 2;
-//        config.kS = SmartDashboard.getNumber("tilter kS up", 2);
-//        m_tilterMotor.getConfigurator().apply(config);
+        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.01));
       }
     }
   }

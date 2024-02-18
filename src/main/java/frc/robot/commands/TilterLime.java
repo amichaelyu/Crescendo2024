@@ -29,11 +29,11 @@ public class TilterLime extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return tilter.atSetpoint();
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        tilter.stop();
     }
 }
