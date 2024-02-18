@@ -12,7 +12,7 @@ public class ShooterTilterArmed extends Command {
     public ShooterTilterArmed(Shooter shooter, Tilter tilter) {
         this.shooter = shooter;
         this.tilter = tilter;
-        addRequirements(this.shooter, this.tilter);
+//        addRequirements(this.shooter, this.tilter);
     }
 
     @Override
