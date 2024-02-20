@@ -13,8 +13,6 @@ import frc.robot.FieldConstants.Speaker;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
-import java.util.Objects;
-
 
 public class SwerveRotateLime extends Command {
     private final Swerve swerve = Swerve.getInstance();
@@ -50,7 +48,7 @@ public class SwerveRotateLime extends Command {
 
     @Override
     public boolean isFinished() {
-        return Objects.equals(adjustedSpeaker, new Pose2d()) || pidController.atSetpoint();
+        return pidController.atSetpoint();
     }
 
     @Override
