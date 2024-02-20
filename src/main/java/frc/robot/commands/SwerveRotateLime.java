@@ -13,13 +13,15 @@ import frc.robot.FieldConstants.Speaker;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
+import java.util.Objects;
+
 
 public class SwerveRotateLime extends Command {
     private final Swerve swerve = Swerve.getInstance();
     private final Limelight limelight = Limelight.getInstance();
-    private final Pose2d adjustedSpeaker = new Pose2d();
     private final PIDController pidController;
-    Rotation2d wantedRotation;
+    private Pose2d adjustedSpeaker;
+    private Rotation2d wantedRotation;
 
     public SwerveRotateLime() {
         pidController = new PIDController(SwerveConstants.ROTATE_P, SwerveConstants.ROTATE_I, SwerveConstants.ROTATE_D);
@@ -29,7 +31,7 @@ public class SwerveRotateLime extends Command {
     @Override
     public void initialize() {
         if (DriverStation.getAlliance().isPresent()) {
-            Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
+            adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
             double xDiff = adjustedSpeaker.getX() - limelight.getBotPose().getX();
             double yDiff = adjustedSpeaker.getY() - limelight.getBotPose().getY();
             double angle = Math.atan(xDiff / yDiff);
@@ -48,7 +50,7 @@ public class SwerveRotateLime extends Command {
 
     @Override
     public boolean isFinished() {
-        return pidController.atSetpoint();
+        return Objects.equals(adjustedSpeaker, new Pose2d()) || pidController.atSetpoint();
     }
 
     @Override
