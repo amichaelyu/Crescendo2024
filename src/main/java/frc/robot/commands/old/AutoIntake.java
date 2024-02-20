@@ -10,16 +10,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoIntake extends Command {
 
-      private final Intake m_intake;
+      private final Intake m_intake = Intake.getInstance();
       private double pwr;
       private double durationMillis;
       private long startTime;
  
 
 
-  public AutoIntake(Intake intake, double pwr, double seconds) {
-
-      m_intake = intake;
+  public AutoIntake(double pwr, double seconds) {
       this.pwr=pwr;
       durationMillis=seconds*1000;
       addRequirements(m_intake);

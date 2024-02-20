@@ -11,19 +11,18 @@ import static frc.robot.Constants.*;
 
 public class TeleIntake extends Command {
 
-      private final Intake m_intake;
+      private final Intake m_intake = Intake.getInstance();
  
 
 
-  public TeleIntake(Intake intake) {
-      m_intake = intake;
+  public TeleIntake() {
       addRequirements(m_intake);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void initialize() {
-    m_intake.move(IntakeConstants.kIntakeSpeed);
+    m_intake.move(IntakeConstants.INTAKE_FORWARD);
 
   }
 

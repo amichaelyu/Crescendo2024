@@ -19,7 +19,8 @@ public final class Constants {
 
     public static final class IntakeConstants {
         public static final int intakeMotorID = 23;
-        public static final double kIntakeSpeed = 1.0;
+        public static final double INTAKE_FORWARD = 1.0;
+        public static final double INTAKE_REVERSE = -1.0;
     }
 
     public static final class IndexerConstants {
@@ -33,7 +34,7 @@ public final class Constants {
         public static final double SHOOTER_PID_TOLERANCE = 3;
         public static final double MAX_SPEED = 106;
         public static final double INTAKE_SPEED = -20;
-        public static final double SPEAKER_SPEED = 100; // 0-100 rev per second
+        public static final double SPEAKER_SPEED = 106; // 0-100 rev per second
         public static final double AMP_SPEED = 100; // 0-100
 
         public static final InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
@@ -160,11 +161,15 @@ public final class Constants {
     }
 
     public static final class SwerveConstants {
+        public static final double AUTO_LINEAR_P = 10;
+        public static final double AUTO_ROT_P = 5;
+        public static final double DRIVEBASE_RADIUS = 0.45;
+        public static final double AUTO_MAX_SPEED = 3.336;
 
-        public static final double AUTO_ROTATE_P = 3;
-        public static final double AUTO_ROTATE_I = 0;
-        public static final double AUTO_ROTATE_D = 0;
-        public static final double AUTO_ROTATE_TOLERANCE = 0.05;
+        public static final double ROTATE_P = 3;
+        public static final double ROTATE_I = 0;
+        public static final double ROTATE_D = 0;
+        public static final double ROTATE_TOLERANCE = 0.05;
 
         public static final int pigeonID = 28;
 

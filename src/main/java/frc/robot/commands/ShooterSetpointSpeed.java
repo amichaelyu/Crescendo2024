@@ -5,11 +5,10 @@ import frc.robot.subsystems.Shooter;
 
 
 public class ShooterSetpointSpeed extends Command {
-    private final Shooter shooter;
+    private final Shooter shooter = Shooter.getInstance();
     private final double speed;
 
-    public ShooterSetpointSpeed(Shooter shooter, double speed) {
-        this.shooter = shooter;
+    public ShooterSetpointSpeed(double speed) {
         addRequirements(this.shooter);
         this.speed = speed;
     }

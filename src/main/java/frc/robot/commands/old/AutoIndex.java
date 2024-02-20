@@ -10,16 +10,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoIndex extends Command {
 
-      private final Indexer m_indexer;
+      private final Indexer m_indexer = Indexer.getInstance();
       private double pwr;
       private double durationMillis;
       private long startTime;
  
 
 
-  public AutoIndex(Indexer indexer, double pwr, double seconds) {
+  public AutoIndex(double pwr, double seconds) {
 
-      m_indexer = indexer;
       this.pwr=pwr;
       durationMillis=seconds*1000;
       addRequirements(m_indexer);

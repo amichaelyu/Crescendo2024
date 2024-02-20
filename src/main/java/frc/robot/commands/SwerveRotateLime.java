@@ -16,16 +16,13 @@ import java.util.Objects;
 
 
 public class SwerveRotateLime extends Command {
-    private final Swerve swerve;
-    private final Limelight limelight;
-    private Pose2d adjustedSpeaker = new Pose2d();
+    private final Swerve swerve = Swerve.getInstance();
+    private final Limelight limelight = Limelight.getInstance();
+    private final Pose2d adjustedSpeaker = new Pose2d();
     private final PIDController pidController;
-    private Rotation2d wantedRotation;
 
-    public SwerveRotateLime(Swerve swerve, Limelight limelight) {
-        this.swerve = swerve;
-        this.limelight = limelight;
-        pidController = new PIDController(SwerveConstants.AUTO_ROTATE_P, SwerveConstants.AUTO_ROTATE_I, SwerveConstants.AUTO_ROTATE_D);
+    public SwerveRotateLime() {
+        pidController = new PIDController(SwerveConstants.ROTATE_P, SwerveConstants.ROTATE_I, SwerveConstants.ROTATE_D);
         addRequirements(this.swerve, this.limelight);
     }
 
@@ -36,7 +33,7 @@ public class SwerveRotateLime extends Command {
             double xDiff = adjustedSpeaker.getX() - limelight.getBotPose().getX();
             double yDiff = adjustedSpeaker.getY() - limelight.getBotPose().getY();
             double angle = Math.atan(xDiff / yDiff);
-            wantedRotation = Rotation2d.fromRadians(Math.PI / 2 - angle);
+            Rotation2d wantedRotation = Rotation2d.fromRadians(Math.PI / 2 - angle);
             pidController.setSetpoint(wantedRotation.getRadians());
         }
     }

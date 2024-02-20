@@ -57,7 +57,13 @@ public class Limelight extends SubsystemBase {
     private final String limelightName = "";
     private final NetworkTable limelight = LimelightHelpers.getLimelightNTTable(limelightName);
 
-    public Limelight() {
+    private static final Limelight INSTANCE = new Limelight();
+
+    public static Limelight getInstance() {
+        return INSTANCE;
+    }
+
+    private Limelight() {
         setLEDs(LED.OFF);
         setPipeline(Pipelines.APRIL);
     }
@@ -82,7 +88,7 @@ public class Limelight extends SubsystemBase {
 //                    botposeEntry = limelight.getEntry("botpose_wpired");
 //                }
                 botposeEntry = limelight.getEntry("botpose_wpiblue");
-                return new Pose2d(botposeEntry.getDoubleArray(new double[7])[0], botposeEntry.getDoubleArray(new double[7])[1], new Rotation2d());
+                return new Pose2d(botposeEntry.getDoubleArray(new double[7])[0], botposeEntry.getDoubleArray(new double[7])[1], new Rotation2d(botposeEntry.getDoubleArray(new double[7])[5]));
 //            }
         }
         return null;

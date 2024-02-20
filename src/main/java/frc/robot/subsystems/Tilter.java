@@ -17,10 +17,14 @@ public class Tilter extends SubsystemBase {
   private DigitalInput limitSwitchTop;
   private final DigitalInput limitSwitchBottom;
 
+  private static Tilter INSTANCE = new Tilter();
+
+  public static Tilter getInstance() { return INSTANCE; }
+
   /**
    * Creates a new Tilter.
    */
-  public Tilter() {
+  private Tilter() {
     limitSwitchBottom = new DigitalInput(TilterConstants.kLIFTER_LIMIT_BOTTOM);
 
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
@@ -96,7 +100,7 @@ public class Tilter extends SubsystemBase {
 
  
   public void stop() {
-    m_tilterMotor.stopMotor();
+    m_tilterMotor.setControl(new VoltageOut(0));
   }
 
   public boolean isAtBottom() {

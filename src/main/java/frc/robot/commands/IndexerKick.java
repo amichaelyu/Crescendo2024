@@ -6,11 +6,10 @@ import frc.robot.Constants.IndexerConstants;
 import frc.robot.subsystems.Indexer;
 
 public class IndexerKick extends Command {
-    private final Indexer indexer;
+    private final Indexer indexer = Indexer.getInstance();
     private final Timer timer;
 
-    public IndexerKick(Indexer indexer) {
-        this.indexer = indexer;
+    public IndexerKick() {
         addRequirements(this.indexer);
         timer = new Timer();
     }

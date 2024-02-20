@@ -5,11 +5,10 @@ import frc.robot.subsystems.Tilter;
 
 
 public class TilterSetpointPosition extends Command {
-    private final Tilter tilter;
+    private final Tilter tilter = Tilter.getInstance();
     private final double position;
 
-    public TilterSetpointPosition(Tilter tilter, double position) {
-        this.tilter = tilter;
+    public TilterSetpointPosition(double position) {
         addRequirements(this.tilter);
         this.position = position;
     }

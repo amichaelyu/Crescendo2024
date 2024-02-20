@@ -5,11 +5,10 @@ import frc.robot.subsystems.Shooter;
 
 
 public class ShooterVoltage extends Command {
-    private final Shooter shooter;
+    private final Shooter shooter = Shooter.getInstance();
     private final double voltage;
 
-    public ShooterVoltage(Shooter shooter, double voltage) {
-        this.shooter = shooter;
+    public ShooterVoltage(double voltage) {
         addRequirements(this.shooter);
         this.voltage = voltage;
     }

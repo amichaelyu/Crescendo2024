@@ -6,10 +6,9 @@ import frc.robot.subsystems.Shooter;
 
 
 public class ShooterDashboardSpeed extends Command {
-    private final Shooter shooter;
+    private final Shooter shooter = Shooter.getInstance();
 
-    public ShooterDashboardSpeed(Shooter shooter) {
-        this.shooter = shooter;
+    public ShooterDashboardSpeed() {
         addRequirements(this.shooter);
         SmartDashboard.putNumber("shooter speed", 0);
     }

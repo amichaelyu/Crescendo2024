@@ -9,7 +9,7 @@ import frc.robot.subsystems.Swerve;
 
 
 public class SwerveAutoRotate extends Command {
-    private final Swerve swerve;
+    private final Swerve swerve = Swerve.getInstance();
     private final Rotation2d rotation2d;
     private final PIDController pidController;
 
@@ -17,12 +17,11 @@ public class SwerveAutoRotate extends Command {
      * Creates a new SwerveAutoRotate.
      * @param rot wanted {@link Rotation2d} relative to field
      */
-    public SwerveAutoRotate(Swerve swerve, Rotation2d rot) {
-        this.swerve = swerve;
+    public SwerveAutoRotate(Rotation2d rot) {
         addRequirements(swerve);
         rotation2d = rot;
-        pidController = new PIDController(SwerveConstants.AUTO_ROTATE_P, SwerveConstants.AUTO_ROTATE_I, SwerveConstants.AUTO_ROTATE_D);
-        pidController.setTolerance(SwerveConstants.AUTO_ROTATE_TOLERANCE);
+        pidController = new PIDController(SwerveConstants.ROTATE_P, SwerveConstants.ROTATE_I, SwerveConstants.ROTATE_D);
+        pidController.setTolerance(SwerveConstants.ROTATE_TOLERANCE);
 //        SmartDashboard.putNumber("swerve rotate P", 0);
     }
 

@@ -1,36 +1,33 @@
-package frc.robot.commands.old;
+package frc.robot.commands;
 
 
 
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Tilter;
 
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
+import java.util.function.DoubleSupplier;
 
-public class TeleIndexer extends Command {
 
-      private final Indexer m_indexer;
+public class TilterManual extends Command {
+      private final Tilter m_tilter = Tilter.getInstance();
       private DoubleSupplier pwr;
 
- 
 
-
-  public TeleIndexer(Indexer indexer, DoubleSupplier pwr) {
-
-  
-      m_indexer = indexer;
-      this.pwr=pwr;
-      addRequirements(m_indexer);
+  public TilterManual(DoubleSupplier pwr) {
+      this.pwr = pwr;
+      addRequirements(m_tilter);
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexer.move(pwr.getAsDouble());
+    m_tilter.move(pwr.getAsDouble());
   }
+
+
 
   // Returns true when the command should end.
   @Override
@@ -44,6 +41,6 @@ public class TeleIndexer extends Command {
   @Override
   public void end(boolean interrupted) {
     // Stop the wheels when the command ends.
-    m_indexer.stop();
+    m_tilter.stop();
   }
 }

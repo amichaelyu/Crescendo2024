@@ -6,10 +6,9 @@ import frc.robot.subsystems.Tilter;
 
 
 public class TilterDashboardPosition extends Command {
-    private final Tilter tilter;
+    private final Tilter tilter = Tilter.getInstance();
 
-    public TilterDashboardPosition(Tilter tilter) {
-        this.tilter = tilter;
+    public TilterDashboardPosition() {
         addRequirements(this.tilter);
         SmartDashboard.putNumber("tilter setpoint", 0);
     }

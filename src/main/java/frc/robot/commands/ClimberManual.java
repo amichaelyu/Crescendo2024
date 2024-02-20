@@ -9,15 +9,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
 
 
-public class TeleClimber extends Command {
+public class ClimberManual extends Command {
+  private final Climber m_climber = Climber.getInstance();
+  private DoubleSupplier pwr;
 
-      private final Climber m_climber;
-      private DoubleSupplier pwr;
-
-
-  public TeleClimber(Climber climber, DoubleSupplier pwr) {
-
-      m_climber = climber;
+  public ClimberManual(DoubleSupplier pwr) {
       this.pwr = pwr;
       addRequirements(m_climber);
 

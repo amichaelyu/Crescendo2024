@@ -6,14 +6,10 @@ import frc.robot.subsystems.Tilter;
 
 
 public class ShooterTilterArmed extends Command {
-    private final Shooter shooter;
-    private final Tilter tilter;
+    private final Shooter shooter = Shooter.getInstance();
+    private final Tilter tilter = Tilter.getInstance();
 
-    public ShooterTilterArmed(Shooter shooter, Tilter tilter) {
-        this.shooter = shooter;
-        this.tilter = tilter;
-//        addRequirements(this.shooter, this.tilter);
-    }
+    public ShooterTilterArmed() {}
 
     @Override
     public boolean isFinished() {

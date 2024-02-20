@@ -7,13 +7,11 @@ import frc.robot.subsystems.Tilter;
 
 
 public class TilterLime extends Command {
-    private final Limelight limelight;
-    private final Tilter tilter;
+    private final Limelight limelight = Limelight.getInstance();
+    private final Tilter tilter = Tilter.getInstance();
     private double distance;
 
-    public TilterLime(Tilter tilter, Limelight limelight) {
-        this.limelight = limelight;
-        this.tilter = tilter;
+    public TilterLime() {
         addRequirements(this.limelight, this.tilter);
     }
 

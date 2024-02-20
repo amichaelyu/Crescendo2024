@@ -10,16 +10,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoShoot extends Command {
 
-      private final Shooter m_shooter;
+      private final Shooter m_shooter = Shooter.getInstance();
       private double pwr;
       private double durationMillis;
       private long startTime;
  
 
 
-  public AutoShoot(Shooter shooter, double pwr, double seconds) {
-
-      m_shooter = shooter;
+  public AutoShoot(double pwr, double seconds) {
       this.pwr=pwr;
       durationMillis=seconds*1000;
       addRequirements(m_shooter);

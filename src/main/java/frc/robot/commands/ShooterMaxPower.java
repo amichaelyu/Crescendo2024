@@ -6,11 +6,9 @@ import frc.robot.subsystems.Shooter;
 
 
 public class ShooterMaxPower extends Command {
-    private final Shooter shooter;
-    private double distance;
+    private final Shooter shooter = Shooter.getInstance();
 
-    public ShooterMaxPower(Shooter shooter) {
-        this.shooter = shooter;
+    public ShooterMaxPower() {
         addRequirements(this.shooter);
     }
 

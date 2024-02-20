@@ -1,88 +1,77 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.autos.exampleAuto;
 import frc.robot.commands.*;
-import frc.robot.commands.old.TeleIndexer;
 import frc.robot.commands.old.TeleIntake;
 import frc.robot.commands.old.TeleShooter;
-import frc.robot.commands.old.TeleTilter;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Tilter;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
     /* Controllers */
     public static BetterXboxController driver = new BetterXboxController(0, Humans.DRIVER);
     public static BetterXboxController operator = new BetterXboxController(1, Humans.OPERATOR);
 
     /* Driver Buttons */
-    private final Trigger zeroGyro = driver.y();
-    private final Trigger robotCentric = driver.leftBumper();
-
-    /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
-    private final Shooter m_shooter = new Shooter();
-    private final Indexer m_indexer = new Indexer();
-    private final Intake m_intake = new Intake();
-    private final Tilter m_tilter = new Tilter();
-    private final Climber m_climber = new Climber();
-    private final Limelight m_limelight = new Limelight();
+    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        s_Swerve.setDefaultCommand(
-            new TeleopSwerve(
-                s_Swerve,
-                robotCentric
-            )
-        );
+        NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
+        NamedCommands.registerCommand("intake", new IntakeRun());
+        NamedCommands.registerCommand("citrusShot", new CG_ShootingLime());
+        NamedCommands.registerCommand("citrusPose", new SwerveLimePose());
+
+        autoConfig();
 
         configureButtonBindings();
 
-        m_indexer.setDefaultCommand(new TeleIndexer(m_indexer, () -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
-        m_tilter.setDefaultCommand(new TeleTilter(m_tilter, () -> ((operator.getRightTriggerAxis()- operator.getLeftTriggerAxis()))));
-        m_climber.setDefaultCommand(new TeleClimber(m_climber, () -> (operator.getRawAxis(5))));
+        Swerve.getInstance().setDefaultCommand(new TeleopSwerve(driver.leftBumper()));
+        Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
+        Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis()- operator.getLeftTriggerAxis()))));
+        Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRawAxis(5))));
     }
-
 
     private void configureButtonBindings() {
-//        driver.a().whileTrue(new TilterDashboardPosition(m_tilter));
-        driver.a().whileTrue(new CG_ShootingLime(s_Swerve, m_limelight, m_shooter, m_tilter, m_indexer));
-//        driver.a().whileTrue(new ShooterDashboardSpeed(m_shooter));
-//        driver.b().whileTrue(new TilterDashboardPosition(m_tilter));
-//        driver.x().whileTrue(new IndexerRun(m_indexer));
+//        driver.a().whileTrue(new TilterDashboardPosition());
+        driver.a().whileTrue(new CG_ShootingLime());
+//        driver.a().whileTrue(new ShooterDashboardSpeed());
+//        driver.b().whileTrue(new TilterDashboardPosition());
+//        driver.x().whileTrue(new IndexerRun());
 
         /* Driver Buttons */
-        driver.y()
-            .onTrue(new InstantCommand(s_Swerve::zeroHeading));
+        driver.y().onTrue(new InstantCommand(Swerve.getInstance()::zeroHeading));
 
-        operator.leftBumper().whileTrue(new TeleShooter(m_shooter));
+        operator.leftBumper().whileTrue(new TeleShooter());
 
         //run shooter wheels as intake
-        operator.rightBumper().whileTrue(new ShooterSetpointSpeed(m_shooter, ShooterConstants.INTAKE_SPEED));
+        operator.rightBumper().whileTrue(new ShooterSetpointSpeed(ShooterConstants.INTAKE_SPEED));
 
         //run intake forward
-        driver.rightBumper().whileTrue(new TeleIntake(m_intake));
-        
+        driver.rightBumper().whileTrue(new TeleIntake());
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
+    private void autoConfig() {
+        autoChooser.addOption("Nothing", new WaitCommand(0));
+        autoChooser.addOption("Speaker Shot", new CG_ShootingSpeaker());
+        autoChooser.addOption("Top Speaker Shot and Escape", AutoBuilder.buildAuto("top 1 + 1"));
+        autoChooser.addOption("3 note", AutoBuilder.buildAuto("3 note"));
+
+        SmartDashboard.putData("Auto Command", autoChooser);
+    }
+
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve);
+        return autoChooser.getSelected();
     }
 }

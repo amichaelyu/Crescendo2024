@@ -2,10 +2,15 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.SwerveModule;
@@ -15,7 +20,13 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
 
-    public Swerve() {
+    private static final Swerve INSTANCE = new Swerve();
+
+    public static Swerve getInstance() {
+        return INSTANCE;
+    }
+
+    private Swerve() {
         gyro = new Pigeon2(SwerveConstants.pigeonID);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0);
@@ -28,6 +39,29 @@ public class Swerve extends SubsystemBase {
         };
 
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.swerveKinematics, getGyroYaw(), getModulePositions());
+
+        AutoBuilder.configureHolonomic(
+                this::getPose, // Robot pose supplier
+                null, // Method to reset odometry (will be called if your auto has a starting pose)
+                this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                        new PIDConstants(SwerveConstants.AUTO_LINEAR_P, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(SwerveConstants.AUTO_ROT_P, 0.0, 0.0), // Rotation PID constants
+                        SwerveConstants.AUTO_MAX_SPEED, // Max module speed, in m/s
+                        SwerveConstants.DRIVEBASE_RADIUS, // Drive base radius in meters. Distance from robot center to furthest module.
+                        new ReplanningConfig()
+                ),
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    return alliance.filter(value -> value == DriverStation.Alliance.Red).isPresent();
+                },
+                this // Reference to this subsystem to set requirements
+        );
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -60,6 +94,9 @@ public class Swerve extends SubsystemBase {
         });
     }
 
+    public void setChassisSpeeds(ChassisSpeeds speeds) {
+        setModuleStates(SwerveConstants.swerveKinematics.toSwerveModuleStates(speeds));
+    }
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -84,6 +121,10 @@ public class Swerve extends SubsystemBase {
             positions[mod.moduleNumber] = mod.getPosition();
         }
         return positions;
+    }
+
+    public ChassisSpeeds getChassisSpeeds() {
+        return SwerveConstants.swerveKinematics.toChassisSpeeds(getModuleStates());
     }
 
     public Pose2d getPose() {

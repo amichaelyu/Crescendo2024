@@ -5,10 +5,9 @@ import frc.robot.subsystems.Tilter;
 
 
 public class TilterHome extends Command {
-    private final Tilter tilter;
+    private final Tilter tilter = Tilter.getInstance();
 
-    public TilterHome(Tilter tilter) {
-        this.tilter = tilter;
+    public TilterHome() {
         addRequirements(this.tilter);
     }
 

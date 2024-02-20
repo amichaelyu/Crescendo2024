@@ -11,15 +11,12 @@ import static frc.robot.Constants.*;
 
 public class TeleShooter extends Command {
 
-      private final Shooter m_shooter;
+      private final Shooter m_shooter = Shooter.getInstance();
 
  
 
 
-  public TeleShooter(Shooter shooter) {
-
-  
-      m_shooter = shooter;
+  public TeleShooter() {
       addRequirements(m_shooter);
 
   }

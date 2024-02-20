@@ -11,8 +11,14 @@ public class Climber extends SubsystemBase {
   private final TalonFX m_leftClimberMotor = new TalonFX(ClimberConstants.leftClimberMotorID);
   private boolean isHomed;
 
+  private static final Climber INSTANCE = new Climber();
+
+  public static Climber getInstance() {
+    return INSTANCE;
+  }
+
   /** Creates a new Climber. */
-  public Climber() {
+  private Climber() {
     m_rightClimberMotor.getConfigurator().apply(ClimberConstants.talonFXConfigs);
     m_leftClimberMotor.getConfigurator().apply(ClimberConstants.talonFXConfigs);
 

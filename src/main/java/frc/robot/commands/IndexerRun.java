@@ -6,10 +6,9 @@ import frc.robot.subsystems.Indexer;
 
 
 public class IndexerRun extends Command {
-    private final Indexer indexer;
+    private final Indexer indexer = Indexer.getInstance();
 
-    public IndexerRun(Indexer indexer) {
-        this.indexer = indexer;
+    public IndexerRun() {
         addRequirements(this.indexer);
     }
 

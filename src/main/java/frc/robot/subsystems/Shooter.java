@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -15,11 +14,19 @@ public class Shooter extends SubsystemBase {
   private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID);
   private double setpoint = 0;
 
-  public Shooter() {
+  private static final Shooter INSTANCE = new Shooter();
+
+  public static Shooter getInstance() {
+    return INSTANCE;
+  }
+
+  private Shooter() {
     m_rightShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
     m_leftShooter.getConfigurator().apply(ShooterConstants.talonFXConfigs);
+
     m_rightShooter.setInverted(true);
-    m_leftShooter.setControl(new Follower(ShooterConstants.rightShooterID, true));
+    m_leftShooter.setInverted(false);
+//    m_leftShooter.setControl(new Follower(ShooterConstants.rightShooterID, true));
   }
 
   @Override
@@ -35,10 +42,12 @@ public class Shooter extends SubsystemBase {
   public void setSpeed(double speed) {
     setpoint = speed;
     m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed));
+    m_leftShooter.setControl(new MotionMagicVelocityVoltage(speed * 0.66));
   }
 
   public void setVoltage(double volts) {
     m_rightShooter.setControl(new VoltageOut(volts));
+    m_leftShooter.setControl(new VoltageOut(volts * 0.66));
   }
 
   public double getVelocity() {
@@ -46,7 +55,6 @@ public class Shooter extends SubsystemBase {
   }
  
   public void stop() {
-    m_rightShooter.stopMotor();
-    m_leftShooter.stopMotor();
+    setVoltage(0);
   }
 }

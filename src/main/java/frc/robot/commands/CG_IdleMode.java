@@ -7,10 +7,10 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tilter;
 
 public class CG_IdleMode extends ParallelCommandGroup {
-    public CG_IdleMode(Shooter shooter, Tilter tilter) {
+    public CG_IdleMode() {
         super(
-                new ShooterVoltage(shooter, 0),
-                new TilterSetpointPosition(tilter, TilterConstants.IDLE_POSITION)
+                new ShooterVoltage( 0),
+                new TilterSetpointPosition( TilterConstants.IDLE_POSITION)
         );
     }
 }
