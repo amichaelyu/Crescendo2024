@@ -20,7 +20,7 @@ public class SwerveRotateLime extends Command {
     private final Swerve swerve = Swerve.getInstance();
     private final Limelight limelight = Limelight.getInstance();
     private final PIDController pidController;
-    private Pose2d adjustedSpeaker;
+    private Pose2d adjustedSpeaker = new Pose2d();
     private Rotation2d wantedRotation;
 
     public SwerveRotateLime() {
