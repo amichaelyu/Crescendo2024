@@ -12,7 +12,7 @@ public class IndexerManual extends Command {
   private DoubleSupplier pwr;
 
   public IndexerManual(DoubleSupplier pwr) {
-    this.pwr=pwr;
+    this.pwr = pwr;
     addRequirements(m_indexer);
 
   }

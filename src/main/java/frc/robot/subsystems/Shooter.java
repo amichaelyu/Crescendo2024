@@ -42,12 +42,12 @@ public class Shooter extends SubsystemBase {
   public void setSpeed(double speed) {
     setpoint = speed;
     m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed));
-    m_leftShooter.setControl(new MotionMagicVelocityVoltage(speed * 0.66));
+    m_leftShooter.setControl(new MotionMagicVelocityVoltage(speed * 0.8));
   }
 
   public void setVoltage(double volts) {
     m_rightShooter.setControl(new VoltageOut(volts));
-    m_leftShooter.setControl(new VoltageOut(volts * 0.66));
+    m_leftShooter.setControl(new VoltageOut(volts * 0.8));
   }
 
   public double getVelocity() {
