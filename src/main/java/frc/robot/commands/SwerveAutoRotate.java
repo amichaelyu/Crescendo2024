@@ -31,7 +31,7 @@ public class SwerveAutoRotate extends Command {
     @Override
     public void initialize() {
         pidController.setP(SmartDashboard.getNumber("swerve rotate P", 0));
-        rotation2d = Rotation2d.fromDegrees(SmartDashboard.getNumber("get rotate degrees",0));
+        rotation2d = Rotation2d.fromDegrees(SmartDashboard.getNumber("swerve rotate degrees",0));
         pidController.setSetpoint(rotation2d.getRadians());
     }
 
