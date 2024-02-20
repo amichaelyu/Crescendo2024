@@ -166,9 +166,10 @@ public final class Constants {
         public static final double DRIVEBASE_RADIUS = 0.45;
         public static final double AUTO_MAX_SPEED = 3.336;
 
-        public static final double ROTATE_P = 3;
+        public static final double ROTATE_P = 5;
         public static final double ROTATE_I = 0;
         public static final double ROTATE_D = 0;
+        public static final double ROTATE_FF = 1;
         public static final double ROTATE_TOLERANCE = 0.05;
 
         public static final int pigeonID = 28;

@@ -2,7 +2,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,7 +46,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
 //        driver.a().whileTrue(new TilterDashboardPosition());
         driver.a().whileTrue(new CG_ShootingLime());
-        driver.b().whileTrue(new SwerveAutoRotate(Rotation2d.fromDegrees(10)));
+        driver.b().whileTrue(new SwerveRotateLime());
 //        driver.a().whileTrue(new ShooterDashboardSpeed());
 //        driver.b().whileTrue(new TilterDashboardPosition());
 //        driver.x().whileTrue(new IndexerRun());

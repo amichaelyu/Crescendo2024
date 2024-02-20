@@ -20,6 +20,7 @@ public class SwerveRotateLime extends Command {
     private final Limelight limelight = Limelight.getInstance();
     private final Pose2d adjustedSpeaker = new Pose2d();
     private final PIDController pidController;
+    Rotation2d wantedRotation;
 
     public SwerveRotateLime() {
         pidController = new PIDController(SwerveConstants.ROTATE_P, SwerveConstants.ROTATE_I, SwerveConstants.ROTATE_D);
@@ -33,14 +34,16 @@ public class SwerveRotateLime extends Command {
             double xDiff = adjustedSpeaker.getX() - limelight.getBotPose().getX();
             double yDiff = adjustedSpeaker.getY() - limelight.getBotPose().getY();
             double angle = Math.atan(xDiff / yDiff);
-            Rotation2d wantedRotation = Rotation2d.fromRadians(Math.PI / 2 - angle);
+            wantedRotation = Rotation2d.fromRadians(Math.PI / 2 - angle);
             pidController.setSetpoint(wantedRotation.getRadians());
+            pidController.setTolerance(SwerveConstants.ROTATE_TOLERANCE);
         }
     }
 
     @Override
     public void execute() {
-        swerve.drive(new Translation2d(), pidController.calculate(swerve.getPose().getRotation().getRadians()), true, false);
+        double feedforward = swerve.getPose().getRotation().getRadians() < wantedRotation.getRadians() ? SwerveConstants.ROTATE_FF : -SwerveConstants.ROTATE_FF;
+        swerve.drive(new Translation2d(), pidController.calculate(swerve.getPose().getRotation().getRadians()) + feedforward, true, false);
     }
 
     @Override
