@@ -77,7 +77,14 @@ public class Limelight extends SubsystemBase {
         double xDiff = adjustedSpeaker.getX() - getBotPose().getX();
         double yDiff = adjustedSpeaker.getY() - getBotPose().getY();
         double angle = Math.atan(xDiff / yDiff);
-        SmartDashboard.putNumber("wanted lime rot", (- Math.PI / 2) - angle);
+        double offset = 0;
+        if ((- Math.PI / 2) - angle > (2 * Math.PI)) {
+            offset = - Math.PI * 2;
+        }
+        else if ((- Math.PI / 2) - angle < 0) {
+            offset = Math.PI * 2;
+        }
+        SmartDashboard.putNumber("wanted lime rot", (- Math.PI / 2) - angle + offset);
     }
 
     public boolean hasTarget() {

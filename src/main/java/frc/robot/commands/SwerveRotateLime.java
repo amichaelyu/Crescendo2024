@@ -35,8 +35,15 @@ public class SwerveRotateLime extends Command {
             double xDiff = adjustedSpeaker.getX() - limelight.getBotPose().getX();
             double yDiff = adjustedSpeaker.getY() - limelight.getBotPose().getY();
             double angle = Math.atan(xDiff / yDiff);
-            wantedRotation = Rotation2d.fromRadians((- Math.PI / 2) - angle);
-            SmartDashboard.putNumber("wanted lime rot", (- Math.PI / 2) - angle);
+            double offset = 0;
+            if ((- Math.PI / 2) - angle > (2 * Math.PI)) {
+                offset = - Math.PI * 2;
+            }
+            else if ((- Math.PI / 2) - angle < 0) {
+                offset = Math.PI * 2;
+            }
+            wantedRotation = Rotation2d.fromRadians((-Math.PI / 2) - angle + offset);
+            SmartDashboard.putNumber("wanted lime rot", wantedRotation.getRadians());
             pidController.setSetpoint(wantedRotation.getRadians());
             pidController.setTolerance(SwerveConstants.ROTATE_TOLERANCE);
             pidController.enableContinuousInput(0, 2 * Math.PI);
