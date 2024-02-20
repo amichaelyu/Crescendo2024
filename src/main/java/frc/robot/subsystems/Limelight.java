@@ -73,18 +73,26 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("distance to target", distanceToTarget());
         SmartDashboard.putBoolean("has target", hasTarget());
 
-        Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
-        double xDiff = adjustedSpeaker.getX() - getBotPose().getX();
-        double yDiff = adjustedSpeaker.getY() - getBotPose().getY();
-        double angle = Math.atan(xDiff / yDiff);
-        double offset = 0;
-        if (((- Math.PI / 2) - angle) > (2 * Math.PI)) {
-            offset = - Math.PI * 2;
+        Rotation2d wantedRotation = new Rotation2d();
+        double limeRot = getRotationToTarget().getRadians();
+        double cramRot = Swerve.getInstance().getPose().getRotation().getRadians() % (2 * Math.PI); //crammed rotation between 0 and 2pi
+        if (cramRot < 0) {
+            cramRot += Math.PI * 2;
         }
-        else if (((- Math.PI / 2) - angle) < 0) {
-            offset = Math.PI * 2;
+        wantedRotation = Rotation2d.fromRadians(Swerve.getInstance().getPose().getRotation().getRadians() + limeRot - cramRot);
+        SmartDashboard.putNumber("wanted lime rot", wantedRotation.getRadians());
+    }
+
+    public Rotation2d getRotationToTarget() {
+        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
+            Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
+            double xDiff = adjustedSpeaker.getX() - getBotPose().getX();
+            double yDiff = adjustedSpeaker.getY() - getBotPose().getY();
+            double angle = Math.atan(xDiff / yDiff);
+            double offset = angle > 0 ? Math.PI / 2 : 3 * Math.PI / 2;
+            return Rotation2d.fromRadians(offset - angle);
         }
-        SmartDashboard.putNumber("wanted lime rot", (- Math.PI / 2) - angle + offset);
+        return new Rotation2d();
     }
 
     public boolean hasTarget() {
@@ -92,7 +100,7 @@ public class Limelight extends SubsystemBase {
     }
 
     public Pose2d getBotPose() {
-        NetworkTableEntry botposeEntry = null;
+        NetworkTableEntry botposeEntry;
         if (LimelightHelpers.getTV(limelightName)) {
 //            if (DriverStation.getAlliance().isPresent()) {
 //                if (DriverStation.getAlliance().get() == Alliance.Blue) {
