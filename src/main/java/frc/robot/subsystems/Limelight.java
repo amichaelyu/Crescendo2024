@@ -72,6 +72,12 @@ public class Limelight extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("distance to target", distanceToTarget());
         SmartDashboard.putBoolean("has target", hasTarget());
+
+        Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
+        double xDiff = adjustedSpeaker.getX() - getBotPose().getX();
+        double yDiff = adjustedSpeaker.getY() - getBotPose().getY();
+        double angle = Math.atan(xDiff / yDiff);
+        SmartDashboard.putNumber("wanted lime rot", (- Math.PI / 2) - angle);
     }
 
     public boolean hasTarget() {
