@@ -73,13 +73,12 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("distance to target", distanceToTarget());
         SmartDashboard.putBoolean("has target", hasTarget());
 
-        Rotation2d wantedRotation = new Rotation2d();
         double limeRot = getRotationToTarget().getRadians();
         double cramRot = Swerve.getInstance().getPose().getRotation().getRadians() % (2 * Math.PI); //crammed rotation between 0 and 2pi
         if (cramRot < 0) {
             cramRot += Math.PI * 2;
         }
-        wantedRotation = Rotation2d.fromRadians(Swerve.getInstance().getPose().getRotation().getRadians() + limeRot - cramRot);
+        Rotation2d wantedRotation = Rotation2d.fromRadians(Swerve.getInstance().getPose().getRotation().getRadians() + limeRot - cramRot);
         SmartDashboard.putNumber("wanted lime rot", wantedRotation.getRadians());
     }
 

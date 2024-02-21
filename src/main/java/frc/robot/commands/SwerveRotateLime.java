@@ -30,12 +30,7 @@ public class SwerveRotateLime extends Command {
             if (cramRot < 0) {
                 cramRot += Math.PI * 2;
             }
-            if (limeRot > 0 && limeRot < Math.PI / 2) {
-                wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + limeRot - cramRot);
-            }
-            else {
-                wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + cramRot - limeRot);
-            }
+            wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + limeRot - cramRot);
             pidController.setSetpoint(wantedRotation.getRadians());
         }
         else {
