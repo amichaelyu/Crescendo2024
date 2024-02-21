@@ -19,7 +19,15 @@ public class TilterHome extends Command {
 
     @Override
     public void execute() {
-        tilter.setVoltage(-3);
+        if (tilter.isAtBottom()) {
+            isHomed = true;
+        }
+        if (!isHomed) {
+            tilter.setVoltage(-3);
+        }
+        else {
+//            tilter.setPosition();
+        }
     }
 
     @Override
