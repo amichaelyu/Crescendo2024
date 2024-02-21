@@ -20,6 +20,7 @@ public class SwerveRotateLime extends Command {
         addRequirements(this.swerve, this.limelight);
         pidController = new PIDController(SwerveConstants.ROTATE_P, SwerveConstants.ROTATE_I, SwerveConstants.ROTATE_D);
         pidController.setTolerance(SwerveConstants.ROTATE_TOLERANCE);
+        pidController.enableContinuousInput(-Math.PI, Math.PI);
     }
 
     @Override
@@ -31,6 +32,9 @@ public class SwerveRotateLime extends Command {
                 cramRot += Math.PI * 2;
             }
             wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + limeRot - cramRot);
+            if (wantedRotation.getRadians() > Math.PI) {
+                wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - Math.PI);
+            }
             pidController.setSetpoint(wantedRotation.getRadians());
         }
         else {
