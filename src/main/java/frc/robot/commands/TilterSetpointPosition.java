@@ -25,7 +25,7 @@ public class TilterSetpointPosition extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return tilter.atSetpoint();
     }
 
     @Override

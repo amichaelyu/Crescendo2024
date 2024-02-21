@@ -59,11 +59,11 @@ public class Tilter extends SubsystemBase {
       }
     }
 
-  public void resetEncoder() {
+  private void resetEncoder() {
     m_tilterMotor.setPosition(0);
   }
 
-  public void homed() {
+  private void homed() {
     isHomed = true;
     resetEncoder();
   }
