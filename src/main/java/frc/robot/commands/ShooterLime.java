@@ -12,7 +12,7 @@ public class ShooterLime extends Command {
     private double distance;
 
     public ShooterLime() {
-        addRequirements(this.shooter, this.limelight);
+        addRequirements(this.shooter);
     }
 
     @Override

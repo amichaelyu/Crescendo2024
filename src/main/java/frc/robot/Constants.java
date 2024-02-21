@@ -31,7 +31,7 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final double launchVoltage = 12.0;
 
-        public static final double SHOOTER_PID_TOLERANCE = 3;
+        public static final double SHOOTER_PID_TOLERANCE = 5;
         public static final double MAX_SPEED = 106;
         public static final double INTAKE_SPEED = -20;
         public static final double SPEAKER_SPEED = 106; // 0-100 rev per second
