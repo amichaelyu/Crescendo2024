@@ -39,6 +39,5 @@ public class TilterHome extends Command {
     @Override
     public void end(boolean interrupted) {
         tilter.stop();
-        tilter.homed();
     }
 }
