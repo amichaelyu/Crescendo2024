@@ -6,6 +6,7 @@ import frc.robot.subsystems.Tilter;
 
 public class TilterHome extends Command {
     private final Tilter tilter = Tilter.getInstance();
+    private boolean isHomed = false;
 
     public TilterHome() {
         addRequirements(this.tilter);
@@ -13,7 +14,7 @@ public class TilterHome extends Command {
 
     @Override
     public void initialize() {
-
+        isHomed = false;
     }
 
     @Override

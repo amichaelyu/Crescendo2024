@@ -10,12 +10,11 @@ public class TilterDashboardPosition extends Command {
 
     public TilterDashboardPosition() {
         addRequirements(this.tilter);
-        SmartDashboard.putNumber("tilter setpoint", 0);
     }
 
     @Override
     public void initialize() {
-
+        SmartDashboard.putNumber("tilter setpoint", 0);
     }
 
     @Override

@@ -44,6 +44,9 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
+//        operator.a().whileTrue(new TilterDashboardPosition());
+//        operator.b().whileTrue(new ShooterDashboardSpeed());
+//        operator.x().whileTrue(new IndexerKick());
 //        driver.a().whileTrue(new TilterDashboardPosition());
         driver.a().whileTrue(new CG_ShootingLime());
         driver.b().whileTrue(new SwerveRotateLime());

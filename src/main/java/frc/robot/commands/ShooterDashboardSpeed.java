@@ -10,11 +10,11 @@ public class ShooterDashboardSpeed extends Command {
 
     public ShooterDashboardSpeed() {
         addRequirements(this.shooter);
-        SmartDashboard.putNumber("shooter speed", 0);
     }
 
     @Override
     public void initialize() {
+        SmartDashboard.putNumber("shooter speed", 0);
     }
 
     @Override
