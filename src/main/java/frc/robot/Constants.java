@@ -95,8 +95,9 @@ public final class Constants {
         static {
             tilterMap.put(0.97, 130.0);
             tilterMap.put(1.285, 145.0);
+            tilterMap.put(1.5, 90.0);
             tilterMap.put(1.76, 90.0);
-            tilterMap.put(1.87, 85.0);
+            tilterMap.put(1.87, 80.0);
             tilterMap.put(2.3, 40.0);
             tilterMap.put(2.38, 40.0);
             tilterMap.put(2.96, 40.0);

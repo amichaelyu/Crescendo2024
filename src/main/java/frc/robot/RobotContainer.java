@@ -59,16 +59,22 @@ public class RobotContainer {
         operator.leftBumper().whileTrue(new TilterHome());
         operator.rightBumper().whileTrue(new CG_ShootingIntake())
                 .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
-        operator.y().whileTrue(new CG_ShootingSpeaker())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
-        operator.b().whileTrue(new CG_ShootingAmp())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+
+        // uses these for obtaining new data
+        operator.a().whileTrue(new TilterDashboardPosition());
+        operator.b().whileTrue(new ShooterDashboardSpeed());
+        operator.x().whileTrue(new IndexerKick());
+
+
+        // these are normal operator buttons
+//        operator.y().whileTrue(new CG_ShootingSpeaker())
+//                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+//        operator.b().whileTrue(new CG_ShootingAmp())
+//                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
     }
 
     private void configureButtonBindings() {
-//        operator.a().whileTrue(new TilterDashboardPosition());
-//        operator.b().whileTrue(new ShooterDashboardSpeed());
-//        operator.x().whileTrue(new IndexerKick());
+
 //        driver.a().whileTrue(new TilterDashboardPosition());
         driver.a().whileTrue(new CG_ShootingLime());
         driver.b().whileTrue(new SwerveRotateLime());
