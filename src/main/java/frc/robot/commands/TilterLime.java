@@ -12,7 +12,7 @@ public class TilterLime extends Command {
     private double distance;
 
     public TilterLime() {
-        addRequirements(this.limelight, this.tilter);
+        addRequirements(this.tilter);
     }
 
     @Override

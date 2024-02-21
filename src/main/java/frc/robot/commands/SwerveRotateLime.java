@@ -17,7 +17,7 @@ public class SwerveRotateLime extends Command {
     private Rotation2d wantedRotation;
 
     public SwerveRotateLime() {
-        addRequirements(this.swerve, this.limelight);
+        addRequirements(this.swerve);
         pidController = new PIDController(SwerveConstants.ROTATE_P, SwerveConstants.ROTATE_I, SwerveConstants.ROTATE_D);
         pidController.setTolerance(SwerveConstants.ROTATE_TOLERANCE);
         pidController.enableContinuousInput(-Math.PI, Math.PI);
