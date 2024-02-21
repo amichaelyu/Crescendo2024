@@ -14,7 +14,7 @@ public class SwerveRotateLime extends Command {
     private final Swerve swerve = Swerve.getInstance();
     private final Limelight limelight = Limelight.getInstance();
     private final PIDController pidController;
-    private Rotation2d wantedRotation;
+    private Rotation2d wantedRotation = new Rotation2d();
 
     public SwerveRotateLime() {
         addRequirements(this.swerve);

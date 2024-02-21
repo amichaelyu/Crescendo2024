@@ -54,8 +54,8 @@ public class Limelight extends SubsystemBase {
         }
     }
 
-    private final String limelightRightName = "right";
-    private final String limelightLeftName = "left";
+    private final String limelightRightName = "limelight-right";
+    private final String limelightLeftName = "limelight-left";
     private final NetworkTable limelightRight = LimelightHelpers.getLimelightNTTable(limelightRightName);
     private final NetworkTable limelightLeft = LimelightHelpers.getLimelightNTTable(limelightLeftName);
 

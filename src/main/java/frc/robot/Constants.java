@@ -18,8 +18,8 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final class IntakeConstants {
         public static final int intakeMotorID = 23;
-        public static final double INTAKE_FORWARD = -1.0;
-        public static final double INTAKE_REVERSE = 1.0;
+        public static final double INTAKE_FORWARD = -0.5;
+        public static final double INTAKE_REVERSE = 0.5;
     }
 
     public static final class IndexerConstants {
