@@ -22,7 +22,7 @@ public class IndexerSlightBack extends Command {
 
     @Override
     public void execute() {
-        indexer.move(-0.3);
+        indexer.move(0.25);
     }
 
     @Override

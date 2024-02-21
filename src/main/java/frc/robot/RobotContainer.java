@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.TilterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.old.TeleIntake;
 import frc.robot.subsystems.Climber;
@@ -34,27 +35,34 @@ public class RobotContainer {
 
         autoConfig();
 
-        configureButtonBindings();
+//        configureButtonBindings();
+        competitionButtons();
 
         Swerve.getInstance().setDefaultCommand(new TeleopSwerve(driver.leftBumper()));
-        Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> ((driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
+        Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> (0.25 * (driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
         Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis()- operator.getLeftTriggerAxis()))));
         Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRawAxis(5))));
     }
 
     private void competitionButtons() {
-        driver.a().whileTrue(new CG_ShootingLime());
-        driver.b().whileTrue(new CG_ShootingSpeaker());
-        driver.x().whileTrue(new CG_ShootingAmp());
+        driver.a().whileTrue(new CG_ShootingLime())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+//        driver.b()
+        driver.x().whileTrue(new CG_FlushShots());
+        driver.y().onTrue(new InstantCommand(Swerve.getInstance()::zeroHeading));
 
         driver.rightBumper().whileTrue(new CG_IntakeIndexer())
                             .whileFalse(new IndexerSlightBack());
 
-        operator.rightBumper().whileTrue(new CG_ShootingIntake());
+//        operator.rightBumper().whileTrue(new CG_ShootingIntake());
 
-        operator.a().whileTrue(new TilterHome());
-
-        driver.y().onTrue(new InstantCommand(Swerve.getInstance()::zeroHeading));
+        operator.leftBumper().whileTrue(new TilterHome());
+        operator.rightBumper().whileTrue(new CG_ShootingIntake())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+        operator.y().whileTrue(new CG_ShootingSpeaker())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+        operator.b().whileTrue(new CG_ShootingAmp())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
     }
 
     private void configureButtonBindings() {

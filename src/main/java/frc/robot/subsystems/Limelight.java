@@ -54,8 +54,10 @@ public class Limelight extends SubsystemBase {
         }
     }
 
-    private final String limelightName = "";
-    private final NetworkTable limelight = LimelightHelpers.getLimelightNTTable(limelightName);
+    private final String limelightRightName = "right";
+    private final String limelightLeftName = "left";
+    private final NetworkTable limelightRight = LimelightHelpers.getLimelightNTTable(limelightRightName);
+    private final NetworkTable limelightLeft = LimelightHelpers.getLimelightNTTable(limelightLeftName);
 
     private static final Limelight INSTANCE = new Limelight();
 
@@ -103,20 +105,44 @@ public class Limelight extends SubsystemBase {
     }
 
     public boolean hasTarget() {
-        return LimelightHelpers.getTV(limelightName);
+        return LimelightHelpers.getTV(limelightRightName) || LimelightHelpers.getTV(limelightLeftName);
     }
 
     public Pose2d getBotPose() {
-        NetworkTableEntry botposeEntry;
-        if (LimelightHelpers.getTV(limelightName)) {
+        NetworkTableEntry botposeRightEntry;
+        NetworkTableEntry botposeLeftEntry;
+        if (LimelightHelpers.getTV(limelightRightName) && LimelightHelpers.getTV(limelightLeftName)) {
 //            if (DriverStation.getAlliance().isPresent()) {
 //                if (DriverStation.getAlliance().get() == Alliance.Blue) {
 //                    botposeEntry = limelight.getEntry("botpose_wpiblue");
 //                } else if (DriverStation.getAlliance().get() == Alliance.Red) {
 //                    botposeEntry = limelight.getEntry("botpose_wpired");
 //                }
-                botposeEntry = limelight.getEntry("botpose_wpiblue");
-                return new Pose2d(botposeEntry.getDoubleArray(new double[7])[0], botposeEntry.getDoubleArray(new double[7])[1], new Rotation2d(botposeEntry.getDoubleArray(new double[7])[5]));
+                botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
+                botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
+                return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), new Rotation2d(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5])));
+//            }
+        }
+        else if (LimelightHelpers.getTV(limelightRightName)) {
+//            if (DriverStation.getAlliance().isPresent()) {
+//                if (DriverStation.getAlliance().get() == Alliance.Blue) {
+//                    botposeEntry = limelight.getEntry("botpose_wpiblue");
+//                } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+//                    botposeEntry = limelight.getEntry("botpose_wpired");
+//                }
+            botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
+            return new Pose2d(botposeRightEntry.getDoubleArray(new double[7])[0], botposeRightEntry.getDoubleArray(new double[7])[1], new Rotation2d(botposeRightEntry.getDoubleArray(new double[7])[5]));
+//            }
+        }
+        else if (LimelightHelpers.getTV(limelightLeftName)) {
+//            if (DriverStation.getAlliance().isPresent()) {
+//                if (DriverStation.getAlliance().get() == Alliance.Blue) {
+//                    botposeEntry = limelight.getEntry("botpose_wpiblue");
+//                } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+//                    botposeEntry = limelight.getEntry("botpose_wpired");
+//                }
+            botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
+            return new Pose2d(botposeLeftEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[1], new Rotation2d(botposeLeftEntry.getDoubleArray(new double[7])[5]));
 //            }
         }
         return null;
@@ -135,15 +161,18 @@ public class Limelight extends SubsystemBase {
     }
 
     public void setPipeline(Pipelines pipeline) {
-        limelight.getEntry("pipeline").setDouble(pipeline.getNum());
+        limelightRight.getEntry("pipeline").setDouble(pipeline.getNum());
+        limelightLeft.getEntry("pipeline").setDouble(pipeline.getNum());
     }
 
     public void setCameraModes(CameraMode camera) {
-        limelight.getEntry("camMode").setDouble(camera.getNum());
+        limelightRight.getEntry("camMode").setDouble(camera.getNum());
+        limelightLeft.getEntry("camMode").setDouble(camera.getNum());
     }
 
     public void setLEDs(LED led) {
-        limelight.getEntry("ledMode").setDouble(led.getNum());
+        limelightRight.getEntry("ledMode").setDouble(led.getNum());
+        limelightLeft.getEntry("ledMode").setDouble(led.getNum());
     }
 
     private double distance(Pose2d pose1, Pose2d pose2) {
@@ -151,4 +180,7 @@ public class Limelight extends SubsystemBase {
         return Math.sqrt(Math.pow(relPose.getX(), 2) + Math.pow(relPose.getY(), 2));
     }
 
+    private double mean(double a, double b) {
+        return (a + b)/2;
+    }
 }

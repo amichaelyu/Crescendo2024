@@ -5,6 +5,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
@@ -15,8 +16,6 @@ import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
-    public static final double stickDeadband = 0.1;
-
     public static final class IntakeConstants {
         public static final int intakeMotorID = 23;
         public static final double INTAKE_FORWARD = -1.0;
@@ -25,11 +24,13 @@ public final class Constants {
 
     public static final class IndexerConstants {
         public static final int indexerMotorID = 22;
-        public static final double INDEXER_DUTY_CYCLE = -1;
+        public static final double INDEXER_FORWARD = -0.25;
+        public static final double INDEXER_FLUSH = -0.5;
     }
 
     public static final class ShooterConstants {
         public static final double launchVoltage = 12.0;
+        public static final double flushVoltage = -6.0;
 
         public static final double SHOOTER_PID_TOLERANCE = 5;
         public static final double MAX_SPEED = 106;
@@ -73,7 +74,8 @@ public final class Constants {
         public static final double SPEAKER_CORNER_POSITION = 145.0; // 0-200
         public static final double AMP_POSITION = 105; // 0-200
         public static final double TRAP_POSITION = 135; // 0-200
-        public static final double INTAKE_POSITION = 100.0; // 0-200
+        public static final double HUMAN_INTAKE_POSITION = 100.0; // 0-200
+        public static final double GROUND_INTAKE_POSITION = 80.0; // 0-200
       
         public static final int kLIFTER_LIMIT_BOTTOM = 0;
 
@@ -289,7 +291,9 @@ public final class Constants {
         }
     }
 
-    public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
+    public static final class AutoConstants {
+        public static final Pose2d TRAP_POSITION = new Pose2d();
+
         public static final double kMaxSpeedMetersPerSecond = 3.7;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;

@@ -9,7 +9,7 @@ public class CG_ShootingIntake extends ParallelCommandGroup {
     public CG_ShootingIntake() {
         super(
                 new ShooterSetpointSpeed(ShooterConstants.INTAKE_SPEED),
-                new TilterSetpointPosition(TilterConstants.INTAKE_POSITION)
+                new TilterSetpointPosition(TilterConstants.HUMAN_INTAKE_POSITION)
         );
     }
 }
