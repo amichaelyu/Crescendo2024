@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.TilterConstants;
 import frc.robot.subsystems.Tilter;
 
 
@@ -23,16 +24,16 @@ public class TilterHome extends Command {
             isHomed = true;
         }
         if (!isHomed) {
-            tilter.setVoltage(-3);
+            tilter.setVoltage(-5);
         }
         else {
-//            tilter.setPosition();
+            tilter.setPosition(TilterConstants.IDLE_POSITION);
         }
     }
 
     @Override
     public boolean isFinished() {
-        return !tilter.isAtBottom();
+        return tilter.atSetpoint() && isHomed;
     }
 
     @Override

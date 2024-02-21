@@ -35,7 +35,7 @@ public final class Constants {
         public static final double MAX_SPEED = 106;
         public static final double INTAKE_SPEED = -20;
         public static final double SPEAKER_SPEED = 106; // 0-100 rev per second
-        public static final double AMP_SPEED = 100; // 0-100
+        public static final double AMP_SPEED = 106; // 0-100
 
         public static final InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
 
@@ -71,8 +71,9 @@ public final class Constants {
         public static final double IDLE_POSITION = 100; // 0-200
         public static final double SPEAKER_CENTER_POSITION = 130.0; // 0-200
         public static final double SPEAKER_CORNER_POSITION = 145.0; // 0-200
-        public static final double AMP_POSITION = 100; // 0-200
-        public static final double INTAKE_POSITION = 130.0; // 0-200
+        public static final double AMP_POSITION = 105; // 0-200
+        public static final double TRAP_POSITION = 135; // 0-200
+        public static final double INTAKE_POSITION = 100.0; // 0-200
       
         public static final int kLIFTER_LIMIT_BOTTOM = 0;
 
@@ -94,9 +95,12 @@ public final class Constants {
             tilterMap.put(1.285, 145.0);
             tilterMap.put(1.76, 90.0);
             tilterMap.put(1.87, 85.0);
-            tilterMap.put(2.63, 50.0);
-            tilterMap.put(2.78, 40.0);
+            tilterMap.put(2.3, 40.0);
+            tilterMap.put(2.38, 40.0);
             tilterMap.put(2.96, 40.0);
+            tilterMap.put(3.0, 35.0);
+            tilterMap.put(3.4, 35.0);
+            tilterMap.put(3.7, 35.0);
 
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;

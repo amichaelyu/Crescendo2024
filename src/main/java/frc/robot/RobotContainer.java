@@ -12,7 +12,6 @@ import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.old.TeleIntake;
-import frc.robot.commands.old.TeleShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Swerve;
@@ -43,10 +42,25 @@ public class RobotContainer {
         Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRawAxis(5))));
     }
 
+    private void competitionButtons() {
+        driver.a().whileTrue(new CG_ShootingLime());
+        driver.b().whileTrue(new CG_ShootingSpeaker());
+        driver.x().whileTrue(new CG_ShootingAmp());
+
+        driver.rightBumper().whileTrue(new CG_IntakeIndexer())
+                            .whileFalse(new IndexerSlightBack());
+
+        operator.rightBumper().whileTrue(new CG_ShootingIntake());
+
+        operator.a().whileTrue(new TilterHome());
+
+        driver.y().onTrue(new InstantCommand(Swerve.getInstance()::zeroHeading));
+    }
+
     private void configureButtonBindings() {
-        operator.a().whileTrue(new TilterDashboardPosition());
-        operator.b().whileTrue(new ShooterDashboardSpeed());
-        operator.x().whileTrue(new IndexerKick());
+//        operator.a().whileTrue(new TilterDashboardPosition());
+//        operator.b().whileTrue(new ShooterDashboardSpeed());
+//        operator.x().whileTrue(new IndexerKick());
 //        driver.a().whileTrue(new TilterDashboardPosition());
         driver.a().whileTrue(new CG_ShootingLime());
         driver.b().whileTrue(new SwerveRotateLime());
@@ -57,7 +71,7 @@ public class RobotContainer {
         /* Driver Buttons */
         driver.y().onTrue(new InstantCommand(Swerve.getInstance()::zeroHeading));
 
-        operator.leftBumper().whileTrue(new TeleShooter());
+//        operator.leftBumper().whileTrue(new TeleShooter());
 
         //run shooter wheels as intake
         operator.rightBumper().whileTrue(new ShooterSetpointSpeed(ShooterConstants.INTAKE_SPEED));
