@@ -83,7 +83,7 @@ public class Limelight extends SubsystemBase {
             if (wantedRotation.getRadians() > Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - 2 * Math.PI);
             }
-            else if (wantedRotation.getRadians() < Math.PI) {
+            else if (wantedRotation.getRadians() < -Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
             }
             SmartDashboard.putNumber("wanted lime rot", wantedRotation.getRadians());
