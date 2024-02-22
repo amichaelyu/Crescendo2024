@@ -71,6 +71,7 @@ public class RobotContainer {
 //                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
 //        operator.b().whileTrue(new CG_ShootingAmp())
 //                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+        operator.x().whileTrue(new IndexerKick());
     }
 
     private void configureButtonBindings() {

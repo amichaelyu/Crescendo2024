@@ -32,7 +32,7 @@ public final class Constants {
         public static final double launchVoltage = 12.0;
         public static final double flushVoltage = -6.0;
 
-        public static final double SHOOTER_PID_TOLERANCE = 5;
+        public static final double SHOOTER_PID_TOLERANCE = 10;
         public static final double MAX_SPEED = 106;
         public static final double INTAKE_SPEED = -20;
         public static final double SPEAKER_SPEED = 106; // 0-100 rev per second

@@ -18,6 +18,7 @@ public class TilterLime extends Command {
     @Override
     public void initialize() {
         distance = limelight.distanceToTarget();
+        tilter.setPosition(TilterConstants.tilterMap.get(distance));
     }
 
     @Override
