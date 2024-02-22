@@ -46,7 +46,7 @@ public class RobotContainer {
 
     private void competitionButtons() {
         driver.a().whileTrue(new CG_ShootingLime())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
 //        driver.b()
         driver.x().whileTrue(new CG_FlushShots());
         driver.y().onTrue(new InstantCommand(Swerve.getInstance()::zeroHeading));
@@ -58,7 +58,7 @@ public class RobotContainer {
 
         operator.leftBumper().whileTrue(new TilterHome());
         operator.rightBumper().whileTrue(new CG_ShootingIntake())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
 
         // uses these for obtaining new data
         operator.a().whileTrue(new TilterDashboardPosition());
@@ -67,11 +67,11 @@ public class RobotContainer {
 
 
         // these are normal operator buttons
-        operator.y().whileTrue(new CG_ShootingSpeaker())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
-        operator.b().whileTrue(new CG_ShootingAmp())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
-        operator.x().whileTrue(new IndexerKick());
+//        operator.y().whileTrue(new CG_ShootingSpeaker())
+//                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+//        operator.b().whileTrue(new CG_ShootingAmp())
+//                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+//        operator.x().whileTrue(new IndexerKick());
     }
 
     private void configureButtonBindings() {

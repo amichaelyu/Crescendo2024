@@ -18,7 +18,7 @@ public class IndexerFlush extends Command {
 
     @Override
     public void execute() {
-       indexer.move(IndexerConstants.INDEXER_FORWARD);
+       indexer.move(IndexerConstants.INDEXER_FLUSH);
     }
 
     @Override
