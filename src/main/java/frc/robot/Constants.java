@@ -32,7 +32,7 @@ public final class Constants {
         public static final double launchVoltage = 12.0;
         public static final double flushVoltage = -6.0;
 
-        public static final double SHOOTER_PID_TOLERANCE = 10;
+        public static final double SHOOTER_PID_TOLERANCE = 5;
         public static final double MAX_SPEED = 106;
         public static final double INTAKE_SPEED = -20;
         public static final double SPEAKER_SPEED = 106; // 0-100 rev per second
@@ -95,12 +95,12 @@ public final class Constants {
         static {
             tilterMap.put(0.97, 130.0);
             tilterMap.put(1.285, 145.0);
-            tilterMap.put(1.5, 90.0);
-            tilterMap.put(1.76, 90.0);
-            tilterMap.put(1.87, 80.0);
-            tilterMap.put(2.3, 40.0);
-            tilterMap.put(2.38, 40.0);
-            tilterMap.put(2.96, 40.0);
+//            tilterMap.put(1.5, 90.0);
+//            tilterMap.put(1.76, 90.0);
+//            tilterMap.put(1.87, 80.0);
+//            tilterMap.put(2.3, 40.0);
+//            tilterMap.put(2.38, 40.0);
+//            tilterMap.put(2.96, 40.0);
             tilterMap.put(3.0, 35.0);
             tilterMap.put(3.4, 35.0);
             tilterMap.put(3.7, 35.0);
@@ -137,6 +137,9 @@ public final class Constants {
     }
 
     public static final class ClimberConstants {
+        public static final int LIMIT_SWITCH_BOTTOM_ID = 2;
+        public static final int LIMIT_SWITCH_TOP_ID = 1;
+
         public static final double climbHeight = 0;
 
         // 1 falcon rotation = 12 mm of travel (0.47 inches)
