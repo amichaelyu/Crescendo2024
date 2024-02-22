@@ -33,21 +33,24 @@ public class Climber extends SubsystemBase {
 //    m_rightClimberMotor.setPosition(0);
 //    m_leftClimberMotor.setPosition(0);
 
-    rightClimberMotor.setInverted(false);
-    leftClimberMotor.setInverted(false);
+    rightClimberMotor.setInverted(true);
+    leftClimberMotor.setInverted(true);
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("right Top", limitSwitchRightTop.get());
-    SmartDashboard.putBoolean("right bottom", limitSwitchRightBottom.get());
+    SmartDashboard.putBoolean("right Top", !limitSwitchRightTop.get());
+    SmartDashboard.putBoolean("right bottom", !limitSwitchRightBottom.get());
   }
 
   public void move(double pwr) {
-    if (limitSwitchRightBottom.get() && pwr < 0) {
-      pwr = Math.min(pwr, 0);
-    }
-    else if (limitSwitchRightTop.get() && pwr > 0) {
+    // - is up
+    // + is down
+    
+    if (!limitSwitchRightBottom.get() && pwr > 0) {
       pwr = Math.max(pwr, 0);
+    }
+    else if (!limitSwitchRightTop.get() && pwr < 0) {
+      pwr = Math.min(pwr, 0);
     }
     rightClimberMotor.set(pwr);
     leftClimberMotor.set(pwr);
