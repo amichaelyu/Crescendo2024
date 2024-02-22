@@ -69,7 +69,7 @@ public final class Constants {
     public static final class TilterConstants {
         public static final int tilterMotorID = 24;
         public static final double PID_TOLERANCE = 1;
-        public static final double IDLE_POSITION = 100; // 0-200
+        public static final double IDLE_POSITION = 105; // 0-200
         public static final double SPEAKER_CENTER_POSITION = 130.0; // 0-200
         public static final double SPEAKER_CORNER_POSITION = 145.0; // 0-200
         public static final double AMP_POSITION = 105; // 0-200
