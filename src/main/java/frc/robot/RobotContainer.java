@@ -67,10 +67,10 @@ public class RobotContainer {
 
 
         // these are normal operator buttons
-//        operator.y().whileTrue(new CG_ShootingSpeaker())
-//                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
-//        operator.b().whileTrue(new CG_ShootingAmp())
-//                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+        operator.y().whileTrue(new CG_ShootingSpeaker())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+        operator.b().whileTrue(new CG_ShootingAmp())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
         operator.x().whileTrue(new IndexerKick());
     }
 
