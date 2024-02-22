@@ -33,8 +33,8 @@ public class Climber extends SubsystemBase {
 //    m_rightClimberMotor.setPosition(0);
 //    m_leftClimberMotor.setPosition(0);
 
-    rightClimberMotor.setInverted(true);
-    leftClimberMotor.setInverted(true);
+    rightClimberMotor.setInverted(false);
+    leftClimberMotor.setInverted(false);
   }
 
   public void periodic() {
