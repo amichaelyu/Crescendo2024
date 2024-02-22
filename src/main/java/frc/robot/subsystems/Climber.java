@@ -47,10 +47,14 @@ public class Climber extends SubsystemBase {
     // + is down
     
     if (!limitSwitchRightBottom.get() && pwr > 0) {
-      pwr = Math.max(pwr, 0);
+      rightClimberMotor.set(0);
+      leftClimberMotor.set(0);
+      return;
     }
     else if (!limitSwitchRightTop.get() && pwr < 0) {
-      pwr = Math.min(pwr, 0);
+      rightClimberMotor.set(0);
+      leftClimberMotor.set(0);
+      return;
     }
     rightClimberMotor.set(pwr);
     leftClimberMotor.set(pwr);
