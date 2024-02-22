@@ -19,6 +19,7 @@ public class TilterLime extends Command {
     public void initialize() {
         distance = limelight.distanceToTarget();
         tilter.setPosition(TilterConstants.tilterMap.get(distance));
+        System.out.println("Wanted Tilter Rotation: " + TilterConstants.tilterMap.get(distance));
     }
 
     @Override
