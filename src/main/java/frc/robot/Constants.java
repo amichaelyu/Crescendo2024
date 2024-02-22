@@ -74,7 +74,7 @@ public final class Constants {
         public static final double SPEAKER_CORNER_POSITION = 145.0; // 0-200
         public static final double AMP_POSITION = 105; // 0-200
         public static final double TRAP_POSITION = 135; // 0-200
-        public static final double HUMAN_INTAKE_POSITION = 100.0; // 0-200
+        public static final double HUMAN_INTAKE_POSITION = 95.0; // 0-200
         public static final double GROUND_INTAKE_POSITION = 80.0; // 0-200
       
         public static final int kLIFTER_LIMIT_BOTTOM = 0;
@@ -104,7 +104,12 @@ public final class Constants {
             tilterMap.put(3.0, 35.0);
             tilterMap.put(3.4, 35.0);
             tilterMap.put(3.7, 35.0);
-
+            tilterMap.put(3.0, 47.0);
+            tilterMap.put(2.8, 50.0);
+            tilterMap.put(2.4, 55.0);
+            tilterMap.put(2.0, 65.0);
+            tilterMap.put(1.8, 75.0);
+            tilterMap.put(1.5, 90.0);
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
