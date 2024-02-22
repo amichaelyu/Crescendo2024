@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.ClimberConstants;
@@ -35,13 +36,18 @@ public class Climber extends SubsystemBase {
     rightClimberMotor.setInverted(true);
     leftClimberMotor.setInverted(true);
   }
-  
+
+  public void periodic() {
+    SmartDashboard.putBoolean("right Top", limitSwitchRightTop.get());
+    SmartDashboard.putBoolean("right bottom", limitSwitchRightBottom.get());
+  }
+
   public void move(double pwr) {
     if (limitSwitchRightBottom.get() && pwr < 0) {
-      return;
+      pwr = Math.min(pwr, 0);
     }
     else if (limitSwitchRightTop.get() && pwr > 0) {
-      return;
+      pwr = Math.max(pwr, 0);
     }
     rightClimberMotor.set(pwr);
     leftClimberMotor.set(pwr);
