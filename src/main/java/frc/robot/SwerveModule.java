@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -66,6 +67,10 @@ public class SwerveModule {
             driveVelocity.FeedForward = driveFeedForward.calculate(desiredState.speedMetersPerSecond);
             mDriveMotor.setControl(driveVelocity);
         }
+    }
+
+    public void setVoltage(double voltage){
+        mDriveMotor.setControl(new VoltageOut(voltage));
     }
 
     public Rotation2d getCANcoder(){

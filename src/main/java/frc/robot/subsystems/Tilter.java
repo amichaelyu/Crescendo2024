@@ -73,6 +73,9 @@ public class Tilter extends SubsystemBase {
   }
 
   public void setPosition(double position) {
+    if (isAtBottom()) {
+
+    }
     setpoint = MathUtil.clamp(position, 0, 200);
     if (isHomed) {
       if (m_tilterMotor.getPosition().getValue() > setpoint) {

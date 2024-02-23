@@ -5,7 +5,7 @@
       "x": 1.3417322635650637,
       "y": 4.6632080078125
     },
-    "rotation": 158.00887678412096
+    "rotation": -22.082375542562584
   },
   "command": {
     "type": "sequential",
@@ -45,6 +45,12 @@
         {
           "type": "named",
           "data": {
+            "name": "slightBack"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "citrusShot"
           }
         },
@@ -70,6 +76,12 @@
         {
           "type": "named",
           "data": {
+            "name": "slightBack"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "citrusShot"
           }
         },
@@ -90,6 +102,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "slightBack"
           }
         },
         {

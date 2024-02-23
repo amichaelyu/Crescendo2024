@@ -95,8 +95,23 @@ public class Swerve extends SubsystemBase {
         });
     }
 
+    public void driveForward() {
+        setModuleStates(new SwerveModuleState[]{
+                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
+        });
+    }
+
     public void setChassisSpeeds(ChassisSpeeds speeds) {
         setModuleStates(SwerveConstants.swerveKinematics.toSwerveModuleStates(speeds));
+    }
+
+    public void setModuleVoltage(double voltage) {
+        for(SwerveModule mod : mSwerveMods){
+            mod.setVoltage(voltage);
+        }
     }
 
     /* Used by SwerveControllerCommand in Auto */

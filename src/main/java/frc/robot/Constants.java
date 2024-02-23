@@ -189,12 +189,11 @@ public final class Constants {
 
         public static final int pigeonID = 28;
 
-        public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L1);
+        public static final COTSTalonFXSwerveConstants chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L1);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(26); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(23); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(28 - 2.625*2);
+        public static final double wheelBase = Units.inchesToMeters(28 - 2.625*2);
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* SwerveConstants Kinematics
@@ -241,7 +240,6 @@ public final class Constants {
         public static final double driveKP = 0.12; //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
-        public static final double driveKF = 0.0;
 
         /* Drive Motor Characterization Values From SYSID */
         public static final double driveKS = 0.32; //TODO: This must be tuned to specific robot
@@ -250,9 +248,9 @@ public final class Constants {
 
         /* SwerveConstants Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 4.18; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = Units.feetToMeters(13.7);
         /** Radians per Second */
-        public static final double maxAngularVelocity = 5; //TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 5;
 
         /* Neutral Modes */
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;

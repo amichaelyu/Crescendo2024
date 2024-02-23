@@ -1,13 +1,14 @@
 package frc.robot;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
@@ -29,15 +30,29 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        SysIdRoutine routine = new SysIdRoutine(
+                new SysIdRoutine.Config(null, Units.Volts.of(4),  null, (state) -> SignalLogger.writeString("state", state.toString())),
+                new SysIdRoutine.Mechanism((volts) -> Swerve.getInstance().setModuleVoltage(volts.in(Units.Volts)), null, Swerve.getInstance())
+        );
+
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
-        NamedCommands.registerCommand("intake", new IntakeRun());
+        NamedCommands.registerCommand("intake", new ParallelDeadlineGroup(new WaitCommand(2),
+                                                        new CG_IntakeIndexer()));
+        NamedCommands.registerCommand("slightBack", new IndexerSlightBack());
         NamedCommands.registerCommand("citrusShot", new CG_ShootingLime());
         NamedCommands.registerCommand("citrusPose", new SwerveLimePose());
 
         autoConfig();
 
 //        configureButtonBindings();
-        competitionButtons();
+//        competitionButtons();
+
+        operator.rightBumper().whileTrue(new InstantCommand(Swerve.getInstance()::driveForward));
+
+        operator.x().whileTrue(routine.dynamic(Direction.kForward));
+        operator.y().whileTrue(routine.dynamic(Direction.kReverse));
+        operator.a().whileTrue(routine.quasistatic(Direction.kForward));
+        operator.b().whileTrue(routine.quasistatic(Direction.kReverse));
 
         Swerve.getInstance().setDefaultCommand(new TeleopSwerve(driver.leftBumper()));
         Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> (0.25 * (driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
