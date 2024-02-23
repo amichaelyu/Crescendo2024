@@ -138,8 +138,6 @@ public class RobotContainer {
         autoChooser.addOption("2 note middle", AutoBuilder.buildAuto("middle 1 + 1"));
         autoChooser.addOption("3 note", AutoBuilder.buildAuto("3 note"));
 
-        AutoBuilder.
-
         SmartDashboard.putData("Auto Command", autoChooser);
     }
 
