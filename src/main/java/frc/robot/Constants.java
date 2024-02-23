@@ -179,7 +179,7 @@ public final class Constants {
         public static final double AUTO_LINEAR_P = 10;
         public static final double AUTO_ROT_P = 5;
         public static final double DRIVEBASE_RADIUS = 0.45;
-        public static final double AUTO_MAX_SPEED = 2;
+        public static final double AUTO_MAX_SPEED = 1;
 
         public static final double ROTATE_P = 5;
         public static final double ROTATE_I = 0;
