@@ -119,7 +119,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public double getMotorPosition() {
-        return mSwerveMods[0].getRealPosition();
+        return getModulePositions()[0].distanceMeters;
     }
 
     public double getMotorVelocity() {

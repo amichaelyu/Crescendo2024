@@ -55,12 +55,8 @@ public class SwerveModule {
         return mDriveMotor.getMotorVoltage().getValue();
     }
 
-    public double getRealPosition(){
-        return mDriveMotor.getPosition().getValue();
-    }
-
     public double getVelocity(){
-        return mDriveMotor.getVelocity().getValue();
+        return Conversions.rotationsToMeters(mDriveMotor.getVelocity().getValue(), SwerveConstants.wheelCircumference);
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
