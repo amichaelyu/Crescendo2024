@@ -21,6 +21,6 @@ public class ShooterTilterArmed extends Command {
 
     @Override
     public boolean isFinished() {
-        return (tilter.atSetpoint() && shooter.atSetpoint()) || timer.hasElapsed(5);
+        return (tilter.atSetpoint() && shooter.atSetpoint()) || timer.hasElapsed(3);
     }
 }
