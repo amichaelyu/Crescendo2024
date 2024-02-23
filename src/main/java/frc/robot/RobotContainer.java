@@ -48,7 +48,7 @@ public class RobotContainer {
                                     .voltage(
                                             m_appliedVoltage.mut_replace(
                                                     Swerve.getInstance().getMotorVoltage(), Volts))
-                                    .linearPosition(m_distance.mut_replace(Swerve.getInstance().getMotorVelocity(), Meters))
+                                    .linearPosition(m_distance.mut_replace(Swerve.getInstance().getMotorPosition(), Meters))
                                     .linearVelocity(
                                             m_velocity.mut_replace(Swerve.getInstance().getMotorVelocity(), MetersPerSecond));
                         }, Swerve.getInstance())
