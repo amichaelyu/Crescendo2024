@@ -40,7 +40,7 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         SysIdRoutine routine = new SysIdRoutine(
-                new SysIdRoutine.Config(),
+                new SysIdRoutine.Config(null, Units.Volts.of(4),  null, null),
                 new SysIdRoutine.Mechanism((volts) -> Swerve.getInstance().setModuleVoltage(volts.in(Units.Volts)),
                         log -> {
                             log.motor("drive-motor")
