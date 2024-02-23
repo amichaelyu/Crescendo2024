@@ -120,7 +120,7 @@ public class Limelight extends SubsystemBase {
 //                }
                 botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
                 botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
-                return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), new Rotation2d(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5])));
+                return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), new Rotation2d(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5])- Math.PI/2));
 //            }
         }
         else if (LimelightHelpers.getTV(limelightRightName)) {
@@ -131,7 +131,7 @@ public class Limelight extends SubsystemBase {
 //                    botposeEntry = limelight.getEntry("botpose_wpired");
 //                }
             botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
-            return new Pose2d(botposeRightEntry.getDoubleArray(new double[7])[0], botposeRightEntry.getDoubleArray(new double[7])[1], new Rotation2d(botposeRightEntry.getDoubleArray(new double[7])[5]));
+            return new Pose2d(botposeRightEntry.getDoubleArray(new double[7])[0], botposeRightEntry.getDoubleArray(new double[7])[1], new Rotation2d(botposeRightEntry.getDoubleArray(new double[7])[5]- Math.PI/2));
 //            }
         }
         else if (LimelightHelpers.getTV(limelightLeftName)) {
@@ -142,7 +142,7 @@ public class Limelight extends SubsystemBase {
 //                    botposeEntry = limelight.getEntry("botpose_wpired");
 //                }
             botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
-            return new Pose2d(botposeLeftEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[1], new Rotation2d(botposeLeftEntry.getDoubleArray(new double[7])[5]));
+            return new Pose2d(botposeLeftEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[1], new Rotation2d(botposeLeftEntry.getDoubleArray(new double[7])[5]- Math.PI/2));
 //            }
         }
         return null;
