@@ -15,7 +15,7 @@ public class TilterSetpointPosition extends Command {
 
     @Override
     public void initialize() {
-
+        tilter.setPosition(position);
     }
 
     @Override

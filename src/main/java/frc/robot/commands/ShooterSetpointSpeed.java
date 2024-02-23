@@ -15,6 +15,7 @@ public class ShooterSetpointSpeed extends Command {
 
     @Override
     public void initialize() {
+        shooter.setSpeed(speed);
     }
 
     @Override

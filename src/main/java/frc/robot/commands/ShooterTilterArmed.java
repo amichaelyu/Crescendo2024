@@ -15,12 +15,12 @@ public class ShooterTilterArmed extends Command {
 
     @Override
     public void initialize() {
-        timer.reset();
         timer.start();
+        timer.reset();
     }
 
     @Override
     public boolean isFinished() {
-        return (tilter.atSetpoint() && shooter.atSetpoint() && timer.hasElapsed(0.1)) || timer.hasElapsed(0.2);
+        return (tilter.atSetpoint() && shooter.atSetpoint() && timer.hasElapsed(0.1)) || timer.hasElapsed(0.5);
     }
 }
