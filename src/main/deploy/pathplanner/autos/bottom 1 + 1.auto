@@ -14,6 +14,12 @@
         {
           "type": "named",
           "data": {
+            "name": "citrusPose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "speakerShot"
           }
         },
@@ -24,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "escape middle"
+                  "pathName": "escape bottom"
                 }
               },
               {
@@ -40,6 +46,12 @@
           "type": "named",
           "data": {
             "name": "slightBack"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "scoot"
           }
         },
         {

@@ -56,6 +56,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("intake", new CG_IntakeIndexer());
         NamedCommands.registerCommand("slightBack", new IndexerSlightBack());
         NamedCommands.registerCommand("citrusShot", new CG_ShootingLime());
+        NamedCommands.registerCommand("citrusShotNoRot", new CG_ShootingLimeNoRot());
         NamedCommands.registerCommand("citrusPose", new SwerveLimePose());
 
         autoConfig();
@@ -104,9 +105,9 @@ public class RobotContainer {
 
         // these are normal operator buttons
         operator.y().whileTrue(new CG_ShootingSpeaker())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
         operator.b().whileTrue(new CG_ShootingAmp())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
         operator.x().whileTrue(new IndexerKick());
     }
 
