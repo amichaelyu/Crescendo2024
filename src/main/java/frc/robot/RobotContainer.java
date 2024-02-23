@@ -55,6 +55,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
         NamedCommands.registerCommand("intake", new CG_IntakeIndexer());
         NamedCommands.registerCommand("slightBack", new IndexerSlightBack());
+        NamedCommands.registerCommand("flipRotation", new InstantCommand(Swerve.getInstance()::flipRotation));
         NamedCommands.registerCommand("citrusShot", new CG_ShootingLime());
         NamedCommands.registerCommand("citrusShotNoRot", new CG_ShootingLimeNoRot());
         NamedCommands.registerCommand("citrusPose", new SwerveLimePose());
