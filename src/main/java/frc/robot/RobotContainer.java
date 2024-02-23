@@ -66,17 +66,17 @@ public class RobotContainer {
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
 
         // uses these for obtaining new data
-        operator.a().whileTrue(new TilterDashboardPosition());
-        operator.b().whileTrue(new ShooterDashboardSpeed());
-        operator.x().whileTrue(new IndexerKick());
+//        operator.a().whileTrue(new TilterDashboardPosition());
+//        operator.b().whileTrue(new ShooterDashboardSpeed());
+//        operator.x().whileTrue(new IndexerKick());
 
 
         // these are normal operator buttons
-//        operator.y().whileTrue(new CG_ShootingSpeaker())
-//                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
-//        operator.b().whileTrue(new CG_ShootingAmp())
-//                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
-//        operator.x().whileTrue(new IndexerKick());
+        operator.y().whileTrue(new CG_ShootingSpeaker())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+        operator.b().whileTrue(new CG_ShootingAmp())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION));
+        operator.x().whileTrue(new IndexerKick());
     }
 
     private void configureButtonBindings() {
