@@ -3,7 +3,7 @@ package frc.robot;
 import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.units.Units;
+import edu.wpi.first.units.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -20,6 +20,9 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Tilter;
 
+import static edu.wpi.first.units.MutableMeasure.mutable;
+import static edu.wpi.first.units.Units.*;
+
 public class RobotContainer {
     /* Controllers */
     public static BetterXboxController driver = new BetterXboxController(0, Humans.DRIVER);
@@ -28,11 +31,27 @@ public class RobotContainer {
     /* Driver Buttons */
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
+    private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
+    // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
+    private final MutableMeasure<Distance> m_distance = mutable(Meters.of(0));
+    // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
+    private final MutableMeasure<Velocity<Distance>> m_velocity = mutable(MetersPerSecond.of(0));
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         SysIdRoutine routine = new SysIdRoutine(
                 new SysIdRoutine.Config(null, Units.Volts.of(4),  null, (state) -> SignalLogger.writeString("state", state.toString())),
-                new SysIdRoutine.Mechanism((volts) -> Swerve.getInstance().setModuleVoltage(volts.in(Units.Volts)), null, Swerve.getInstance())
+                new SysIdRoutine.Mechanism((volts) -> Swerve.getInstance().setModuleVoltage(volts.in(Units.Volts)),
+                        log -> {
+                            log.motor("drive-motor")
+                                    .voltage(
+                                            m_appliedVoltage.mut_replace(
+                                                    Swerve.getInstance().getMotorVoltage(), Volts))
+                                    .linearPosition(m_distance.mut_replace(Swerve.getInstance().getMotorVelocity(), Meters))
+                                    .linearVelocity(
+                                            m_velocity.mut_replace(Swerve.getInstance().getMotorVelocity(), MetersPerSecond));
+                        }, Swerve.getInstance())
         );
 
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
@@ -42,7 +61,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("citrusShot", new CG_ShootingLime());
         NamedCommands.registerCommand("citrusPose", new SwerveLimePose());
 
-        autoConfig();
+//        autoConfig();
 
 //        configureButtonBindings();
 //        competitionButtons();

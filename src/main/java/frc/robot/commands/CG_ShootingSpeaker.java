@@ -9,12 +9,13 @@ import frc.robot.Constants.TilterConstants;
 public class CG_ShootingSpeaker extends ParallelDeadlineGroup {
     public CG_ShootingSpeaker() {
         super(
+
+                new ShooterSetpointSpeed(ShooterConstants.SPEAKER_SPEED),
+                new TilterSetpointPosition(TilterConstants.SPEAKER_CENTER_POSITION),
                 new SequentialCommandGroup(
                         new ShooterTilterArmed(),
                         new IndexerKick()
-                ),
-                new ShooterSetpointSpeed(ShooterConstants.SPEAKER_SPEED),
-                new TilterSetpointPosition(TilterConstants.SPEAKER_CENTER_POSITION)
+                )
         );
     }
 }

@@ -114,6 +114,18 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public double getMotorVoltage() {
+        return mSwerveMods[0].getVoltage();
+    }
+
+    public double getMotorPosition() {
+        return mSwerveMods[0].getRealPosition();
+    }
+
+    public double getMotorVelocity() {
+        return mSwerveMods[0].getVelocity();
+    }
+
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.maxSpeed);
