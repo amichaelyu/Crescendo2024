@@ -179,7 +179,7 @@ public final class Constants {
         public static final double AUTO_LINEAR_P = 10;
         public static final double AUTO_ROT_P = 5;
         public static final double DRIVEBASE_RADIUS = 0.45;
-        public static final double AUTO_MAX_SPEED = 3.336;
+        public static final double AUTO_MAX_SPEED = 2;
 
         public static final double ROTATE_P = 5;
         public static final double ROTATE_I = 0;
@@ -237,14 +237,14 @@ public final class Constants {
         public static final double angleKD = chosenModule.angleKD;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.12; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.52307;
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
 
         /* Drive Motor Characterization Values From SYSID */
-        public static final double driveKS = 0.32; //TODO: This must be tuned to specific robot
-        public static final double driveKV = 1.51;
-        public static final double driveKA = 0.27;
+        public static final double driveKS = 0.0906094;
+        public static final double driveKV = 2.875;
+        public static final double driveKA = 0.22967;
 
         /* SwerveConstants Profiling Values */
         /** Meters per Second */
