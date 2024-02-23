@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.units.*;
@@ -41,7 +40,7 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         SysIdRoutine routine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, Units.Volts.of(4),  null, (state) -> SignalLogger.writeString("state", state.toString())),
+                new SysIdRoutine.Config(),
                 new SysIdRoutine.Mechanism((volts) -> Swerve.getInstance().setModuleVoltage(volts.in(Units.Volts)),
                         log -> {
                             log.motor("drive-motor")
