@@ -175,7 +175,15 @@ public class Swerve extends SubsystemBase {
     }
 
     public void zeroHeading(){
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red) {
+                swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
+            }
+            else if (alliance.get() == DriverStation.Alliance.Blue) {
+                swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+            }
+        }
     }
 
     public Rotation2d getGyroYaw() {

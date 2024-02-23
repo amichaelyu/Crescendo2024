@@ -23,9 +23,19 @@ public class TeleopSwerve extends Command {
     @Override
     public void execute() {
         /* Drive */
+        int shouldNegate = 1;
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red) {
+                shouldNegate = -1;
+            }
+            else if (alliance.get() == DriverStation.Alliance.Blue) {
+                shouldNegate = 1;
+            }
+        }
         if (!DriverStation.isAutonomous()) {
             s_Swerve.drive(
-                    BetterXboxController.getController(Humans.DRIVER).getSwerveTranslation().times(SwerveConstants.maxSpeed),
+                    BetterXboxController.getController(Humans.DRIVER).getSwerveTranslation().times(SwerveConstants.maxSpeed * shouldNegate),
                     BetterXboxController.getController(Humans.DRIVER).getSwerveRotation() * SwerveConstants.maxAngularVelocity,
                     !robotCentricSup.getAsBoolean(),
                     true
