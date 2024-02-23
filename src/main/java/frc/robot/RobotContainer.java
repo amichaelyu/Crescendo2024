@@ -58,7 +58,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("citrusShot", new CG_ShootingLime());
         NamedCommands.registerCommand("citrusPose", new SwerveLimePose());
 
-//        autoConfig();
+        autoConfig();
 
 //        configureButtonBindings();
         competitionButtons();
