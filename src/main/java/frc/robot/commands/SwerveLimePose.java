@@ -15,7 +15,7 @@ public class SwerveLimePose extends Command {
 
     @Override
     public void initialize() {
-        swerve.setPoseNoRot(limelight.getBotPose());
+        swerve.setPose(limelight.getBotPose());
     }
 
     @Override

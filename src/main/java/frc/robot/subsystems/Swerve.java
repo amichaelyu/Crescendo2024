@@ -162,20 +162,8 @@ public class Swerve extends SubsystemBase {
         return swerveOdometry.getPoseMeters();
     }
 
-    public void setPoseNoRot(Pose2d pose) {
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), pose.getRotation()));
-    }
-
     public void setPose(Pose2d pose) {
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            if (alliance.get() == DriverStation.Alliance.Red) {
-                swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), pose.getRotation().plus(Rotation2d.fromDegrees(180))));
-            }
-            else if (alliance.get() == DriverStation.Alliance.Blue) {
-                swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), pose.getRotation()));
-            }
-        }
+        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), pose.getRotation()));
     }
 
     public Rotation2d getHeading(){

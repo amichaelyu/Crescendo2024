@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Limelight;
@@ -34,9 +35,15 @@ public class SwerveRotateLime extends Command {
             wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + limeRot - cramRot);
             if (wantedRotation.getRadians() > Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - 2 * Math.PI);
+                if (DriverStation.getAlliance().get() == Alliance.Red) {
+                    wantedRotation = wantedRotation.plus(Rotation2d.fromDegrees(90));
+                }
             }
             else if (wantedRotation.getRadians() < -Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
+            }
+            if (DriverStation.getAlliance().get() == Alliance.Red) {
+                wantedRotation = wantedRotation.plus(Rotation2d.fromDegrees(90));
             }
             pidController.setSetpoint(wantedRotation.getRadians());
         }
