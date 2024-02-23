@@ -6,8 +6,8 @@
         "motorMaxTorque": 0.36498054474708175,
         "motorMaxVelocity": 5104,
         "gearing": 8.14,
-        "wheelbase": 0.5771540654,
-        "trackWidth": 0.5771540654,
+        "wheelbase": 0.58,
+        "trackWidth": 0.58,
         "bumperLength": 0.89,
         "bumperWidth": 0.89,
         "wheelRadius": 0.050799972568014815
