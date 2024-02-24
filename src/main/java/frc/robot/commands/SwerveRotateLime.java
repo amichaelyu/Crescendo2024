@@ -40,7 +40,7 @@ public class SwerveRotateLime extends Command {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
             }
             if (DriverStation.getAlliance().get() == Alliance.Red) {
-                wantedRotation = new Rotation2d(-wantedRotation.getCos(), wantedRotation.getSin());
+                wantedRotation = new Rotation2d(-wantedRotation.getCos(), -wantedRotation.getSin());
             }
             pidController.setSetpoint(wantedRotation.getRadians());
         }
