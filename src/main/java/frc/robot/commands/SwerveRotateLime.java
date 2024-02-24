@@ -31,7 +31,7 @@ public class SwerveRotateLime extends Command {
             Rotation2d limeRot = limelight.getRotationToTarget();
             limeRot = limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
             wantedRotation = limeRot;
-            pidController.setSetpoint(limeRot.getRadians());
+            pidController.setSetpoint(wantedRotation.getRadians());
         }
         else {
             pidController.setSetpoint(swerve.getPose().getRotation().getRadians());

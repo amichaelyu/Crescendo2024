@@ -75,18 +75,18 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("distance to target", distanceToTarget());
         SmartDashboard.putBoolean("has target", hasTarget());
 
-        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
-            double limeRot = getRotationToTarget().getRadians();
-            double cramRot = Swerve.getInstance().getPose().getRotation().getRadians();
-            Rotation2d wantedRotation = Rotation2d.fromRadians(Swerve.getInstance().getPose().getRotation().getRadians() + limeRot - cramRot);
-            if (wantedRotation.getRadians() > Math.PI) {
-                wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - 2 * Math.PI);
-            }
-            else if (wantedRotation.getRadians() < -Math.PI) {
-                wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
-            }
-            SmartDashboard.putNumber("wanted lime rot", getRotationToTarget().getRadians());
-        }
+//        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
+//            double limeRot = getRotationToTarget().getRadians();
+//            double cramRot = Swerve.getInstance().getPose().getRotation().getRadians();
+//            Rotation2d wantedRotation = Rotation2d.fromRadians(Swerve.getInstance().getPose().getRotation().getRadians() + limeRot - cramRot);
+//            if (wantedRotation.getRadians() > Math.PI) {
+//                wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - 2 * Math.PI);
+//            }
+//            else if (wantedRotation.getRadians() < -Math.PI) {
+//                wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
+//            }
+//            SmartDashboard.putNumber("wanted lime rot", getRotationToTarget().getRadians());
+//        }
     }
 
     public Rotation2d getRotationToTarget() {
@@ -140,7 +140,7 @@ public class Limelight extends SubsystemBase {
             return new Pose2d(botposeLeftEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeLeftEntry.getDoubleArray(new double[7])[5] + 180));
 //            }
         }
-        return null;
+        return new Pose2d();
     }
 
     // in meters
