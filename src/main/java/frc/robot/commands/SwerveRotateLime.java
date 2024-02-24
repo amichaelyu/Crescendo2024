@@ -10,6 +10,8 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
+import java.util.Objects;
+
 
 public class SwerveRotateLime extends Command {
     private final Swerve swerve = Swerve.getInstance();
@@ -26,13 +28,16 @@ public class SwerveRotateLime extends Command {
 
     @Override
     public void initialize() {
-        if (DriverStation.getAlliance().isPresent() && limelight.hasTarget()) {
+        if (DriverStation.getAlliance().isPresent() && limelight.hasTarget() && !Objects.equals(limelight.getRotationToTarget(), new Rotation2d())) {
             double limeRot = limelight.getRotationToTarget().getRadians();
             double cramRot = swerve.getPose().getRotation().getRadians() % (2 * Math.PI); //crammed rotation between 0 and 2pi
             if (cramRot < 0) {
                 cramRot += Math.PI * 2;
             }
             wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + limeRot - cramRot);
+            if (DriverStation.getAlliance().get() == Alliance.Red) {
+                wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + cramRot - limeRot);
+            }
             if (wantedRotation.getRadians() > Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - 2 * Math.PI);
             }
@@ -40,7 +45,7 @@ public class SwerveRotateLime extends Command {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
             }
             if (DriverStation.getAlliance().get() == Alliance.Red) {
-                wantedRotation = new Rotation2d(-wantedRotation.getCos(), -wantedRotation.getSin());
+                wantedRotation = new Rotation2d(-wantedRotation.getCos(), wantedRotation.getSin());
             }
             pidController.setSetpoint(wantedRotation.getRadians());
         }
