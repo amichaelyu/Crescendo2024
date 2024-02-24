@@ -35,6 +35,8 @@ public class SwerveRotateLime extends Command {
             if (Math.abs(delta.getRadians()) > (Math.PI / 2)) {
                 limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
             }
+            limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
+            wantedRotation = limeRot;
             pidController.setSetpoint(limeRot.getRadians());
         }
         else {
