@@ -93,10 +93,8 @@ public class Limelight extends SubsystemBase {
         if (DriverStation.getAlliance().isPresent() && hasTarget() && getBotPose() != null) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
             double xDiff = adjustedSpeaker.getX() - getBotPose().getX();
-            double yDiff = adjustedSpeaker.getY() - getBotPose().getY();
-            double angle = Math.atan(xDiff / yDiff);
-            double offset = angle > 0 ? Math.PI / 2 : 3 * Math.PI / 2;
-            return Rotation2d.fromRadians(offset - angle);
+            double yDiff = adjustedSpeaker.getY() -  getBotPose().getY();
+            return new Rotation2d(xDiff, yDiff);
         }
         return new Rotation2d();
     }
