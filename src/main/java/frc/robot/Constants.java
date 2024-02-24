@@ -68,9 +68,9 @@ public final class Constants {
 
     public static final class TilterConstants {
         public static final int tilterMotorID = 24;
-        public static final double PID_TOLERANCE = 1;
+        public static final double PID_TOLERANCE = 0.5;
         public static final double IDLE_POSITION = 100; // 0-200
-        public static final double SPEAKER_CENTER_POSITION = 130.0; // 0-200
+        public static final double SPEAKER_CENTER_POSITION = 140.0; // 0-200
         public static final double SPEAKER_CORNER_POSITION = 145.0; // 0-200
         public static final double AMP_POSITION = 105; // 0-200
         public static final double TRAP_POSITION = 135; // 0-200
@@ -93,23 +93,35 @@ public final class Constants {
 
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
-            tilterMap.put(0.97, 130.0);
-            tilterMap.put(1.285, 145.0);
+            tilterMap.put(1.00, 145.0);
+            tilterMap.put(1.13, 135.0);
+            tilterMap.put(1.28, 125.0);
+            tilterMap.put(1.45, 120.0);
+            tilterMap.put(1.63, 105.0);
+            tilterMap.put(1.71, 100.0);
+            tilterMap.put(1.974, 85.0);
+            tilterMap.put(2.18, 67.0);
+            tilterMap.put(2.415, 57.0);
+            tilterMap.put(2.6, 52.0);
+            tilterMap.put(2.81, 51.0);
+            tilterMap.put(3.05, 47.0);
+
+//            tilterMap.put(1.285, 145.0);
 //            tilterMap.put(1.5, 90.0);
 //            tilterMap.put(1.76, 90.0);
 //            tilterMap.put(1.87, 80.0);
 //            tilterMap.put(2.3, 40.0);
 //            tilterMap.put(2.38, 40.0);
 //            tilterMap.put(2.96, 40.0);
-            tilterMap.put(3.0, 35.0);
-            tilterMap.put(3.4, 35.0);
-            tilterMap.put(3.7, 35.0);
-            tilterMap.put(3.0, 47.0);
-            tilterMap.put(2.8, 50.0);
-            tilterMap.put(2.4, 55.0);
-            tilterMap.put(2.0, 65.0);
-            tilterMap.put(1.8, 75.0);
-            tilterMap.put(1.5, 90.0);
+//            tilterMap.put(3.0, 35.0);
+//            tilterMap.put(3.4, 35.0);
+//            tilterMap.put(3.7, 35.0);
+//            tilterMap.put(3.0, 47.0);
+//            tilterMap.put(2.8, 50.0);
+//            tilterMap.put(2.4, 55.0);
+//            tilterMap.put(2.0, 65.0);
+//            tilterMap.put(1.8, 75.0);
+//            tilterMap.put(1.5, 90.0);
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
