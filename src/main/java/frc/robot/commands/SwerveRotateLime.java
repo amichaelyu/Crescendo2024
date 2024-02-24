@@ -30,23 +30,20 @@ public class SwerveRotateLime extends Command {
     public void initialize() {
         if (DriverStation.getAlliance().isPresent() && limelight.hasTarget() && !Objects.equals(limelight.getRotationToTarget(), new Rotation2d())) {
             double limeRot = limelight.getRotationToTarget().getRadians();
-            double cramRot = swerve.getPose().getRotation().getRadians() % (2 * Math.PI); //crammed rotation between 0 and 2pi
-            if (cramRot < 0) {
-                cramRot += Math.PI * 2;
-            }
-            wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + limeRot - cramRot);
-            if (DriverStation.getAlliance().get() == Alliance.Red) {
-                wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + cramRot - limeRot);
-            }
+            double roboRot = swerve.getPose().getRotation().getRadians();
+            wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + limeRot - roboRot);
+
             if (wantedRotation.getRadians() > Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - 2 * Math.PI);
             }
             else if (wantedRotation.getRadians() < -Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
             }
+
             if (DriverStation.getAlliance().get() == Alliance.Red) {
                 wantedRotation = new Rotation2d(-wantedRotation.getCos(), wantedRotation.getSin());
             }
+
             pidController.setSetpoint(wantedRotation.getRadians());
         }
         else {
