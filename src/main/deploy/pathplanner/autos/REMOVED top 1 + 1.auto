@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7542500495910645,
-      "y": 6.667593955993652
+      "x": 0.69,
+      "y": 6.69
     },
-    "rotation": 59.743588974535136
+    "rotation": 56.36
   },
   "command": {
     "type": "sequential",
@@ -14,13 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "citrusPose"
+            "name": "speakerShot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "speakerShot"
+            "name": "citrusPose"
           }
         },
         {
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "top 2 note"
+                  "pathName": "escape top"
                 }
               },
               {
@@ -58,5 +58,5 @@
     }
   },
   "folder": null,
-  "choreoAuto": true
+  "choreoAuto": false
 }
