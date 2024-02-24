@@ -24,7 +24,7 @@ public final class Constants {
 
     public static final class IndexerConstants {
         public static final int indexerMotorID = 22;
-        public static final double INDEXER_FORWARD = -0.5;
+        public static final double INDEXER_FORWARD = -0.7;
         public static final double INDEXER_FLUSH = 0.75;
     }
 
