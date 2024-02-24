@@ -35,9 +35,6 @@ public class SwerveRotateLime extends Command {
             wantedRotation = Rotation2d.fromRadians(swerve.getPose().getRotation().getRadians() + limeRot - cramRot);
             if (wantedRotation.getRadians() > Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - 2 * Math.PI);
-                if (DriverStation.getAlliance().get() == Alliance.Red) {
-                    wantedRotation = wantedRotation.plus(Rotation2d.fromDegrees(90));
-                }
             }
             else if (wantedRotation.getRadians() < -Math.PI) {
                 wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
