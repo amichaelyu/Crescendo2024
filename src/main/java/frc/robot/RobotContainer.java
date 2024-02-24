@@ -135,7 +135,8 @@ public class RobotContainer {
     private void autoConfig() {
         autoChooser.addOption("Nothing", new WaitCommand(0));
         autoChooser.addOption("Speaker Shot", new CG_ShootingSpeaker());
-        autoChooser.addOption("Top Speaker Shot and Escape", AutoBuilder.buildAuto("top 1 + 1"));
+        autoChooser.addOption("2 note top", AutoBuilder.buildAuto("top 1 + 1"));
+        autoChooser.addOption("2 note bottom", AutoBuilder.buildAuto("bottom 1 + 1"));
         autoChooser.addOption("2 note middle", AutoBuilder.buildAuto("middle 1 + 1"));
         autoChooser.addOption("3 note", AutoBuilder.buildAuto("3 note"));
 
