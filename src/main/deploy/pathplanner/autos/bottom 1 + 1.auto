@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.76,
-      "y": 4.45
+      "x": 0.7733619213104248,
+      "y": 4.44911527633667
     },
-    "rotation": -57.30000000000001
+    "rotation": -58.71734940658177
   },
   "command": {
     "type": "sequential",
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "escape bottom"
+                  "pathName": "bottom 2 note"
                 }
               },
               {
@@ -49,12 +49,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "scoot"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "citrusShot"
@@ -64,5 +58,5 @@
     }
   },
   "folder": null,
-  "choreoAuto": false
+  "choreoAuto": true
 }
