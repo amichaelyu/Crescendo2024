@@ -189,7 +189,7 @@ public final class Constants {
 
     public static final class SwerveConstants {
         public static final double AUTO_LINEAR_P = 10;
-        public static final double AUTO_ROT_P = 5;
+        public static final double AUTO_ROT_P = 10;
         public static final double DRIVEBASE_RADIUS = 0.45;
         public static final double AUTO_MAX_SPEED = 1;
 
