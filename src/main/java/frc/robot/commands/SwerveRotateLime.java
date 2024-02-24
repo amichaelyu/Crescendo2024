@@ -29,12 +29,6 @@ public class SwerveRotateLime extends Command {
     public void initialize() {
         if (DriverStation.getAlliance().isPresent() && limelight.hasTarget() && !Objects.equals(limelight.getRotationToTarget(), new Rotation2d())) {
             Rotation2d limeRot = limelight.getRotationToTarget();
-            Rotation2d roboRot = swerve.getPose().getRotation();
-
-            Rotation2d delta = limeRot.minus(roboRot);
-            if (Math.abs(delta.getRadians()) > (Math.PI / 2)) {
-                limeRot = limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
-            }
             limeRot = limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
             wantedRotation = limeRot;
             pidController.setSetpoint(limeRot.getRadians());
