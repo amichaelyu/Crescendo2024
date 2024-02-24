@@ -98,17 +98,17 @@ public class RobotContainer {
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
 
         // uses these for obtaining new data
-        operator.a().whileTrue(new TilterDashboardPosition());
-        operator.b().whileTrue(new ShooterDashboardSpeed());
-        operator.x().whileTrue(new IndexerKick());
+//        operator.a().whileTrue(new TilterDashboardPosition());
+//        operator.b().whileTrue(new ShooterDashboardSpeed());
+//        operator.x().whileTrue(new IndexerKick());
 
 
         // these are normal operator buttons
-//        operator.y().whileTrue(new CG_ShootingSpeaker())
-//                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
-//        operator.b().whileTrue(new CG_ShootingAmp())
-//                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
-//        operator.x().whileTrue(new IndexerKick());
+        operator.y().whileTrue(new CG_ShootingSpeaker())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+        operator.b().whileTrue(new CG_ShootingAmp())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+        operator.x().whileTrue(new IndexerKick());
     }
 
     private void configureButtonBindings() {
@@ -138,7 +138,7 @@ public class RobotContainer {
         autoChooser.addOption("2 note top", AutoBuilder.buildAuto("top 1 + 1"));
         autoChooser.addOption("2 note bottom", AutoBuilder.buildAuto("bottom 1 + 1"));
         autoChooser.addOption("2 note middle", AutoBuilder.buildAuto("middle 1 + 1"));
-        autoChooser.addOption("3 note", AutoBuilder.buildAuto("3 note"));
+//        autoChooser.addOption("3 note", AutoBuilder.buildAuto("3 note"));
 
         SmartDashboard.putData("Auto Command", autoChooser);
     }

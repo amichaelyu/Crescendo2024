@@ -33,7 +33,7 @@ public class Tilter extends SubsystemBase {
 //    m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
 
 //    m_tilterMotor.setInverted(true);
-    isHomed = false;
+    isHomed = true;
   }
 
   @Override
