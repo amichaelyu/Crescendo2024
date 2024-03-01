@@ -28,7 +28,7 @@ public class Tilter extends SubsystemBase {
     limitSwitchBottom = new DigitalInput(TilterConstants.kLIFTER_LIMIT_BOTTOM);
 
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
-    m_tilterMotor.setPosition(TilterConstants.IDLE_POSITION);
+    m_tilterMotor.setPosition(TilterConstants.START_POSITION);
 
 //    m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
 

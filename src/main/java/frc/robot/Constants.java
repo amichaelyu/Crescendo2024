@@ -69,7 +69,8 @@ public final class Constants {
     public static final class TilterConstants {
         public static final int tilterMotorID = 24;
         public static final double PID_TOLERANCE = 1;
-        public static final double IDLE_POSITION = 100; // 0-200
+        public static final double START_POSITION = 160; // 0-200
+        public static final double IDLE_POSITION = 80; // 0-200
         public static final double SPEAKER_CENTER_POSITION = 140.0; // 0-200
         public static final double SPEAKER_CORNER_POSITION = 145.0; // 0-200
         public static final double AMP_POSITION = 195; // 0-200
@@ -262,7 +263,7 @@ public final class Constants {
         /** Meters per Second */
         public static final double maxSpeed = Units.feetToMeters(13.7);
         /** Radians per Second */
-        public static final double maxAngularVelocity = 3;
+        public static final double maxAngularVelocity = 10;
 
         /* Neutral Modes */
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
