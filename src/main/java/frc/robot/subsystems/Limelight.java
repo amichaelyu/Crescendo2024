@@ -74,6 +74,7 @@ public class Limelight extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("distance to target", distanceToTarget());
         SmartDashboard.putBoolean("has target", hasTarget());
+        SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
 
 //        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
 //            double limeRot = getRotationToTarget().getRadians();
