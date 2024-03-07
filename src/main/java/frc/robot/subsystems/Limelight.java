@@ -113,14 +113,14 @@ public class Limelight extends SubsystemBase {
         if (LimelightHelpers.getTV(limelightRightName) && LimelightHelpers.getTV(limelightLeftName)) {
             botposeRightEntry = limelightLeft.getEntry("botpose_wpiblue");
             botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
-            if (rightLL.tagCount > 2 && leftLL.tagCount > 2) {
-                return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), Rotation2d.fromDegrees(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5]) + 180));
-            }
-            else if (rightLL.tagCount > 2) {
-                return rightLL.pose;
+            if (rightLL.tagCount > 2) {
+                return new Pose2d(botposeRightEntry.getDoubleArray(new double[7])[0], botposeRightEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeRightEntry.getDoubleArray(new double[7])[5] + 180));
             }
             else if (leftLL.tagCount > 2) {
-                return leftLL.pose;
+                return new Pose2d(botposeLeftEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeLeftEntry.getDoubleArray(new double[7])[5] + 180));
+            }
+            else {
+                return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), Rotation2d.fromDegrees(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5]) + 180));
             }
         }
         else if (LimelightHelpers.getTV(limelightRightName)) {
