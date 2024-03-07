@@ -54,33 +54,33 @@ public class RobotContainer {
                         }, Swerve.getInstance())
         );
 
-        SysIdRoutine shooterRoutine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, null,  null, null),
-                new SysIdRoutine.Mechanism((volts) -> Shooter.getInstance().setVoltage(volts.in(Units.Volts)),
-                        log -> {
-                            log.motor("shooter-motor")
-                                    .voltage(
-                                            m_appliedVoltage.mut_replace(
-                                                    Shooter.getInstance().getVoltage(), Volts))
-                                    .angularPosition(m_angle.mut_replace(Shooter.getInstance().getPosition(), Rotations))
-                                    .angularVelocity(
-                                            m_angularVelocity.mut_replace(Shooter.getInstance().getVelocity(), RotationsPerSecond));
-                        }, Swerve.getInstance())
-        );
-
-        SysIdRoutine tilterRoutine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, Units.Volts.of(6),  null, null),
-                new SysIdRoutine.Mechanism((volts) -> Tilter.getInstance().setVoltage(volts.in(Units.Volts)),
-                        log -> {
-                            log.motor("tilter-motor")
-                                    .voltage(
-                                            m_appliedVoltage.mut_replace(
-                                                    Tilter.getInstance().getVoltage(), Volts))
-                                    .angularPosition(m_angle.mut_replace(Tilter.getInstance().getPosition(), Rotations))
-                                    .angularVelocity(
-                                            m_angularVelocity.mut_replace(Tilter.getInstance().getVelocity(), RotationsPerSecond));
-                        }, Swerve.getInstance())
-        );
+//        SysIdRoutine shooterRoutine = new SysIdRoutine(
+//                new SysIdRoutine.Config(null, null,  null, null),
+//                new SysIdRoutine.Mechanism((volts) -> Shooter.getInstance().setVoltage(volts.in(Units.Volts)),
+//                        log -> {
+//                            log.motor("shooter-motor")
+//                                    .voltage(
+//                                            m_appliedVoltage.mut_replace(
+//                                                    Shooter.getInstance().getVoltage(), Volts))
+//                                    .angularPosition(m_angle.mut_replace(Shooter.getInstance().getPosition(), Rotations))
+//                                    .angularVelocity(
+//                                            m_angularVelocity.mut_replace(Shooter.getInstance().getVelocity(), RotationsPerSecond));
+//                        }, Swerve.getInstance())
+//        );
+//
+//        SysIdRoutine tilterRoutine = new SysIdRoutine(
+//                new SysIdRoutine.Config(null, Units.Volts.of(6),  null, null),
+//                new SysIdRoutine.Mechanism((volts) -> Tilter.getInstance().setVoltage(volts.in(Units.Volts)),
+//                        log -> {
+//                            log.motor("tilter-motor")
+//                                    .voltage(
+//                                            m_appliedVoltage.mut_replace(
+//                                                    Tilter.getInstance().getVoltage(), Volts))
+//                                    .angularPosition(m_angle.mut_replace(Tilter.getInstance().getPosition(), Rotations))
+//                                    .angularVelocity(
+//                                            m_angularVelocity.mut_replace(Tilter.getInstance().getVelocity(), RotationsPerSecond));
+//                        }, Swerve.getInstance())
+//        );
 
 
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
