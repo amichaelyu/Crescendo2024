@@ -190,11 +190,11 @@ public class Swerve extends SubsystemBase {
         return Rotation2d.fromDegrees(gyro.getYaw().getValue());
     }
 
-    public void resetModulesToAbsolute(){
-        for(SwerveModule mod : mSwerveMods){
-            mod.resetToAbsolute();
-        }
-    }
+//    public void resetModulesToAbsolute(){
+//        for(SwerveModule mod : mSwerveMods){
+////            mod.resetToAbsolute();
+//        }
+//    }
 
     @Override
     public void periodic(){

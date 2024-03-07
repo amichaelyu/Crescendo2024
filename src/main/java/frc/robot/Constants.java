@@ -45,24 +45,24 @@ public final class Constants {
         public static final int leftShooterID = 21;
 
         static {
-//            shooterMap.put(0.97, 100.0);
-//            shooterMap.put(1.28, 100.0);
-//            shooterMap.put(2.63, 100.0);
+            shooterMap.put(1.0, 100.0);
+            shooterMap.put(1.64, 50.0);
 
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
+            talonFXConfigs.Voltage.PeakForwardVoltage = 12.0;
+            talonFXConfigs.Voltage.PeakReverseVoltage = -12.0;
+
             // set slot 0 gains
-            var slot0Configs = talonFXConfigs.Slot0;
-            slot0Configs.kS = 0.17;
-            slot0Configs.kV = 0.11;
-//            slot0Configs.kA = 0.01;
-            slot0Configs.kP = 0.42;
-            slot0Configs.kI = 0.0;
-            slot0Configs.kD = 0.0;
+            talonFXConfigs.Slot0.kS = 0.17;
+            talonFXConfigs.Slot0.kV = 0.11;
+//            talonFXConfigs.Slot0.kA = 0.01;
+            talonFXConfigs.Slot0.kP = 0.42;
+            talonFXConfigs.Slot0.kI = 0.0;
+            talonFXConfigs.Slot0.kD = 0.0;
 
             // set Motion Magic settings
-            var motionMagicConfigs = talonFXConfigs.MotionMagic;
-            motionMagicConfigs.MotionMagicAcceleration = 1000;
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = 1000;
         }
     }
 
@@ -94,18 +94,8 @@ public final class Constants {
 
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
-            tilterMap.put(1.00, 145.0);
-            tilterMap.put(1.13, 135.0);
-            tilterMap.put(1.28, 125.0);
-            tilterMap.put(1.45, 120.0);
-            tilterMap.put(1.63, 105.0);
-            tilterMap.put(1.71, 100.0);
-            tilterMap.put(1.974, 85.0);
-            tilterMap.put(2.18, 67.0);
-            tilterMap.put(2.415, 57.0);
-            tilterMap.put(2.6, 52.0);
-            tilterMap.put(2.81, 51.0);
-            tilterMap.put(3.05, 47.0);
+            tilterMap.put(1.51, 90.0);
+            tilterMap.put(2.02, 50.0);
 
 //            tilterMap.put(1.285, 145.0);
 //            tilterMap.put(1.5, 90.0);
@@ -126,26 +116,26 @@ public final class Constants {
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
-            softLimit.ForwardSoftLimitThreshold = ROTATIONS_TO_FULL_EXTENSION;
-            softLimit.ForwardSoftLimitEnable = false;
-            softLimit.ReverseSoftLimitThreshold = 0;
-            softLimit.ReverseSoftLimitEnable = false;
+            talonFXConfigs.Voltage.PeakForwardVoltage = 12.0;
+            talonFXConfigs.Voltage.PeakReverseVoltage = -12.0;
+
+            talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold = ROTATIONS_TO_FULL_EXTENSION;
+            talonFXConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+            talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;
+            talonFXConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
 
             // set slot 0 gains
-            var slot0Configs = talonFXConfigs.Slot0;
-//            slot0Configs.kS = 1; // Add 0.25 V output to overcome static friction
-//            slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-//            slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            slot0Configs.kP = 1; // A position error of 2.5 rotations results in 12 V output
-            slot0Configs.kI = 0; // no output for integrated error
-            slot0Configs.kD = 0; // A velocity error of 1 rps results in 0.1 V output
+//            talonFXConfigs.Slot0.kS = 1; // Add 0.25 V output to overcome static friction
+//            talonFXConfigs.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+//            talonFXConfigs.Slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+            talonFXConfigs.Slot0.kP = 1; // A position error of 2.5 rotations results in 12 V output
+            talonFXConfigs.Slot0.kI = 0; // no output for integrated error
+            talonFXConfigs.Slot0.kD = 0; // A velocity error of 1 rps results in 0.1 V output
 
             // set Motion Magic settings
-            var motionMagicConfigs = talonFXConfigs.MotionMagic;
-            motionMagicConfigs.MotionMagicCruiseVelocity = 150; // Target cruise velocity of 80 rps
-            motionMagicConfigs.MotionMagicAcceleration = 200; // Target acceleration of 160 rps/s (0.5 seconds)
-//            motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 150; // Target cruise velocity of 80 rps
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = 200; // Target acceleration of 160 rps/s (0.5 seconds)
+//            talonFXConfigs.MotionMagic.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         }
     }
 
@@ -234,7 +224,7 @@ public final class Constants {
         public static final double angleCurrentThresholdTime = 0.1;
         public static final boolean angleEnableCurrentLimit = true;
 
-        public static final int driveCurrentLimit = 35;
+        public static final int driveCurrentLimit = 50;
         public static final int driveCurrentThreshold = 60;
         public static final double driveCurrentThresholdTime = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
