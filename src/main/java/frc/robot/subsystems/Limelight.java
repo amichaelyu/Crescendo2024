@@ -111,7 +111,7 @@ public class Limelight extends SubsystemBase {
         LimelightHelpers.PoseEstimate leftLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightLeftName);
 
         if (LimelightHelpers.getTV(limelightRightName) && LimelightHelpers.getTV(limelightLeftName)) {
-            botposeRightEntry = limelightLeft.getEntry("botpose_wpiblue");
+            botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
             botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
             if (rightLL.tagCount > 2) {
                 return new Pose2d(botposeRightEntry.getDoubleArray(new double[7])[0], botposeRightEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeRightEntry.getDoubleArray(new double[7])[5] + 180));
