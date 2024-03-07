@@ -7,9 +7,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.LimelightHelpers;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.Speaker;
+import frc.robot.LimelightHelpers;
 
 public class Limelight extends SubsystemBase {
 
@@ -93,7 +93,7 @@ public class Limelight extends SubsystemBase {
         if (DriverStation.getAlliance().isPresent() && hasTarget() && getBotPose() != null) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
             double xDiff = adjustedSpeaker.getX() - getBotPose().getX();
-            double yDiff = adjustedSpeaker.getY() -  getBotPose().getY();
+            double yDiff = adjustedSpeaker.getY() - getBotPose().getY();
             return new Rotation2d(xDiff, yDiff);
         }
         return new Rotation2d();
@@ -106,17 +106,21 @@ public class Limelight extends SubsystemBase {
     public Pose2d getBotPose() {
         NetworkTableEntry botposeRightEntry;
         NetworkTableEntry botposeLeftEntry;
+        LimelightHelpers.PoseEstimate rightLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightRightName);
+        LimelightHelpers.PoseEstimate leftLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightLeftName);
+
         if (LimelightHelpers.getTV(limelightRightName) && LimelightHelpers.getTV(limelightLeftName)) {
-//            if (DriverStation.getAlliance().isPresent()) {
-//                if (DriverStation.getAlliance().get() == Alliance.Blue) {
-//                    botposeEntry = limelight.getEntry("botpose_wpiblue");
-//                } else if (DriverStation.getAlliance().get() == Alliance.Red) {
-//                    botposeEntry = limelight.getEntry("botpose_wpired");
-//                }
-                botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
-                botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
+            botposeRightEntry = limelightLeft.getEntry("botpose_wpiblue");
+            botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
+            if (rightLL.tagCount > 2 && leftLL.tagCount > 2) {
                 return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), Rotation2d.fromDegrees(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5]) + 180));
-//            }
+            }
+            else if (rightLL.tagCount > 2) {
+                return rightLL.pose;
+            }
+            else if (leftLL.tagCount > 2) {
+                return leftLL.pose;
+            }
         }
         else if (LimelightHelpers.getTV(limelightRightName)) {
 //            if (DriverStation.getAlliance().isPresent()) {
@@ -130,15 +134,8 @@ public class Limelight extends SubsystemBase {
 //            }
         }
         else if (LimelightHelpers.getTV(limelightLeftName)) {
-//            if (DriverStation.getAlliance().isPresent()) {
-//                if (DriverStation.getAlliance().get() == Alliance.Blue) {
-//                    botposeEntry = limelight.getEntry("botpose_wpiblue");
-//                } else if (DriverStation.getAlliance().get() == Alliance.Red) {
-//                    botposeEntry = limelight.getEntry("botpose_wpired");
-//                }
             botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
             return new Pose2d(botposeLeftEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeLeftEntry.getDoubleArray(new double[7])[5] + 180));
-//            }
         }
         return new Pose2d();
     }
