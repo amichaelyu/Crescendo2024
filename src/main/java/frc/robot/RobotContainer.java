@@ -13,10 +13,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TilterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.old.TeleIntake;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Tilter;
+import frc.robot.subsystems.*;
 
 import static edu.wpi.first.units.MutableMeasure.mutable;
 import static edu.wpi.first.units.Units.*;
@@ -36,9 +33,14 @@ public class RobotContainer {
     // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
     private final MutableMeasure<Velocity<Distance>> m_velocity = mutable(MetersPerSecond.of(0));
 
+    // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
+    private final MutableMeasure<Angle> m_angle = mutable(Rotation.of(0));
+    // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
+    private final MutableMeasure<Velocity<Angle>> m_angularVelocity = mutable(RotationsPerSecond.of(0));
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        SysIdRoutine routine = new SysIdRoutine(
+        SysIdRoutine driveRoutine = new SysIdRoutine(
                 new SysIdRoutine.Config(null, Units.Volts.of(4),  null, null),
                 new SysIdRoutine.Mechanism((volts) -> Swerve.getInstance().setModuleVoltage(volts.in(Units.Volts)),
                         log -> {
@@ -51,6 +53,35 @@ public class RobotContainer {
                                             m_velocity.mut_replace(Swerve.getInstance().getMotorVelocity(), MetersPerSecond));
                         }, Swerve.getInstance())
         );
+
+//        SysIdRoutine shooterRoutine = new SysIdRoutine(
+//                new SysIdRoutine.Config(null, null,  null, null),
+//                new SysIdRoutine.Mechanism((volts) -> Shooter.getInstance().setVoltage(volts.in(Units.Volts)),
+//                        log -> {
+//                            log.motor("shooter-motor")
+//                                    .voltage(
+//                                            m_appliedVoltage.mut_replace(
+//                                                    Shooter.getInstance().getVoltage(), Volts))
+//                                    .angularPosition(m_angle.mut_replace(Shooter.getInstance().getPosition(), Rotations))
+//                                    .angularVelocity(
+//                                            m_angularVelocity.mut_replace(Shooter.getInstance().getVelocity(), RotationsPerSecond));
+//                        }, Swerve.getInstance())
+//        );
+//
+//        SysIdRoutine tilterRoutine = new SysIdRoutine(
+//                new SysIdRoutine.Config(null, Units.Volts.of(6),  null, null),
+//                new SysIdRoutine.Mechanism((volts) -> Tilter.getInstance().setVoltage(volts.in(Units.Volts)),
+//                        log -> {
+//                            log.motor("tilter-motor")
+//                                    .voltage(
+//                                            m_appliedVoltage.mut_replace(
+//                                                    Tilter.getInstance().getVoltage(), Volts))
+//                                    .angularPosition(m_angle.mut_replace(Tilter.getInstance().getPosition(), Rotations))
+//                                    .angularVelocity(
+//                                            m_angularVelocity.mut_replace(Tilter.getInstance().getVelocity(), RotationsPerSecond));
+//                        }, Swerve.getInstance())
+//        );
+
 
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
         NamedCommands.registerCommand("intake", new CG_IntakeIndexer());
@@ -66,14 +97,14 @@ public class RobotContainer {
 
 //        operator.rightBumper().whileTrue(new InstantCommand(Swerve.getInstance()::driveForward));
 //
-//        operator.x().whileTrue(routine.dynamic(Direction.kForward));
-//        operator.y().whileTrue(routine.dynamic(Direction.kReverse));
-//        operator.a().whileTrue(routine.quasistatic(Direction.kForward));
-//        operator.b().whileTrue(routine.quasistatic(Direction.kReverse));
+//        operator.x().whileTrue(shooterRoutine.dynamic(Direction.kForward));
+//        operator.y().whileTrue(shooterRoutine.dynamic(Direction.kReverse));
+//        operator.a().whileTrue(shooterRoutine.quasistatic(Direction.kForward));
+//        operator.b().whileTrue(shooterRoutine.quasistatic(Direction.kReverse));
 
         Swerve.getInstance().setDefaultCommand(new TeleopSwerve(driver.leftBumper()));
-        Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> (0.25 * (driver.getRightTriggerAxis()-driver.getLeftTriggerAxis()))));
-        Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis()- operator.getLeftTriggerAxis()))));
+        Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> (0.25 * (driver.getRightTriggerAxis() - driver.getLeftTriggerAxis()))));
+        Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis() - operator.getLeftTriggerAxis()))));
         Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRawAxis(5))));
     }
 

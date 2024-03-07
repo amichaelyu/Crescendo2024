@@ -34,7 +34,7 @@ public final class Constants {
 
         public static final double SHOOTER_PID_TOLERANCE = 5;
         public static final double MAX_SPEED = 106;
-        public static final double INTAKE_SPEED = -20;
+        public static final double INTAKE_SPEED = -5;
         public static final double SPEAKER_SPEED = 106; // 0-100 rev per second
         public static final double AMP_SPEED = 22; // 0-100
 
@@ -189,9 +189,13 @@ public final class Constants {
     }
 
     public static final class SwerveConstants {
+        /* Drivetrain Constants */
+        public static final double trackWidth = Units.inchesToMeters(28 - 2.625 * 2);
+        public static final double wheelBase = Units.inchesToMeters(28 - 2.625 * 2);
+
         public static final double AUTO_LINEAR_P = 10;
         public static final double AUTO_ROT_P = 10;
-        public static final double DRIVEBASE_RADIUS = 0.45;
+        public static final double DRIVEBASE_RADIUS = Math.hypot(trackWidth / 2.0, trackWidth / 2.0);
         public static final double AUTO_MAX_SPEED = 1;
 
         public static final double ROTATE_P = 5;
@@ -203,10 +207,6 @@ public final class Constants {
         public static final int pigeonID = 28;
 
         public static final COTSTalonFXSwerveConstants chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L1);
-
-        /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(28 - 2.625*2);
-        public static final double wheelBase = Units.inchesToMeters(28 - 2.625*2);
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* SwerveConstants Kinematics

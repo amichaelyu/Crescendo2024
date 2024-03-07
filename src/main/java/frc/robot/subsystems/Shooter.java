@@ -50,10 +50,18 @@ public class Shooter extends SubsystemBase {
     m_leftShooter.setControl(new VoltageOut(volts * 0.8));
   }
 
+  public double getPosition() {
+    return m_rightShooter.getPosition().getValue();
+  }
+
   public double getVelocity() {
     return m_rightShooter.getVelocity().getValue();
   }
- 
+
+  public double getVoltage() {
+    return m_rightShooter.getMotorVoltage().getValue();
+  }
+
   public void stop() {
     setVoltage(0);
   }
