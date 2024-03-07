@@ -17,7 +17,7 @@ public class Tilter extends SubsystemBase {
   private DigitalInput limitSwitchTop;
   private final DigitalInput limitSwitchBottom;
 
-  private static Tilter INSTANCE = new Tilter();
+  private static final Tilter INSTANCE = new Tilter();
 
   public static Tilter getInstance() { return INSTANCE; }
 
@@ -73,8 +73,8 @@ public class Tilter extends SubsystemBase {
   }
 
   public void setPosition(double position) {
-    if (isAtBottom()) {
-
+    if (isAtBottom() && position < m_tilterMotor.getPosition().getValue()) {
+      m_tilterMotor.set(0);
     }
     setpoint = MathUtil.clamp(position, 0, 200);
     if (isHomed) {
@@ -87,8 +87,16 @@ public class Tilter extends SubsystemBase {
     }
   }
 
+  public double getVoltage() {
+    return m_tilterMotor.getMotorVoltage().getValue();
+  }
+
   public double getPosition() {
     return m_tilterMotor.getPosition().getValue();
+  }
+
+  public double getVelocity() {
+    return m_tilterMotor.getVelocity().getValue();
   }
 
   public void move(double pwr) {
@@ -100,7 +108,6 @@ public class Tilter extends SubsystemBase {
       m_tilterMotor.set(pwr);
     }
   }
-
  
   public void stop() {
     m_tilterMotor.setControl(new VoltageOut(0));
