@@ -47,7 +47,7 @@ public class Tilter extends SubsystemBase {
     configuration.MotionMagic.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 0);
     configuration.MotionMagic.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVal", 0);
     m_tilterMotor.getConfigurator().apply(configuration);
-    m_tilterMotor.setPosition(TilterConstants.START_POSITION);
+//    m_tilterMotor.setPosition(TilterConstants.START_POSITION);
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
     SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
 
