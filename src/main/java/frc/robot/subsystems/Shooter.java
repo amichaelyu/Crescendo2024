@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -28,6 +29,8 @@ public class Shooter extends SubsystemBase {
 
     m_rightShooter.setInverted(true);
     m_leftShooter.setInverted(false);
+
+    SmartDashboard.putNumber("shooter p", 0);
 //    m_leftShooter.setControl(new Follower(ShooterConstants.rightShooterID, true));
   }
 
@@ -36,6 +39,10 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("shooter actual speed", m_rightShooter.getRotorVelocity().getValue());
     SmartDashboard.putBoolean("shooter at setpoint", atSetpoint());
 
+    TalonFXConfiguration configuration = ShooterConstants.talonFXConfigs;
+    configuration.Slot0.kP = SmartDashboard.getNumber("shooter p", 0);
+    m_rightShooter.getConfigurator().apply(configuration);
+    m_leftShooter.getConfigurator().apply(configuration);
 //    if (Swerve.getInstance().getPose().getY() > Speaker.centerSpeakerOpening.getY()) {
 //      rightSpin = 0.9;
 //      leftSpin = 1.0;
