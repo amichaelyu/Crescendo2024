@@ -5,6 +5,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.FieldConstants.Speaker;
 
 import static frc.robot.Constants.ShooterConstants;
 
@@ -13,6 +14,8 @@ public class Shooter extends SubsystemBase {
   private final TalonFX m_rightShooter = new TalonFX(ShooterConstants.rightShooterID);
   private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID);
   private double setpoint = 0;
+  private double rightSpin = 1.0;
+  private double leftSpin = 1.0;
 
   private static final Shooter INSTANCE = new Shooter();
 
@@ -33,6 +36,15 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("shooter actual speed", m_rightShooter.getRotorVelocity().getValue());
     SmartDashboard.putBoolean("shooter at setpoint", atSetpoint());
+
+    if (Swerve.getInstance().getPose().getY() > Speaker.centerSpeakerOpening.getY()) {
+      rightSpin = 0.9;
+      leftSpin = 1.0;
+    }
+    else {
+      rightSpin = 1.0;
+      leftSpin = 0.9;
+    }
   }
 
   public boolean atSetpoint() {
@@ -41,13 +53,13 @@ public class Shooter extends SubsystemBase {
 
   public void setSpeed(double speed) {
     setpoint = speed;
-    m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed));
-    m_leftShooter.setControl(new MotionMagicVelocityVoltage(speed * 0.8));
+    m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed * rightSpin));
+    m_leftShooter.setControl(new MotionMagicVelocityVoltage(speed * leftSpin));
   }
 
   public void setVoltage(double volts) {
-    m_rightShooter.setControl(new VoltageOut(volts));
-    m_leftShooter.setControl(new VoltageOut(volts * 0.8));
+    m_rightShooter.setControl(new VoltageOut(volts * rightSpin));
+    m_leftShooter.setControl(new VoltageOut(volts * leftSpin));
   }
 
   public double getPosition() {

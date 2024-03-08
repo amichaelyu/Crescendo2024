@@ -6,6 +6,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,9 +18,9 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.SwerveModule;
 
 public class Swerve extends SubsystemBase {
-    public SwerveDriveOdometry swerveOdometry;
-    public SwerveModule[] mSwerveMods;
-    public Pigeon2 gyro;
+    private final SwerveDrivePoseEstimator poseEstimator;
+    private final SwerveModule[] mSwerveMods;
+    private final Pigeon2 gyro;
 
     private static final Swerve INSTANCE = new Swerve();
 
@@ -39,7 +40,7 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, SwerveConstants.Mod3.constants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(SwerveConstants.swerveKinematics, getGyroYaw(), getModulePositions());
+        poseEstimator = new SwerveDrivePoseEstimator(SwerveConstants.swerveKinematics, getGyroYaw(), getModulePositions(), new Pose2d());
 
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
@@ -66,6 +67,11 @@ public class Swerve extends SubsystemBase {
                 },
                 this // Reference to this subsystem to set requirements
         );
+    }
+
+    public void addVision(Pose2d pose, double time) {
+        Pose2d poseWithoutHeading = new Pose2d(pose.getX(), pose.getY(), getPose().getRotation());
+        poseEstimator.addVisionMeasurement(poseWithoutHeading, time);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -159,11 +165,11 @@ public class Swerve extends SubsystemBase {
     }
 
     public Pose2d getPose() {
-        return swerveOdometry.getPoseMeters();
+        return poseEstimator.getEstimatedPosition();
     }
 
     public void setPose(Pose2d pose) {
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), pose.getRotation()));
+        poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), pose.getRotation()));
     }
 
     public Rotation2d getHeading(){
@@ -171,17 +177,30 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setHeading(Rotation2d heading){
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
+        poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
     }
 
     public void zeroHeading(){
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
             if (alliance.get() == DriverStation.Alliance.Red) {
-                swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
+                poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
             }
             else if (alliance.get() == DriverStation.Alliance.Blue) {
-                swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+                poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+            }
+        }
+    }
+
+    public void zeroHeadingWithVision(){
+        if (Limelight.getInstance().hasTarget()) {
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+                if (alliance.get() == DriverStation.Alliance.Red) {
+                    poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), Limelight.getInstance().getBotPose().getRotation().rotateBy(Rotation2d.fromDegrees(180))));
+                } else if (alliance.get() == DriverStation.Alliance.Blue) {
+                    poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), Limelight.getInstance().getBotPose().getRotation()));
+                }
             }
         }
     }
@@ -198,7 +217,7 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
-        swerveOdometry.update(getGyroYaw(), getModulePositions());
+        poseEstimator.update(getGyroYaw(), getModulePositions());
 
         SmartDashboard.putNumberArray("pose", new double[]{getPose().getX(), getPose().getY(), getPose().getRotation().getRadians()});
 

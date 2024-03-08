@@ -76,6 +76,16 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putBoolean("has target", hasTarget());
         SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
 
+        LimelightHelpers.PoseEstimate rightLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightRightName);
+        LimelightHelpers.PoseEstimate leftLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightLeftName);
+
+        if (rightLL.tagCount > 2) {
+            Swerve.getInstance().addVision(rightLL.pose, rightLL.timestampSeconds);
+        }
+        if (leftLL.tagCount > 2) {
+            Swerve.getInstance().addVision(leftLL.pose, leftLL.timestampSeconds);
+        }
+
 //        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
 //            double limeRot = getRotationToTarget().getRadians();
 //            double cramRot = Swerve.getInstance().getPose().getRotation().getRadians();
@@ -113,7 +123,10 @@ public class Limelight extends SubsystemBase {
         if (LimelightHelpers.getTV(limelightRightName) && LimelightHelpers.getTV(limelightLeftName)) {
             botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
             botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
-            if (rightLL.tagCount > 2) {
+            if (rightLL.tagCount > 2 && leftLL.tagCount > 2) {
+                return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), Rotation2d.fromDegrees(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5]) + 180));
+            }
+            else if (rightLL.tagCount > 2) {
                 return new Pose2d(botposeRightEntry.getDoubleArray(new double[7])[0], botposeRightEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeRightEntry.getDoubleArray(new double[7])[5] + 180));
             }
             else if (leftLL.tagCount > 2) {
