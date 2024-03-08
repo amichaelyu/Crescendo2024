@@ -56,7 +56,7 @@ public class RobotContainer {
         );
 
         SysIdRoutine shooterRoutine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, null,  null, null),
+                new SysIdRoutine.Config(null, Units.Volts.of(4),  null, null),
                 new SysIdRoutine.Mechanism((volts) -> Shooter.getInstance().setVoltage(volts.in(Units.Volts)),
                         log -> {
                             log.motor("shooter-motor")
