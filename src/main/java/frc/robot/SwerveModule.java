@@ -46,6 +46,7 @@ public class SwerveModule {
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
         mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
+        mAngleMotor.setPosition(angleEncoder.getAbsolutePosition().getValue());
 //        resetToAbsolute();
 
         /* Drive Motor Config */
