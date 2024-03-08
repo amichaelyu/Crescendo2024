@@ -57,7 +57,7 @@ public final class Constants {
             talonFXConfigs.Slot0.kS = 0.11591;
             talonFXConfigs.Slot0.kV = 0.12626;
             talonFXConfigs.Slot0.kA = 0.009693;
-            talonFXConfigs.Slot0.kP = 0.52;
+            talonFXConfigs.Slot0.kP = 0.5;
             talonFXConfigs.Slot0.kI = 0.0;
             talonFXConfigs.Slot0.kD = 0.0;
 

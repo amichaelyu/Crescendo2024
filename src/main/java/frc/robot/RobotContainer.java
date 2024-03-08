@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
@@ -67,7 +68,7 @@ public class RobotContainer {
         );
 
         SysIdRoutine tilterRoutine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, Units.Volts.of(6),  null, null),
+                new SysIdRoutine.Config(null, Units.Volts.of(4),  null, null),
                 new SysIdRoutine.Mechanism((volts) -> Tilter.getInstance().setVoltage(volts.in(Units.Volts)),
                         log -> {
                             log.motor("tilter-motor")
@@ -95,10 +96,10 @@ public class RobotContainer {
 
 //        operator.rightBumper().whileTrue(new InstantCommand(Swerve.getInstance()::driveForward));
 //
-//        operator.x().whileTrue(shooterRoutine.dynamic(Direction.kForward));
-//        operator.y().whileTrue(shooterRoutine.dynamic(Direction.kReverse));
-//        operator.a().whileTrue(shooterRoutine.quasistatic(Direction.kForward));
-//        operator.b().whileTrue(shooterRoutine.quasistatic(Direction.kReverse));
+        operator.x().whileTrue(tilterRoutine.dynamic(Direction.kForward));
+        operator.y().whileTrue(tilterRoutine.dynamic(Direction.kReverse));
+        operator.a().whileTrue(tilterRoutine.quasistatic(Direction.kForward));
+        operator.b().whileTrue(tilterRoutine.quasistatic(Direction.kReverse));
 
         Swerve.getInstance().setDefaultCommand(new TeleopSwerve(driver.leftBumper()));
         Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> (0.25 * (driver.getRightTriggerAxis() - driver.getLeftTriggerAxis()))));
