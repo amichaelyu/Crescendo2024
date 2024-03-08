@@ -90,8 +90,8 @@ public class RobotContainer {
 
         autoConfig();
 
-        configureButtonBindings();
-//        competitionButtons();
+//        configureButtonBindings();
+        competitionButtons();
 
 //        operator.rightBumper().whileTrue(new InstantCommand(Swerve.getInstance()::driveForward));
 //
