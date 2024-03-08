@@ -5,7 +5,6 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.FieldConstants.Speaker;
 
 import static frc.robot.Constants.ShooterConstants;
 
@@ -37,14 +36,14 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("shooter actual speed", m_rightShooter.getRotorVelocity().getValue());
     SmartDashboard.putBoolean("shooter at setpoint", atSetpoint());
 
-    if (Swerve.getInstance().getPose().getY() > Speaker.centerSpeakerOpening.getY()) {
-      rightSpin = 0.9;
-      leftSpin = 1.0;
-    }
-    else {
-      rightSpin = 1.0;
-      leftSpin = 0.9;
-    }
+//    if (Swerve.getInstance().getPose().getY() > Speaker.centerSpeakerOpening.getY()) {
+//      rightSpin = 0.9;
+//      leftSpin = 1.0;
+//    }
+//    else {
+//      rightSpin = 1.0;
+//      leftSpin = 0.9;
+//    }
   }
 
   public boolean atSetpoint() {
