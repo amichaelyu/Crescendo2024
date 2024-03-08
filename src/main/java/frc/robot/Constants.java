@@ -33,10 +33,10 @@ public final class Constants {
         public static final double flushVoltage = -6.0;
 
         public static final double SHOOTER_PID_TOLERANCE = 5;
-        public static final double MAX_SPEED = 106;
-        public static final double INTAKE_SPEED = -5;
-        public static final double SPEAKER_SPEED = 106; // 0-100 rev per second
-        public static final double AMP_SPEED = 22; // 0-100
+        public static final double MAX_SPEED = 45;
+        public static final double INTAKE_SPEED = -5/4.0;
+        public static final double SPEAKER_SPEED = 45; // 0-100 rev per second
+        public static final double AMP_SPEED = 22/4.0; // 0-100
 
         public static final InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
 
@@ -128,13 +128,13 @@ public final class Constants {
 //            talonFXConfigs.Slot0.kS = 1; // Add 0.25 V output to overcome static friction
 //            talonFXConfigs.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
 //            talonFXConfigs.Slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            talonFXConfigs.Slot0.kP = 1; // A position error of 2.5 rotations results in 12 V output
+            talonFXConfigs.Slot0.kP = 5; // A position error of 2.5 rotations results in 12 V output
             talonFXConfigs.Slot0.kI = 0; // no output for integrated error
             talonFXConfigs.Slot0.kD = 0; // A velocity error of 1 rps results in 0.1 V output
 
             // set Motion Magic settings
-            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 150; // Target cruise velocity of 80 rps
-            talonFXConfigs.MotionMagic.MotionMagicAcceleration = 200; // Target acceleration of 160 rps/s (0.5 seconds)
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 700; // Target cruise velocity of 80 rps
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = 1600; // Target acceleration of 160 rps/s (0.5 seconds)
 //            talonFXConfigs.MotionMagic.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         }
     }
