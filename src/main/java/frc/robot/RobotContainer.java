@@ -34,11 +34,6 @@ public class RobotContainer {
     // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
     private final MutableMeasure<Velocity<Distance>> m_velocity = mutable(MetersPerSecond.of(0));
 
-    // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
-    private final MutableMeasure<Angle> m_angle = mutable(Rotation.of(0));
-    // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
-    private final MutableMeasure<Velocity<Angle>> m_angularVelocity = mutable(RotationsPerSecond.of(0));
-
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         SysIdRoutine driveRoutine = new SysIdRoutine(
@@ -63,10 +58,10 @@ public class RobotContainer {
                                     .voltage(
                                             m_appliedVoltage.mut_replace(
                                                     Shooter.getInstance().getVoltage(), Volts))
-                                    .angularPosition(m_angle.mut_replace(Shooter.getInstance().getPosition(), Rotations))
-                                    .angularVelocity(
-                                            m_angularVelocity.mut_replace(Shooter.getInstance().getVelocity(), RotationsPerSecond));
-                        }, Swerve.getInstance())
+                                    .linearPosition(m_distance.mut_replace(Shooter.getInstance().getPosition(), Meters))
+                                    .linearVelocity(
+                                            m_velocity.mut_replace(Shooter.getInstance().getVelocity(), MetersPerSecond));
+                        }, Shooter.getInstance())
         );
 
         SysIdRoutine tilterRoutine = new SysIdRoutine(
@@ -77,10 +72,10 @@ public class RobotContainer {
                                     .voltage(
                                             m_appliedVoltage.mut_replace(
                                                     Tilter.getInstance().getVoltage(), Volts))
-                                    .angularPosition(m_angle.mut_replace(Tilter.getInstance().getPosition(), Rotations))
-                                    .angularVelocity(
-                                            m_angularVelocity.mut_replace(Tilter.getInstance().getVelocity(), RotationsPerSecond));
-                        }, Swerve.getInstance())
+                                    .linearPosition(m_distance.mut_replace(Tilter.getInstance().getPosition(), Meters))
+                                    .linearVelocity(
+                                            m_velocity.mut_replace(Tilter.getInstance().getVelocity(), MetersPerSecond));
+                        }, Tilter.getInstance())
         );
 
 
