@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
@@ -91,15 +90,15 @@ public class RobotContainer {
 
         autoConfig();
 
-//        configureButtonBindings();
+        configureButtonBindings();
 //        competitionButtons();
 
 //        operator.rightBumper().whileTrue(new InstantCommand(Swerve.getInstance()::driveForward));
 //
-        operator.x().whileTrue(tilterRoutine.dynamic(Direction.kForward));
-        operator.y().whileTrue(tilterRoutine.dynamic(Direction.kReverse));
-        operator.a().whileTrue(tilterRoutine.quasistatic(Direction.kForward));
-        operator.b().whileTrue(tilterRoutine.quasistatic(Direction.kReverse));
+//        operator.x().whileTrue(tilterRoutine.dynamic(Direction.kForward));
+//        operator.y().whileTrue(tilterRoutine.dynamic(Direction.kReverse));
+//        operator.a().whileTrue(tilterRoutine.quasistatic(Direction.kForward));
+//        operator.b().whileTrue(tilterRoutine.quasistatic(Direction.kReverse));
 
         Swerve.getInstance().setDefaultCommand(new TeleopSwerve(driver.leftBumper()));
         Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> (0.25 * (driver.getRightTriggerAxis() - driver.getLeftTriggerAxis()))));

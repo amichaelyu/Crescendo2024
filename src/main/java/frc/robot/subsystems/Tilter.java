@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -30,6 +31,9 @@ public class Tilter extends SubsystemBase {
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
     m_tilterMotor.setPosition(TilterConstants.START_POSITION);
 
+    SmartDashboard.putNumber("tilter p", 0);
+    SmartDashboard.putNumber("tilter magicVel", 0);
+    SmartDashboard.putNumber("tilter magicAcc", 0);
 //    m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
 
 //    m_tilterMotor.setInverted(true);
@@ -38,6 +42,12 @@ public class Tilter extends SubsystemBase {
 
   @Override
   public void periodic() {
+    TalonFXConfiguration configuration = TilterConstants.talonFXConfigs;
+    configuration.Slot0.kP = SmartDashboard.getNumber("tilter p", 0);
+    configuration.MotionMagic.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 0);
+    configuration.MotionMagic.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVal", 0);
+    m_tilterMotor.getConfigurator().apply(configuration);
+    m_tilterMotor.setPosition(TilterConstants.START_POSITION);
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
     SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
 
