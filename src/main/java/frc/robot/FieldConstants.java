@@ -76,8 +76,6 @@ public class FieldConstants {
             Units.inchesToMeters(238.815),
             Units.inchesToMeters(83.091));
 
-
-
     public static Translation3d topLeftSpeaker =
         new Translation3d(
             Units.inchesToMeters(18.055),

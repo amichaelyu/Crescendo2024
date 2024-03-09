@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.FieldConstants;
+import frc.robot.FieldConstants.Speaker;
 import frc.robot.SwerveModule;
 
 public class Swerve extends SubsystemBase {
@@ -67,6 +69,22 @@ public class Swerve extends SubsystemBase {
                 },
                 this // Reference to this subsystem to set requirements
         );
+    }
+
+    @Override
+    public void periodic(){
+        poseEstimator.update(getGyroYaw(), getModulePositions());
+
+        SmartDashboard.putNumberArray("pose", new double[]{getPose().getX(), getPose().getY(), getPose().getRotation().getRadians()});
+
+        SmartDashboard.putNumber("swerve degrees", getPose().getRotation().getDegrees());
+        SmartDashboard.putNumber("swerve distance to target", distanceToTargetSwervePose());
+
+        for(SwerveModule mod : mSwerveMods){
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
+        }
     }
 
     public void addVision(Pose2d pose, double time) {
@@ -205,29 +223,31 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public Rotation2d getRotationToTargetSwervePose() {
+        if (DriverStation.getAlliance().isPresent()) {
+            Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
+            double xDiff = adjustedSpeaker.getX() - Swerve.getInstance().getPose().getX();
+            double yDiff = adjustedSpeaker.getY() - Swerve.getInstance().getPose().getY();
+            return new Rotation2d(xDiff, yDiff);
+        }
+        return new Rotation2d();
+    }
+
+    public double distanceToTargetSwervePose() {
+        Pose2d botPose = Swerve.getInstance().getPose();
+        if (DriverStation.getAlliance().isPresent()) {
+            Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
+            return distance(botPose, adjustedSpeaker);
+        }
+        return 0.0;
+    }
+
     public Rotation2d getGyroYaw() {
         return Rotation2d.fromDegrees(gyro.getYaw().getValue());
     }
 
-//    public void resetModulesToAbsolute(){
-//        for(SwerveModule mod : mSwerveMods){
-////            mod.resetToAbsolute();
-//        }
-//    }
-
-    @Override
-    public void periodic(){
-        poseEstimator.update(getGyroYaw(), getModulePositions());
-
-        SmartDashboard.putNumberArray("pose", new double[]{getPose().getX(), getPose().getY(), getPose().getRotation().getRadians()});
-
-        SmartDashboard.putNumber("swerve degrees", getPose().getRotation().getDegrees());
-//        SmartDashboard.putNumber("Swerve Rotation", getPose().getRotation().getDegrees());
-
-        for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
-        }
+    private double distance(Pose2d pose1, Pose2d pose2) {
+        Pose2d relPose = pose1.relativeTo(pose2);
+        return Math.sqrt(Math.pow(relPose.getX(), 2) + Math.pow(relPose.getY(), 2));
     }
 }

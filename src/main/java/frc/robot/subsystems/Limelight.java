@@ -54,14 +54,18 @@ public class Limelight extends SubsystemBase {
         leftPose = poseEstimatorLeft.update();
         rightPose = poseEstimatorRight.update();
 
-        if (camRight.getLatestResult().hasTargets() && rightPose.isPresent()) {
+        if (camRight.getLatestResult().hasTargets() && camRight.getLatestResult().targets.size() > 2 && rightPose.isPresent()) {
             Pose3d pose3d = rightPose.get().estimatedPose;
             SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
+            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
         }
-        if (camLeft.getLatestResult().hasTargets() && leftPose.isPresent()) {
+        if (camLeft.getLatestResult().hasTargets() && camLeft.getLatestResult().targets.size() > 2 && leftPose.isPresent()) {
             Pose3d pose3d = leftPose.get().estimatedPose;
             SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
+            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
         }
+
+        SmartDashboard.putNumberArray("limelight bot pose", new double[]{getBotPose().getX(), getBotPose().getY(), getBotPose().getRotation().getRadians()});
 
         SmartDashboard.putBoolean("has target", hasTarget());
         SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
@@ -121,21 +125,6 @@ public class Limelight extends SubsystemBase {
         }
         return 0.0;
     }
-
-//    public void setPipeline(Pipelines pipeline) {
-//        limelightRight.getEntry("pipeline").setDouble(pipeline.getNum());
-//        limelightLeft.getEntry("pipeline").setDouble(pipeline.getNum());
-//    }
-//
-//    public void setCameraModes(CameraMode camera) {
-//        limelightRight.getEntry("camMode").setDouble(camera.getNum());
-//        limelightLeft.getEntry("camMode").setDouble(camera.getNum());
-//    }
-//
-//    public void setLEDs(LED led) {
-//        limelightRight.getEntry("ledMode").setDouble(led.getNum());
-//        limelightLeft.getEntry("ledMode").setDouble(led.getNum());
-//    }
 
     private double distance(Pose2d pose1, Pose2d pose2) {
         Pose2d relPose = pose1.relativeTo(pose2);

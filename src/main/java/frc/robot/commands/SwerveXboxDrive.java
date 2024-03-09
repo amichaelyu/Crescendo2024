@@ -10,11 +10,11 @@ import frc.robot.subsystems.Swerve;
 import java.util.function.BooleanSupplier;
 
 
-public class TeleopSwerve extends Command {    
+public class SwerveXboxDrive extends Command {
     private final Swerve s_Swerve = Swerve.getInstance();
     private final BooleanSupplier robotCentricSup;
 
-    public TeleopSwerve(BooleanSupplier robotCentricSup) {
+    public SwerveXboxDrive(BooleanSupplier robotCentricSup) {
         addRequirements(s_Swerve);
 
         this.robotCentricSup = robotCentricSup;
