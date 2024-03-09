@@ -1,63 +1,24 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.Speaker;
-import frc.robot.LimelightHelpers;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 public class Limelight extends SubsystemBase {
-
-    public enum Pipelines {
-        APRIL(0);
-
-        private final int num;
-        Pipelines(int num) {
-            this.num = num;
-        }
-
-        public int getNum() {
-            return num;
-        }
-    }
-
-    public enum LED {
-        PIPELINE(0), OFF(1), BLINK(2), ON(3);
-
-        private final int num;
-
-        LED(int num) {
-            this.num = num;
-        }
-
-        public int getNum() {
-            return num;
-        }
-    }
-
-    public enum CameraMode {
-        VISION_PROCESSING(0), DRIVER_CAMERA(1);
-
-        private final int num;
-
-        CameraMode(int num) {
-            this.num = num;
-        }
-
-        public int getNum() {
-            return num;
-        }
-    }
-
-    private final String limelightRightName = "limelight-right";
-    private final String limelightLeftName = "limelight-left";
-    private final NetworkTable limelightRight = LimelightHelpers.getLimelightNTTable(limelightRightName);
-    private final NetworkTable limelightLeft = LimelightHelpers.getLimelightNTTable(limelightLeftName);
+    private final PhotonPoseEstimator poseEstimatorLeft;
+    private final PhotonPoseEstimator poseEstimatorRight;
+    private final PhotonCamera camLeft;
+    private final PhotonCamera camRight;
 
     private static final Limelight INSTANCE = new Limelight();
 
@@ -66,24 +27,39 @@ public class Limelight extends SubsystemBase {
     }
 
     private Limelight() {
-        setLEDs(LED.OFF);
-        setPipeline(Pipelines.APRIL);
+        //    private final NetworkTable limelightRight = LimelightHelpers.getLimelightNTTable(limelightRightName);
+        //    private final NetworkTable limelightLeft = LimelightHelpers.getLimelightNTTable(limelightLeftName);
+        AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+        aprilTagFieldLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
+        camLeft = new PhotonCamera("left"); // 10.63.00.11
+        camRight = new PhotonCamera("right"); // 10.63.00.22
+
+        poseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camLeft, new Transform3d(new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(-11), Units.inchesToMeters(16)), new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))));
+        poseEstimatorLeft.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+
+        poseEstimatorRight = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camRight, new Transform3d(new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(11), Units.inchesToMeters(16)), new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))));
+        poseEstimatorRight.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+//        setLEDs(LED.OFF);
+//        setPipeline(Pipelines.APRIL);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("distance to target", distanceToTarget());
         SmartDashboard.putBoolean("has target", hasTarget());
         SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
 
-        LimelightHelpers.PoseEstimate rightLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightRightName);
-        LimelightHelpers.PoseEstimate leftLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightLeftName);
 
-        if (rightLL.tagCount > 2) {
-            Swerve.getInstance().addVision(rightLL.pose, rightLL.timestampSeconds);
+
+
+        if (camRight.getLatestResult().hasTargets() && poseEstimatorRight.update().isPresent()) {
+            Pose3d pose3d = poseEstimatorRight.update().get().estimatedPose;
+            SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
+//            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), camRight.getLatestResult().getTimestampSeconds());
         }
-        if (leftLL.tagCount > 2) {
-            Swerve.getInstance().addVision(leftLL.pose, leftLL.timestampSeconds);
+        if (camLeft.getLatestResult().hasTargets() && poseEstimatorLeft.update().isPresent()) {
+            Pose3d pose3d = poseEstimatorLeft.update().get().estimatedPose;
+            SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
+//            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), camLeft.getLatestResult().getTimestampSeconds());
         }
 
 //        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
@@ -111,45 +87,22 @@ public class Limelight extends SubsystemBase {
     }
 
     public boolean hasTarget() {
-        return LimelightHelpers.getTV(limelightRightName) || LimelightHelpers.getTV(limelightLeftName);
+        return camLeft.getLatestResult().hasTargets() || camRight.getLatestResult().hasTargets();
     }
 
     public Pose2d getBotPose() {
-        NetworkTableEntry botposeRightEntry;
-        NetworkTableEntry botposeLeftEntry;
-        LimelightHelpers.PoseEstimate rightLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightRightName);
-        LimelightHelpers.PoseEstimate leftLL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightLeftName);
-
-        if (LimelightHelpers.getTV(limelightRightName) && LimelightHelpers.getTV(limelightLeftName)) {
-            botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
-            botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
-            if (rightLL.tagCount > 2 && leftLL.tagCount > 2) {
-                return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), Rotation2d.fromDegrees(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5]) + 180));
-            }
-            else if (rightLL.tagCount > 2) {
-                return new Pose2d(botposeRightEntry.getDoubleArray(new double[7])[0], botposeRightEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeRightEntry.getDoubleArray(new double[7])[5] + 180));
-            }
-            else if (leftLL.tagCount > 2) {
-                return new Pose2d(botposeLeftEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeLeftEntry.getDoubleArray(new double[7])[5] + 180));
-            }
-            else {
-                return new Pose2d(mean(botposeRightEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[0]), mean(botposeRightEntry.getDoubleArray(new double[7])[1], botposeLeftEntry.getDoubleArray(new double[7])[1]), Rotation2d.fromDegrees(mean(botposeRightEntry.getDoubleArray(new double[7])[5], botposeLeftEntry.getDoubleArray(new double[7])[5]) + 180));
-            }
+        if (camLeft.getLatestResult().hasTargets() && camRight.getLatestResult().hasTargets() && poseEstimatorLeft.update().isPresent() && poseEstimatorRight.update().isPresent()) {
+            Pose3d pose3d = poseEstimatorLeft.update().get().estimatedPose;
+            Pose3d pose3dSecond = poseEstimatorRight.update().get().estimatedPose;
+            return new Pose2d(mean(pose3d.getX(), pose3dSecond.getX()), mean(pose3d.getY(), pose3dSecond.getY()), Rotation2d.fromDegrees(mean(pose3d.getRotation().toRotation2d().getDegrees(), pose3dSecond.getRotation().toRotation2d().getDegrees())));
         }
-        else if (LimelightHelpers.getTV(limelightRightName)) {
-//            if (DriverStation.getAlliance().isPresent()) {
-//                if (DriverStation.getAlliance().get() == Alliance.Blue) {
-//                    botposeEntry = limelight.getEntry("botpose_wpiblue");
-//                } else if (DriverStation.getAlliance().get() == Alliance.Red) {
-//                    botposeEntry = limelight.getEntry("botpose_wpired");
-//                }
-            botposeRightEntry = limelightRight.getEntry("botpose_wpiblue");
-            return new Pose2d(botposeRightEntry.getDoubleArray(new double[7])[0], botposeRightEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeRightEntry.getDoubleArray(new double[7])[5] + 180));
-//            }
+        else if (camRight.getLatestResult().hasTargets() && poseEstimatorRight.update().isPresent()) {
+            Pose3d pose3d = poseEstimatorRight.update().get().estimatedPose;
+            return new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d());
         }
-        else if (LimelightHelpers.getTV(limelightLeftName)) {
-            botposeLeftEntry = limelightLeft.getEntry("botpose_wpiblue");
-            return new Pose2d(botposeLeftEntry.getDoubleArray(new double[7])[0], botposeLeftEntry.getDoubleArray(new double[7])[1], Rotation2d.fromDegrees(botposeLeftEntry.getDoubleArray(new double[7])[5] + 180));
+        else if (camLeft.getLatestResult().hasTargets() && poseEstimatorLeft.update().isPresent()) {
+            Pose3d pose3d = poseEstimatorLeft.update().get().estimatedPose;
+            return new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d());
         }
         return new Pose2d();
     }
@@ -166,20 +119,20 @@ public class Limelight extends SubsystemBase {
         return 0.0;
     }
 
-    public void setPipeline(Pipelines pipeline) {
-        limelightRight.getEntry("pipeline").setDouble(pipeline.getNum());
-        limelightLeft.getEntry("pipeline").setDouble(pipeline.getNum());
-    }
-
-    public void setCameraModes(CameraMode camera) {
-        limelightRight.getEntry("camMode").setDouble(camera.getNum());
-        limelightLeft.getEntry("camMode").setDouble(camera.getNum());
-    }
-
-    public void setLEDs(LED led) {
-        limelightRight.getEntry("ledMode").setDouble(led.getNum());
-        limelightLeft.getEntry("ledMode").setDouble(led.getNum());
-    }
+//    public void setPipeline(Pipelines pipeline) {
+//        limelightRight.getEntry("pipeline").setDouble(pipeline.getNum());
+//        limelightLeft.getEntry("pipeline").setDouble(pipeline.getNum());
+//    }
+//
+//    public void setCameraModes(CameraMode camera) {
+//        limelightRight.getEntry("camMode").setDouble(camera.getNum());
+//        limelightLeft.getEntry("camMode").setDouble(camera.getNum());
+//    }
+//
+//    public void setLEDs(LED led) {
+//        limelightRight.getEntry("ledMode").setDouble(led.getNum());
+//        limelightLeft.getEntry("ledMode").setDouble(led.getNum());
+//    }
 
     private double distance(Pose2d pose1, Pose2d pose2) {
         Pose2d relPose = pose1.relativeTo(pose2);
