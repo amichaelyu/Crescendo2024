@@ -71,7 +71,7 @@ public final class Constants {
         public static final double PID_TOLERANCE = 1;
         public static final double START_POSITION = 160; // 0-200
         public static final double IDLE_POSITION = 80; // 0-200
-        public static final double SPEAKER_CENTER_POSITION = 140.0; // 0-200
+        public static final double SPEAKER_CENTER_POSITION = 130.0; // 0-200
         public static final double SPEAKER_CORNER_POSITION = 145.0; // 0-200
         public static final double AMP_POSITION = 185; // 0-200
         public static final double TRAP_POSITION = 135; // 0-200

@@ -24,6 +24,7 @@ public class Limelight extends SubsystemBase {
     private final PhotonCamera camRight;
     private Optional<EstimatedRobotPose> leftPose;
     private Optional<EstimatedRobotPose> rightPose;
+    private Pose2d lastPose;
 
     private static final Limelight INSTANCE = new Limelight();
 
@@ -86,22 +87,27 @@ public class Limelight extends SubsystemBase {
             Pose3d pose3dLeft = leftPose.get().estimatedPose;
             Pose3d pose3dRight = rightPose.get().estimatedPose;
             if (camLeft.getLatestResult().targets.size() > 2) {
-                return new Pose2d(pose3dLeft.getX(), pose3dLeft.getY(), pose3dLeft.getRotation().toRotation2d());
+                lastPose = new Pose2d(pose3dLeft.getX(), pose3dLeft.getY(), pose3dLeft.getRotation().toRotation2d());
+                return lastPose;
             }
             else if (camRight.getLatestResult().targets.size() > 2) {
-                return new Pose2d(pose3dRight.getX(), pose3dRight.getY(), pose3dRight.getRotation().toRotation2d());
+                lastPose = new Pose2d(pose3dRight.getX(), pose3dRight.getY(), pose3dRight.getRotation().toRotation2d());
+                return lastPose;
             }
-            return new Pose2d(mean(pose3dLeft.getX(), pose3dRight.getX()), mean(pose3dLeft.getY(), pose3dRight.getY()), Rotation2d.fromDegrees(mean(pose3dLeft.getRotation().toRotation2d().getDegrees(), pose3dRight.getRotation().toRotation2d().getDegrees())));
+            lastPose = new Pose2d(mean(pose3dLeft.getX(), pose3dRight.getX()), mean(pose3dLeft.getY(), pose3dRight.getY()), Rotation2d.fromDegrees(mean(pose3dLeft.getRotation().toRotation2d().getDegrees(), pose3dRight.getRotation().toRotation2d().getDegrees())));
+            return lastPose;
         }
         else if (camRight.getLatestResult().hasTargets() && rightPose.isPresent()) {
             Pose3d pose3d = rightPose.get().estimatedPose;
-            return new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d());
+            lastPose = new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d());
+            return lastPose;
         }
         else if (camLeft.getLatestResult().hasTargets() && leftPose.isPresent()) {
             Pose3d pose3d = leftPose.get().estimatedPose;
-            return new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d());
+            lastPose = new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d());
+            return lastPose;
         }
-        return new Pose2d();
+        return lastPose;
     }
 
     // in meters
