@@ -40,17 +40,17 @@ public class SwerveModule {
         /* Angle Encoder Config */
         angleEncoder = new CANcoder(moduleConstants.cancoderID);
         CANcoderConfiguration tempConfig = Robot.ctreConfigs.swerveCANcoderConfig;
-        tempConfig.MagnetSensor.MagnetOffset = moduleConstants.angleOffset.getRotations() + 0.5;
+//        tempConfig.MagnetSensor.MagnetOffset = moduleConstants.angleOffset.getRotations() + 0.5;
 //        tempConfig.MagnetSensor.MagnetOffset = -angleOffset.getRotations();
         angleEncoder.getConfigurator().apply(tempConfig);
 
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
         TalonFXConfiguration tempAngleConfig = Robot.ctreConfigs.swerveAngleFXConfig;
-        tempAngleConfig.Feedback.FeedbackRemoteSensorID = moduleConstants.cancoderID;
+//        tempAngleConfig.Feedback.FeedbackRemoteSensorID = moduleConstants.cancoderID;
         mAngleMotor.getConfigurator().apply(tempAngleConfig);
 //        mAngleMotor.setPosition(angleEncoder.getAbsolutePosition().getValue());
-//        resetToAbsolute();
+        resetToAbsolute();
 
         /* Drive Motor Config */
         mDriveMotor = new TalonFX(moduleConstants.driveMotorID);

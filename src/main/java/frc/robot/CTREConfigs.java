@@ -3,7 +3,6 @@ package frc.robot;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import frc.robot.Constants.SwerveConstants;
 
 public final class CTREConfigs {
@@ -14,9 +13,9 @@ public final class CTREConfigs {
     public CTREConfigs(){
         /* SwerveConstants CANCoder Configuration */
         swerveCANcoderConfig.MagnetSensor.SensorDirection = SwerveConstants.cancoderInvert;
-//        swerveCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
+        swerveCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
         swerveCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-        swerveDriveFXConfig.ClosedLoopGeneral.ContinuousWrap = true;
+//        swerveDriveFXConfig.ClosedLoopGeneral.ContinuousWrap = true;
 
         /* SwerveConstants Angle Motor Configurations */
         /* Motor Inverts and Neutral Mode */
@@ -24,10 +23,10 @@ public final class CTREConfigs {
         swerveAngleFXConfig.MotorOutput.NeutralMode = SwerveConstants.angleNeutralMode;
 
         /* Gear Ratio and Wrapping Config */
-//        swerveAngleFXConfig.Feedback.SensorToMechanismRatio = SwerveConstants.angleGearRatio;
-        swerveAngleFXConfig.Feedback.SensorToMechanismRatio = 1.0;
-        swerveAngleFXConfig.Feedback.RotorToSensorRatio = SwerveConstants.angleGearRatio;
-        swerveAngleFXConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+        swerveAngleFXConfig.Feedback.SensorToMechanismRatio = SwerveConstants.angleGearRatio;
+//        swerveAngleFXConfig.Feedback.SensorToMechanismRatio = 1.0;
+//        swerveAngleFXConfig.Feedback.RotorToSensorRatio = SwerveConstants.angleGearRatio;
+//        swerveAngleFXConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
         swerveAngleFXConfig.ClosedLoopGeneral.ContinuousWrap = true;
         
         /* Current Limiting */
