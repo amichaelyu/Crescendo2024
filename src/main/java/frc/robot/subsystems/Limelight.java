@@ -54,15 +54,17 @@ public class Limelight extends SubsystemBase {
         leftPose = poseEstimatorLeft.update();
         rightPose = poseEstimatorRight.update();
 
-        if (camRight.getLatestResult().hasTargets() && camRight.getLatestResult().targets.size() > 2 && rightPose.isPresent()) {
-            Pose3d pose3d = rightPose.get().estimatedPose;
-            SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
-        }
-        if (camLeft.getLatestResult().hasTargets() && camLeft.getLatestResult().targets.size() > 2 && leftPose.isPresent()) {
-            Pose3d pose3d = leftPose.get().estimatedPose;
-            SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
+        if (!DriverStation.isAutonomous()) {
+            if (camRight.getLatestResult().hasTargets() && camRight.getLatestResult().targets.size() > 2 && rightPose.isPresent()) {
+                Pose3d pose3d = rightPose.get().estimatedPose;
+                SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
+                Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
+            }
+            if (camLeft.getLatestResult().hasTargets() && camLeft.getLatestResult().targets.size() > 2 && leftPose.isPresent()) {
+                Pose3d pose3d = leftPose.get().estimatedPose;
+                SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
+                Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
+            }
         }
 
         SmartDashboard.putNumberArray("limelight bot pose", new double[]{getBotPose().getX(), getBotPose().getY(), getBotPose().getRotation().getRadians()});
