@@ -89,7 +89,7 @@ public class SwerveModule {
     }
 
     public Rotation2d getCANcoder(){
-        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue() + angleOffset.getRotations());
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());
     }
 
     public void resetToAbsolute(){
