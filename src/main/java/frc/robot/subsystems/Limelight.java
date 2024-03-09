@@ -10,15 +10,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.Speaker;
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
+import java.util.Optional;
 
 public class Limelight extends SubsystemBase {
     private final PhotonPoseEstimator poseEstimatorLeft;
     private final PhotonPoseEstimator poseEstimatorRight;
     private final PhotonCamera camLeft;
     private final PhotonCamera camRight;
+    private Optional<EstimatedRobotPose> leftPose;
+    private Optional<EstimatedRobotPose> rightPose;
 
     private static final Limelight INSTANCE = new Limelight();
 
@@ -45,23 +50,22 @@ public class Limelight extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("has target", hasTarget());
-        SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
+        leftPose = poseEstimatorLeft.update();
+        rightPose = poseEstimatorRight.update();
 
-
-
-
-        if (camRight.getLatestResult().hasTargets() && poseEstimatorRight.update().isPresent()) {
-            Pose3d pose3d = poseEstimatorRight.update().get().estimatedPose;
+        if (camRight.getLatestResult().hasTargets() && rightPose.isPresent()) {
+            Pose3d pose3d = rightPose.get().estimatedPose;
             SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
 //            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), camRight.getLatestResult().getTimestampSeconds());
         }
-        if (camLeft.getLatestResult().hasTargets() && poseEstimatorLeft.update().isPresent()) {
-            Pose3d pose3d = poseEstimatorLeft.update().get().estimatedPose;
+        if (camLeft.getLatestResult().hasTargets() && leftPose.isPresent()) {
+            Pose3d pose3d = leftPose.get().estimatedPose;
             SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
 //            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), camLeft.getLatestResult().getTimestampSeconds());
         }
 
+        SmartDashboard.putBoolean("has target", hasTarget());
+        SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
 //        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
 //            double limeRot = getRotationToTarget().getRadians();
 //            double cramRot = Swerve.getInstance().getPose().getRotation().getRadians();
@@ -77,7 +81,7 @@ public class Limelight extends SubsystemBase {
     }
 
     public Rotation2d getRotationToTarget() {
-        if (DriverStation.getAlliance().isPresent() && hasTarget() && getBotPose() != null) {
+        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
             double xDiff = adjustedSpeaker.getX() - getBotPose().getX();
             double yDiff = adjustedSpeaker.getY() - getBotPose().getY();
@@ -91,17 +95,17 @@ public class Limelight extends SubsystemBase {
     }
 
     public Pose2d getBotPose() {
-        if (camLeft.getLatestResult().hasTargets() && camRight.getLatestResult().hasTargets() && poseEstimatorLeft.update().isPresent() && poseEstimatorRight.update().isPresent()) {
-            Pose3d pose3d = poseEstimatorLeft.update().get().estimatedPose;
-            Pose3d pose3dSecond = poseEstimatorRight.update().get().estimatedPose;
+        if (camLeft.getLatestResult().hasTargets() && camRight.getLatestResult().hasTargets() && leftPose.isPresent() && rightPose.isPresent()) {
+            Pose3d pose3d = leftPose.get().estimatedPose;
+            Pose3d pose3dSecond = rightPose.get().estimatedPose;
             return new Pose2d(mean(pose3d.getX(), pose3dSecond.getX()), mean(pose3d.getY(), pose3dSecond.getY()), Rotation2d.fromDegrees(mean(pose3d.getRotation().toRotation2d().getDegrees(), pose3dSecond.getRotation().toRotation2d().getDegrees())));
         }
-        else if (camRight.getLatestResult().hasTargets() && poseEstimatorRight.update().isPresent()) {
-            Pose3d pose3d = poseEstimatorRight.update().get().estimatedPose;
+        else if (camRight.getLatestResult().hasTargets() && rightPose.isPresent()) {
+            Pose3d pose3d = rightPose.get().estimatedPose;
             return new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d());
         }
-        else if (camLeft.getLatestResult().hasTargets() && poseEstimatorLeft.update().isPresent()) {
-            Pose3d pose3d = poseEstimatorLeft.update().get().estimatedPose;
+        else if (camLeft.getLatestResult().hasTargets() && leftPose.isPresent()) {
+            Pose3d pose3d = leftPose.get().estimatedPose;
             return new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d());
         }
         return new Pose2d();
