@@ -1,13 +1,13 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -40,14 +40,17 @@ public class SwerveModule {
         /* Angle Encoder Config */
         angleEncoder = new CANcoder(moduleConstants.cancoderID);
         CANcoderConfiguration tempConfig = Robot.ctreConfigs.swerveCANcoderConfig;
+        tempConfig.MagnetSensor.MagnetOffset = moduleConstants.angleOffset.getRotations();
 //        tempConfig.MagnetSensor.MagnetOffset = -angleOffset.getRotations();
         angleEncoder.getConfigurator().apply(tempConfig);
 
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
-        mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
+        TalonFXConfiguration tempAngleConfig = Robot.ctreConfigs.swerveAngleFXConfig;
+        tempAngleConfig.Feedback.FeedbackRemoteSensorID = moduleConstants.cancoderID;
+        mAngleMotor.getConfigurator().apply(tempAngleConfig);
 //        mAngleMotor.setPosition(angleEncoder.getAbsolutePosition().getValue());
-        resetToAbsolute();
+//        resetToAbsolute();
 
         /* Drive Motor Config */
         mDriveMotor = new TalonFX(moduleConstants.driveMotorID);

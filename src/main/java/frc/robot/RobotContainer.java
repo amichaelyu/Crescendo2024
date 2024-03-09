@@ -109,7 +109,7 @@ public class RobotContainer {
     private void competitionButtons() {
         driver.a().whileTrue(new CG_ShootingLime())
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
-        driver.b().whileTrue(new CG_ShootingLime())
+        driver.b().whileTrue(new CG_ShootingLimeOnTheFly())
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
         driver.x().whileTrue(new CG_FlushShots());
         driver.y().onTrue(new InstantCommand(Swerve.getInstance()::zeroHeading));
