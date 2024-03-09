@@ -5,6 +5,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Tilter;
 
 import java.util.function.DoubleSupplier;
 
@@ -27,6 +28,9 @@ public class ClimberManual extends Command {
    // Called every time the scheduler runs while the command is scheduled.
    @Override
    public void execute() {
+      if (MathUtil.applyDeadband(pwr.getAsDouble(),0.1) > 0.2) {
+          Tilter.getInstance().setPosition(5);
+      }
      m_climber.move(MathUtil.applyDeadband(pwr.getAsDouble(),0.1));
    }
 

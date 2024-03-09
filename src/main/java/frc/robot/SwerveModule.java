@@ -40,7 +40,7 @@ public class SwerveModule {
         /* Angle Encoder Config */
         angleEncoder = new CANcoder(moduleConstants.cancoderID);
         CANcoderConfiguration tempConfig = Robot.ctreConfigs.swerveCANcoderConfig;
-        tempConfig.MagnetSensor.MagnetOffset = moduleConstants.angleOffset.getRotations();
+        tempConfig.MagnetSensor.MagnetOffset = moduleConstants.angleOffset.getRotations() + 0.5;
 //        tempConfig.MagnetSensor.MagnetOffset = -angleOffset.getRotations();
         angleEncoder.getConfigurator().apply(tempConfig);
 
