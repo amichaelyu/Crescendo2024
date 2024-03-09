@@ -56,12 +56,10 @@ public class Limelight extends SubsystemBase {
         if (camRight.getLatestResult().hasTargets() && rightPose.isPresent()) {
             Pose3d pose3d = rightPose.get().estimatedPose;
             SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-//            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), camRight.getLatestResult().getTimestampSeconds());
         }
         if (camLeft.getLatestResult().hasTargets() && leftPose.isPresent()) {
             Pose3d pose3d = leftPose.get().estimatedPose;
             SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-//            Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), camLeft.getLatestResult().getTimestampSeconds());
         }
 
         SmartDashboard.putBoolean("has target", hasTarget());
@@ -96,9 +94,15 @@ public class Limelight extends SubsystemBase {
 
     public Pose2d getBotPose() {
         if (camLeft.getLatestResult().hasTargets() && camRight.getLatestResult().hasTargets() && leftPose.isPresent() && rightPose.isPresent()) {
-            Pose3d pose3d = leftPose.get().estimatedPose;
-            Pose3d pose3dSecond = rightPose.get().estimatedPose;
-            return new Pose2d(mean(pose3d.getX(), pose3dSecond.getX()), mean(pose3d.getY(), pose3dSecond.getY()), Rotation2d.fromDegrees(mean(pose3d.getRotation().toRotation2d().getDegrees(), pose3dSecond.getRotation().toRotation2d().getDegrees())));
+            Pose3d pose3dLeft = leftPose.get().estimatedPose;
+            Pose3d pose3dRight = rightPose.get().estimatedPose;
+            if (camLeft.getLatestResult().targets.size() > 2) {
+                return new Pose2d(pose3dLeft.getX(), pose3dLeft.getY(), pose3dLeft.getRotation().toRotation2d());
+            }
+            else if (camRight.getLatestResult().targets.size() > 2) {
+                return new Pose2d(pose3dRight.getX(), pose3dRight.getY(), pose3dRight.getRotation().toRotation2d());
+            }
+            return new Pose2d(mean(pose3dLeft.getX(), pose3dRight.getX()), mean(pose3dLeft.getY(), pose3dRight.getY()), Rotation2d.fromDegrees(mean(pose3dLeft.getRotation().toRotation2d().getDegrees(), pose3dRight.getRotation().toRotation2d().getDegrees())));
         }
         else if (camRight.getLatestResult().hasTargets() && rightPose.isPresent()) {
             Pose3d pose3d = rightPose.get().estimatedPose;

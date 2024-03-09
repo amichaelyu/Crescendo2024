@@ -72,9 +72,11 @@ public class FieldConstants {
     // corners (blue alliance origin)
     public static Translation3d topRightSpeaker =
         new Translation3d(
-            Units.inchesToMeters(18.055),
+            Units.inchesToMeters(6.055), // org: 18.055, shifting back to hopefully increase accuracy
             Units.inchesToMeters(238.815),
             Units.inchesToMeters(83.091));
+
+
 
     public static Translation3d topLeftSpeaker =
         new Translation3d(

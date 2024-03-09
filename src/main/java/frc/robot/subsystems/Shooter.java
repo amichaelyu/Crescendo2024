@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -52,7 +53,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    setpoint = speed;
+    setpoint = MathUtil.clamp(speed, 0, ShooterConstants.MAX_SPEED);
     m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed * rightSpin));
     m_leftShooter.setControl(new MotionMagicVelocityVoltage(speed * leftSpin));
   }
