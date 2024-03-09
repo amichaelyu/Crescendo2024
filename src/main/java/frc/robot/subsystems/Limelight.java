@@ -64,18 +64,7 @@ public class Limelight extends SubsystemBase {
 
         SmartDashboard.putBoolean("has target", hasTarget());
         SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
-//        if (DriverStation.getAlliance().isPresent() && hasTarget()) {
-//            double limeRot = getRotationToTarget().getRadians();
-//            double cramRot = Swerve.getInstance().getPose().getRotation().getRadians();
-//            Rotation2d wantedRotation = Rotation2d.fromRadians(Swerve.getInstance().getPose().getRotation().getRadians() + limeRot - cramRot);
-//            if (wantedRotation.getRadians() > Math.PI) {
-//                wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() - 2 * Math.PI);
-//            }
-//            else if (wantedRotation.getRadians() < -Math.PI) {
-//                wantedRotation = Rotation2d.fromRadians(wantedRotation.getRadians() + 2 * Math.PI);
-//            }
-//            SmartDashboard.putNumber("wanted lime rot", getRotationToTarget().getRadians());
-//        }
+        SmartDashboard.putNumber("distance to target", distanceToTarget());
     }
 
     public Rotation2d getRotationToTarget() {

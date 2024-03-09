@@ -95,24 +95,7 @@ public final class Constants {
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
             tilterMap.put(1.51, 90.0);
-            tilterMap.put(2.02, 50.0);
 
-//            tilterMap.put(1.285, 145.0);
-//            tilterMap.put(1.5, 90.0);
-//            tilterMap.put(1.76, 90.0);
-//            tilterMap.put(1.87, 80.0);
-//            tilterMap.put(2.3, 40.0);
-//            tilterMap.put(2.38, 40.0);
-//            tilterMap.put(2.96, 40.0);
-//            tilterMap.put(3.0, 35.0);
-//            tilterMap.put(3.4, 35.0);
-//            tilterMap.put(3.7, 35.0);
-//            tilterMap.put(3.0, 47.0);
-//            tilterMap.put(2.8, 50.0);
-//            tilterMap.put(2.4, 55.0);
-//            tilterMap.put(2.0, 65.0);
-//            tilterMap.put(1.8, 75.0);
-//            tilterMap.put(1.5, 90.0);
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
