@@ -9,7 +9,7 @@ import frc.robot.subsystems.Tilter;
 public class TilterLime extends Command {
     private final Limelight limelight = Limelight.getInstance();
     private final Tilter tilter = Tilter.getInstance();
-    private double distance;
+//    private double distance;
 
     public TilterLime() {
         addRequirements(this.tilter);
@@ -17,19 +17,19 @@ public class TilterLime extends Command {
 
     @Override
     public void initialize() {
-        distance = limelight.distanceToTarget();
-        tilter.setPosition(TilterConstants.tilterMap.get(distance));
-        System.out.println("Wanted Tilter Rotation: " + TilterConstants.tilterMap.get(distance));
+//        distance = limelight.distanceToTarget();
+//        tilter.setPosition(TilterConstants.tilterMap.get(distance));
+//        System.out.println("Wanted Tilter Rotation: " + TilterConstants.tilterMap.get(distance));
     }
 
     @Override
     public void execute() {
-        tilter.setPosition(TilterConstants.tilterMap.get(distance));
+        tilter.setPosition(TilterConstants.tilterMap.get(limelight.distanceToTarget()));
     }
 
     @Override
     public boolean isFinished() {
-        return tilter.atSetpoint();
+        return false;
     }
 
     @Override

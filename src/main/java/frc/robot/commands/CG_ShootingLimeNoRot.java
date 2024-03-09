@@ -8,10 +8,10 @@ public class CG_ShootingLimeNoRot extends ParallelDeadlineGroup {
     public CG_ShootingLimeNoRot() {
         super(
             new SequentialCommandGroup(
-                    new TilterLime(),
                     new ShooterTilterArmed(),
                     new IndexerKick()
             ),
+            new TilterLime(),
             new ShooterMaxPower()
         );
     }

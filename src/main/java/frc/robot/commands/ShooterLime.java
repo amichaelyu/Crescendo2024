@@ -9,7 +9,6 @@ import frc.robot.subsystems.Shooter;
 public class ShooterLime extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final Limelight limelight = Limelight.getInstance();
-    private double distance;
 
     public ShooterLime() {
         addRequirements(this.shooter);
@@ -17,12 +16,11 @@ public class ShooterLime extends Command {
 
     @Override
     public void initialize() {
-        distance = limelight.distanceToTarget();
     }
 
     @Override
     public void execute() {
-        shooter.setSpeed(ShooterConstants.shooterMap.get(distance));
+        shooter.setSpeed(ShooterConstants.shooterMap.get(limelight.distanceToTarget()));
     }
 
     @Override
@@ -32,5 +30,6 @@ public class ShooterLime extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        shooter.setVoltage(0);
     }
 }
