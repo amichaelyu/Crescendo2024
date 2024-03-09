@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -14,8 +13,6 @@ public class Shooter extends SubsystemBase {
   private final TalonFX m_rightShooter = new TalonFX(ShooterConstants.rightShooterID);
   private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID);
   private double setpoint = 0;
-  private double rightSpin = 1.0;
-  private double leftSpin = 1.0;
 
   private static final Shooter INSTANCE = new Shooter();
 
@@ -53,14 +50,13 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    setpoint = MathUtil.clamp(speed, 0, ShooterConstants.MAX_SPEED);
-    m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed * rightSpin));
-    m_leftShooter.setControl(new MotionMagicVelocityVoltage(speed * leftSpin));
+    m_rightShooter.setControl(new MotionMagicVelocityVoltage(speed));
+    m_leftShooter.setControl(new MotionMagicVelocityVoltage(speed));
   }
 
   public void setVoltage(double volts) {
-    m_rightShooter.setControl(new VoltageOut(volts * rightSpin));
-    m_leftShooter.setControl(new VoltageOut(volts * leftSpin));
+    m_rightShooter.setControl(new VoltageOut(volts));
+    m_leftShooter.setControl(new VoltageOut(volts));
   }
 
   public double getPosition() {

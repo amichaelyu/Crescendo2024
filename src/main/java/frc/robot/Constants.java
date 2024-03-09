@@ -34,9 +34,9 @@ public final class Constants {
 
         public static final double SHOOTER_PID_TOLERANCE = 5;
         public static final double MAX_SPEED = 45;
-        public static final double INTAKE_SPEED = -5/4.0;
+        public static final double INTAKE_SPEED = -5;
         public static final double SPEAKER_SPEED = 45; // 0-100 rev per second
-        public static final double AMP_SPEED = 22/4.0; // 0-100
+        public static final double AMP_SPEED = 22/2.0; // 0-100
 
         public static final InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
 
