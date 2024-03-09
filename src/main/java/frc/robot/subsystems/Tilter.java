@@ -32,9 +32,9 @@ public class Tilter extends SubsystemBase {
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
     m_tilterMotor.setPosition(TilterConstants.START_POSITION);
 
-    SmartDashboard.putNumber("tilter p", 0);
-    SmartDashboard.putNumber("tilter magicVel", 0);
-    SmartDashboard.putNumber("tilter magicAcc", 0);
+    SmartDashboard.putNumber("tilter p", 1);
+    SmartDashboard.putNumber("tilter magicVel", 150);
+    SmartDashboard.putNumber("tilter magicAcc", 200);
 //    m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
 
 //    m_tilterMotor.setInverted(true);
