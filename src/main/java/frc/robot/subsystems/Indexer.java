@@ -4,13 +4,14 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.IndexerConstants;
 
 
 public class Indexer extends SubsystemBase {
-  private final TalonFX m_indexMotor = new TalonFX(IndexerConstants.indexerMotorID);
+  private final TalonFX m_indexMotor = new TalonFX(IndexerConstants.ID);
 
   private static final Indexer INSTANCE = new Indexer();
 
@@ -30,18 +31,18 @@ public class Indexer extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putNumber("indexer current", m_indexMotor.getTorqueCurrent().getValue());
   }
 
   public void move(double pwr) {
     m_indexMotor.set(pwr);
   }
 
-
+  public double getTorqueCurrent() {
+    return m_indexMotor.getTorqueCurrent().getValue();
+  }
  
   public void stop() {
     m_indexMotor.setControl(new VoltageOut(0));
   }
-
- 
 }

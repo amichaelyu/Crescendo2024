@@ -22,7 +22,7 @@ public class IndexerKick extends Command {
 
     @Override
     public void execute() {
-        indexer.move(IndexerConstants.INDEXER_FORWARD);
+        indexer.move(IndexerConstants.FORWARD_DUTY_CYCLE);
     }
 
     @Override

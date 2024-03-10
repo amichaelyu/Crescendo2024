@@ -23,9 +23,12 @@ public final class Constants {
     }
 
     public static final class IndexerConstants {
-        public static final int indexerMotorID = 22;
-        public static final double INDEXER_FORWARD = -0.7;
-        public static final double INDEXER_FLUSH = 0.75;
+        public static final int ID = 22;
+        public static final double FORWARD_DUTY_CYCLE = -0.7;
+        public static final double FLUSH_DUTY_CYCLE = 0.75;
+        
+        public static final int CURRENT_CYCLES = 20;
+        public static final int CUTOFF_VOLTAGE = 200;
     }
 
     public static final class ShooterConstants {
