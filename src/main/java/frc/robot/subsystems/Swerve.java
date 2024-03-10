@@ -89,7 +89,6 @@ public class Swerve extends SubsystemBase {
 
     public void addVision(Pose2d pose, double time) {
         Pose2d poseWithoutHeading = new Pose2d(pose.getX(), pose.getY(), getPose().getRotation());
-        System.out.println("hello3");
         poseEstimator.addVisionMeasurement(poseWithoutHeading, time);
     }
 
