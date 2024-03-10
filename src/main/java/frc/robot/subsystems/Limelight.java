@@ -28,9 +28,7 @@ public class Limelight extends SubsystemBase {
     private PhotonPipelineResult leftResult;
     private PhotonPipelineResult rightResult;
 
-    private Pose2d lastPose;
-    private Pose3d lastPoseRight;
-    private Pose3d lastPoseLeft;
+    private Pose2d lastPose = new Pose2d();
 
     private static final Limelight INSTANCE = new Limelight();
 
@@ -64,12 +62,12 @@ public class Limelight extends SubsystemBase {
         rightResult = camRight.getLatestResult();
 
         if (!DriverStation.isAutonomous()) {
-            SmartDashboard.putBoolean("right has targets", rightResult.hasTargets());
-            SmartDashboard.putBoolean("right pose present", rightPose.isPresent());
-            SmartDashboard.putNumber("right targets size", rightResult.targets.size());
-            SmartDashboard.putBoolean("left has targets", leftResult.hasTargets());
-            SmartDashboard.putBoolean("left pose present", leftPose.isPresent());
-            SmartDashboard.putNumber("left targets size", leftResult.targets.size());
+//            SmartDashboard.putBoolean("right has targets", rightResult.hasTargets());
+//            SmartDashboard.putBoolean("right pose present", rightPose.isPresent());
+//            SmartDashboard.putNumber("right targets size", rightResult.targets.size());
+//            SmartDashboard.putBoolean("left has targets", leftResult.hasTargets());
+//            SmartDashboard.putBoolean("left pose present", leftPose.isPresent());
+//            SmartDashboard.putNumber("left targets size", leftResult.targets.size());
             if (rightResult.hasTargets() && rightResult.targets.size() >= 2 && rightPose.isPresent()) {
                 Pose3d pose3d = rightPose.get().estimatedPose;
                 SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
