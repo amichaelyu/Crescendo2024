@@ -52,7 +52,7 @@ public final class Constants {
 //            shooterMap.put(2.68, 45.0);
 //            shooterMap.put(3.08, 45.0);
 
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
             talonFXConfigs.Voltage.PeakForwardVoltage = 12.0;
             talonFXConfigs.Voltage.PeakReverseVoltage = -12.0;
@@ -127,12 +127,12 @@ public final class Constants {
 //            talonFXConfigs.Slot0.kS = 1; // Add 0.25 V output to overcome static friction
 //            talonFXConfigs.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
 //            talonFXConfigs.Slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            talonFXConfigs.Slot0.kP = 5; // A position error of 2.5 rotations results in 12 V output
+            talonFXConfigs.Slot0.kP = 5; // A position error of 2.4 rotations results in 12 V output
             talonFXConfigs.Slot0.kI = 0; // no output for integrated error
             talonFXConfigs.Slot0.kD = 0; // A velocity error of 1 rps results in 0.1 V output
 
             // set Motion Magic settings
-            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 700; // Target cruise velocity of 80 rps
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 110; // Target cruise velocity of 80 rps
             talonFXConfigs.MotionMagic.MotionMagicAcceleration = 1600; // Target acceleration of 160 rps/s (0.5 seconds)
 //            talonFXConfigs.MotionMagic.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         }

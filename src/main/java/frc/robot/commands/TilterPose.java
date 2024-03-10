@@ -6,12 +6,12 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Tilter;
 
 
-public class TilterLime extends Command {
+public class TilterPose extends Command {
 //    private final Limelight limelight = Limelight.getInstance();
     private final Tilter tilter = Tilter.getInstance();
 //    private double distance;
 
-    public TilterLime() {
+    public TilterPose() {
         addRequirements(this.tilter);
     }
 

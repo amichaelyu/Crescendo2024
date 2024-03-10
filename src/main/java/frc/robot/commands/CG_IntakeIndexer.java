@@ -7,6 +7,7 @@ import frc.robot.Constants.TilterConstants;
 public class CG_IntakeIndexer extends ParallelCommandGroup {
     public CG_IntakeIndexer() {
         super(
+                new ShooterSetpointSpeed(0),
                 new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION),
                 new IntakeRun(),
                 new IndexerRun()
