@@ -7,13 +7,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 
 public class SwerveRotateLimeOnTheFly extends Command {
     private final Swerve swerve = Swerve.getInstance();
-    private final Limelight limelight = Limelight.getInstance();
     private final PIDController pidController;
     private Rotation2d wantedRotation = new Rotation2d();
 

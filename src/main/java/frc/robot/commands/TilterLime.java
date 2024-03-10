@@ -2,12 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.TilterConstants;
-import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Tilter;
 
 
 public class TilterLime extends Command {
-    private final Limelight limelight = Limelight.getInstance();
+//    private final Limelight limelight = Limelight.getInstance();
     private final Tilter tilter = Tilter.getInstance();
 //    private double distance;
 
@@ -24,7 +24,7 @@ public class TilterLime extends Command {
 
     @Override
     public void execute() {
-        tilter.setPosition(TilterConstants.tilterMap.get(limelight.distanceToTarget()));
+        tilter.setPosition(TilterConstants.tilterMap.get(Swerve.getInstance().distanceToTargetSwervePose()));
     }
 
     @Override
