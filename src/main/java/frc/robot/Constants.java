@@ -54,6 +54,9 @@ public final class Constants {
             shooterMap.put(3.08, 45.0);
             shooterMap.put(3.2, 45.0);
             shooterMap.put(3.36, 45.0);
+            shooterMap.put(3.5, 40.0);
+            shooterMap.put(3.74, 40.0);
+            shooterMap.put(3.96, 41.0);
 
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
@@ -115,7 +118,8 @@ public final class Constants {
             tilterMap.put(2.8, 10.0);
             tilterMap.put(3.07, 5.0);
             tilterMap.put(3.2, 5.0);
-            tilterMap.put(3.36, 5.0);
+            tilterMap.put(3.5, 5.0);
+            tilterMap.put(3.96, 1.0);
 
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;

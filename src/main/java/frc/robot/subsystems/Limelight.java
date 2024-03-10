@@ -95,7 +95,7 @@ public class Limelight extends SubsystemBase {
 
         SmartDashboard.putBoolean("has target", hasTarget());
         SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
-        SmartDashboard.putNumber("distance to target", Swerve.getInstance().distanceToTargetSwervePose());
+        SmartDashboard.putNumber("distance to target", distanceToTarget());
     }
 
     public Rotation2d getRotationToTarget() {
