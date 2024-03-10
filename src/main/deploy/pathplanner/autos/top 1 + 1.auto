@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7578793168067932,
-      "y": 6.667696475982666
+      "x": 0.7262188792228699,
+      "y": 6.635754108428955
     },
     "rotation": 59.743588974535136
   },
@@ -31,25 +31,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "top 2 note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
                 }
               },
               {
