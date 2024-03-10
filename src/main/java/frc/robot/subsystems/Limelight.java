@@ -29,6 +29,8 @@ public class Limelight extends SubsystemBase {
     private PhotonPipelineResult rightResult;
 
     private Pose2d lastPose;
+    private Pose3d lastPoseRight;
+    private Pose3d lastPoseLeft;
 
     private static final Limelight INSTANCE = new Limelight();
 
@@ -68,13 +70,27 @@ public class Limelight extends SubsystemBase {
             SmartDashboard.putBoolean("left has targets", leftResult.hasTargets());
             SmartDashboard.putBoolean("left pose present", leftPose.isPresent());
             SmartDashboard.putNumber("left targets size", leftResult.targets.size());
-            if (rightResult.hasTargets() && rightResult.targets.size() > 2 && rightPose.isPresent()) {
-                Pose3d pose3d = rightPose.get().estimatedPose;
+            if (rightResult.hasTargets() && rightResult.targets.size() > 2) {
+                Pose3d pose3d;
+                if (rightPose.isPresent()) {
+                    pose3d = rightPose.get().estimatedPose;
+                    lastPoseRight = pose3d;
+                }
+                else {
+                    pose3d = lastPoseRight;
+                }
                 SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
                 Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
             }
-            if (leftResult.hasTargets() && leftResult.targets.size() > 2 && leftPose.isPresent()) {
-                Pose3d pose3d = leftPose.get().estimatedPose;
+            if (leftResult.hasTargets() && leftResult.targets.size() > 2) {
+                Pose3d pose3d;
+                if (leftPose.isPresent()) {
+                    pose3d = leftPose.get().estimatedPose;
+                    lastPoseRight = pose3d;
+                }
+                else {
+                    pose3d = lastPoseRight;
+                }
                 SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
                 Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
             }
