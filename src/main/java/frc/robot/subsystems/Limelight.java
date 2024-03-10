@@ -61,7 +61,7 @@ public class Limelight extends SubsystemBase {
         leftResult = camLeft.getLatestResult();
         rightResult = camRight.getLatestResult();
 
-        if (!DriverStation.isAutonomous()) {
+//        if (!DriverStation.isAutonomous()) {
 //            SmartDashboard.putBoolean("right has targets", rightResult.hasTargets());
 //            SmartDashboard.putBoolean("right pose present", rightPose.isPresent());
 //            SmartDashboard.putNumber("right targets size", rightResult.targets.size());
@@ -78,7 +78,7 @@ public class Limelight extends SubsystemBase {
                 SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
                 Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
             }
-        }
+//        }
 
         SmartDashboard.putNumberArray("limelight bot pose", new double[]{getBotPose().getX(), getBotPose().getY(), getBotPose().getRotation().getRadians()});
 
