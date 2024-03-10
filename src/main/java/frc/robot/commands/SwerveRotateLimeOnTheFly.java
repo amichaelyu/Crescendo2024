@@ -46,7 +46,7 @@ public class SwerveRotateLimeOnTheFly extends Command {
             }
         }
         double feedforward = swerve.getPose().getRotation().getRadians() < wantedRotation.getRadians() ? SwerveConstants.ROTATE_FF : -SwerveConstants.ROTATE_FF;
-        swerve.drive(BetterXboxController.getController(Humans.DRIVER).getSwerveTranslation().times(SwerveConstants.maxSpeed * shouldNegate), pidController.calculate(swerve.getPose().getRotation().getRadians()) + feedforward, true, true);
+        swerve.drive(BetterXboxController.getController(Humans.DRIVER).getSwerveTranslation().times(SwerveConstants.maxSpeed * shouldNegate), pidController.calculate(swerve.getPose().getRotation().getRadians()) + feedforward, true, false);
     }
 
     @Override

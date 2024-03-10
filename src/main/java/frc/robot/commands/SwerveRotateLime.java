@@ -6,15 +6,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
-
-import java.util.Objects;
 
 
 public class SwerveRotateLime extends Command {
     private final Swerve swerve = Swerve.getInstance();
-    private final Limelight limelight = Limelight.getInstance();
+//    private final Limelight limelight = Limelight.getInstance();
     private final PIDController pidController;
     private Rotation2d wantedRotation = new Rotation2d();
 
@@ -27,8 +24,17 @@ public class SwerveRotateLime extends Command {
 
     @Override
     public void initialize() {
-        if (DriverStation.getAlliance().isPresent() && limelight.hasTarget() && !Objects.equals(limelight.getRotationToTarget(), new Rotation2d())) {
-            Rotation2d limeRot = limelight.getRotationToTarget();
+//        if (DriverStation.getAlliance().isPresent() && limelight.hasTarget() && !Objects.equals(limelight.getRotationToTarget(), new Rotation2d())) {
+//            Rotation2d limeRot = limelight.getRotationToTarget();
+//            limeRot = limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
+//            wantedRotation = limeRot;
+//            pidController.setSetpoint(wantedRotation.getRadians());
+//        }
+//        else {
+//            pidController.setSetpoint(swerve.getPose().getRotation().getRadians());
+//        }
+        if (DriverStation.getAlliance().isPresent()) {
+            Rotation2d limeRot = swerve.getRotationToTargetSwervePose();
             limeRot = limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
             wantedRotation = limeRot;
             pidController.setSetpoint(wantedRotation.getRadians());
