@@ -4,13 +4,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 
-public class ShooterVoltage extends Command {
+public class ShooterStop extends Command {
     private final Shooter shooter = Shooter.getInstance();
-    private final double voltage;
 
-    public ShooterVoltage(double voltage) {
+    public ShooterStop() {
         addRequirements(this.shooter);
-        this.voltage = voltage;
     }
 
     @Override
@@ -20,12 +18,12 @@ public class ShooterVoltage extends Command {
 
     @Override
     public void execute() {
-        shooter.setVoltage(voltage);
+        shooter.setSpeed(0);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return shooter.getVelocity() < 0.1;
     }
 
     @Override

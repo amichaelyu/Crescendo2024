@@ -108,7 +108,10 @@ public class RobotContainer {
 
     private void competitionButtons() {
         driver.a().whileTrue(new CG_ShootingLime())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+                .whileFalse(new ParallelCommandGroup(
+                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION),
+                        new ShooterStop()
+                ));
 //        driver.b().whileTrue(new CG_ShootingLimeOnTheFly())
 //                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
         driver.x().whileTrue(new CG_FlushShots());
@@ -118,14 +121,18 @@ public class RobotContainer {
                             .whileFalse(
                                     new ParallelCommandGroup(
                                         new IndexerSlightBack(),
-                                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION)
+                                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION),
+                                        new ShooterStop()
                                     ));
 
 //        operator.rightBumper().whileTrue(new CG_ShootingIntake());
 
         operator.leftBumper().whileTrue(new TilterHome());
         operator.rightBumper().whileTrue(new CG_ShootingIntake())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+                .whileFalse(new ParallelCommandGroup(
+                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION),
+                        new ShooterStop())
+                );
 
         // uses these for obtaining new data
         operator.a().whileTrue(new TilterDashboardPosition());
