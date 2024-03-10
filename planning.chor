@@ -3,7 +3,7 @@
     "robotConfiguration": {
         "mass": 56.80078236903715,
         "rotationalInertia": 6,
-        "motorMaxTorque": 0.326578947368421,
+        "motorMaxTorque": 0.2881578947368421,
         "motorMaxVelocity": 4864,
         "gearing": 6.75,
         "wheelbase": 0.5778496879611685,
