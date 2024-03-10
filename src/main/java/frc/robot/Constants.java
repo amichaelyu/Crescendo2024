@@ -45,12 +45,14 @@ public final class Constants {
         public static final int leftShooterID = 21;
 
         static {
-//            shooterMap.put(1.00, 45.0);
-//            shooterMap.put(1.53, 45.0);
-//            shooterMap.put(1.85, 45.0);
-//            shooterMap.put(2.16, 45.0);
-//            shooterMap.put(2.68, 45.0);
-//            shooterMap.put(3.08, 45.0);
+            shooterMap.put(0.0, 45.0);
+            shooterMap.put(1.00, 45.0);
+            shooterMap.put(1.53, 45.0);
+            shooterMap.put(1.85, 45.0);
+            shooterMap.put(2.16, 45.0);
+            shooterMap.put(2.68, 45.0);
+            shooterMap.put(3.08, 45.0);
+            shooterMap.put(3.08, 45.0);
 
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
@@ -111,6 +113,7 @@ public final class Constants {
             tilterMap.put(2.68, 17.0);
             tilterMap.put(2.8, 10.0);
             tilterMap.put(3.07, 5.0);
+            tilterMap.put(3.2, 5.0);
 
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
