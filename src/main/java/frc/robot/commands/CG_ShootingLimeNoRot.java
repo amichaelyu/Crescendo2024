@@ -12,7 +12,7 @@ public class CG_ShootingLimeNoRot extends ParallelDeadlineGroup {
                     new IndexerKick()
             ),
             new TilterPose(),
-            new ShooterMaxPower()
+            new ShooterPose()
         );
     }
 }
