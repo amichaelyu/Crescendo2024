@@ -30,6 +30,6 @@ public class ShooterVoltage extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setSpeed(0);
+        shooter.setVoltage(0);
     }
 }

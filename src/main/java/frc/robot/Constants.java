@@ -52,7 +52,7 @@ public final class Constants {
 //            shooterMap.put(2.68, 45.0);
 //            shooterMap.put(3.08, 45.0);
 
-            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+            talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
             talonFXConfigs.Voltage.PeakForwardVoltage = 12.0;
             talonFXConfigs.Voltage.PeakReverseVoltage = -12.0;
