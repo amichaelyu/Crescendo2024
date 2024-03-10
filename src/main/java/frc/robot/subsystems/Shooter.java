@@ -14,6 +14,7 @@ public class Shooter extends SubsystemBase {
   private final TalonFX m_rightShooter = new TalonFX(ShooterConstants.rightShooterID);
   private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID);
   private double setpoint = 0;
+  private boolean stopped = false;
 
   private static final Shooter INSTANCE = new Shooter();
 
@@ -45,8 +46,12 @@ public class Shooter extends SubsystemBase {
 //      leftSpin = 0.9;
 //    }
 
-    if (MathUtil.isNear(0, m_leftShooter.getVelocity().getValue(), 0.01)) {
+    if (MathUtil.isNear(0, m_leftShooter.getVelocity().getValue(), 0.01) && !stopped) {
       setVoltage(0);
+      stopped = true;
+    }
+    else {
+      stopped = false;
     }
   }
 
