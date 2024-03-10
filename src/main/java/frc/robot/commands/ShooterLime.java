@@ -30,6 +30,6 @@ public class ShooterLime extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setVoltage(0);
+        shooter.setSpeed(0);
     }
 }
