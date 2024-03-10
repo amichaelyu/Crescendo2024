@@ -176,6 +176,7 @@ public class RobotContainer {
         autoChooser.addOption("2 note HUMAN PLAYER", AutoBuilder.buildAuto("bottom 1 + 1"));
         autoChooser.addOption("2 note middle", AutoBuilder.buildAuto("middle 1 + 1"));
         autoChooser.addOption("4 note", AutoBuilder.buildAuto("3 note"));
+        autoChooser.addOption("4 note", AutoBuilder.buildAuto("neo 3 note"));
 
         SmartDashboard.putData("Auto Command", autoChooser);
     }
