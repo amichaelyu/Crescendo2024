@@ -44,12 +44,12 @@ public class Tilter extends SubsystemBase {
   @Override
   public void periodic() {
     Slot0Configs slotConfig = TilterConstants.talonFXConfigs.Slot0;
-    slotConfig.kP = SmartDashboard.getNumber("tilter p", 1);
+    slotConfig.kP = SmartDashboard.getNumber("tilter p", 1.0 / 4.0);
     m_tilterMotor.getConfigurator().apply(slotConfig);
 
     MotionMagicConfigs magicConfig = TilterConstants.talonFXConfigs.MotionMagic;
-    magicConfig.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVel", 50);
-    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 100);
+    magicConfig.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVel", 10);
+    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 10);
     m_tilterMotor.getConfigurator().apply(magicConfig);
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
     SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
