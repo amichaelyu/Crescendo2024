@@ -32,7 +32,7 @@ public class Tilter extends SubsystemBase {
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
     m_tilterMotor.setPosition(TilterConstants.START_POSITION);
 
-    SmartDashboard.putNumber("tilter p", 0.1);
+    SmartDashboard.putNumber("tilter p", 1);
     SmartDashboard.putNumber("tilter magicVel", 10);
     SmartDashboard.putNumber("tilter magicAcc", 10);
 
@@ -42,7 +42,7 @@ public class Tilter extends SubsystemBase {
   @Override
   public void periodic() {
     Slot0Configs slotConfig = TilterConstants.talonFXConfigs.Slot0;
-    slotConfig.kP = SmartDashboard.getNumber("tilter p", 0.1);
+    slotConfig.kP = SmartDashboard.getNumber("tilter p", 1);
     m_tilterMotor.getConfigurator().apply(slotConfig);
 
     MotionMagicConfigs magicConfig = TilterConstants.talonFXConfigs.MotionMagic;
@@ -51,6 +51,8 @@ public class Tilter extends SubsystemBase {
     m_tilterMotor.getConfigurator().apply(magicConfig);
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
     SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
+    SmartDashboard.putNumber("tilter applied current", m_tilterMotor.getTorqueCurrent().getValue());
+    SmartDashboard.putNumber("tilter applied voltage", m_tilterMotor.getMotorVoltage().getValue());
 
     SmartDashboard.putBoolean("At Bottom", isAtBottom());
     SmartDashboard.putBoolean("tilter at setpoint", atSetpoint());
