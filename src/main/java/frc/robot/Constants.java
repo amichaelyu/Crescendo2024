@@ -82,24 +82,24 @@ public final class Constants {
     public static final class TilterConstants {
         public static final int tilterMotorID = 24;
         public static final double PID_TOLERANCE = 1;
-        public static final double START_POSITION = 160; // 0-200
-        public static final double IDLE_POSITION = 80; // 0-200
-        public static final double SPEAKER_CENTER_POSITION = 130.0; // 0-200
-        public static final double SPEAKER_CORNER_POSITION = 145.0; // 0-200
-        public static final double AMP_POSITION = 185; // 0-200
-        public static final double TRAP_POSITION = 135; // 0-200
-        public static final double HUMAN_INTAKE_POSITION = 95.0; // 0-200
-        public static final double GROUND_INTAKE_POSITION = 130.0; // 0-200
+        public static final double START_POSITION = 160 / 4.0; // 0-50
+        public static final double IDLE_POSITION = 80 / 4.0; // 0-50
+        public static final double SPEAKER_CENTER_POSITION = 130.0 / 4.0; // 0-50
+        public static final double SPEAKER_CORNER_POSITION = 145.0 / 4.0; // 0-50
+        public static final double AMP_POSITION = 185 / 4.0; // 0-50
+        public static final double TRAP_POSITION = 135 / 4.0; // 0-50
+        public static final double HUMAN_INTAKE_POSITION = 95.0 / 4.0; // 0-50
+        public static final double GROUND_INTAKE_POSITION = 130.0 / 4.0; // 0-50
       
         public static final int kLIFTER_LIMIT_BOTTOM = 0;
 
         // 1 falcon rotation = 12 mm of travel (0.47 inches)
         // 25.53 rotation for full extension
         // 8 inches long
-        public static final double ROTATION_TO_INCHES = 0.012;
-        public static final double LENGTH_INCHES = Units.inchesToMeters(8);
-        public static final double GEAR_RATIO = 12.0;
-        public static final double ROTATIONS_TO_FULL_EXTENSION = LENGTH_INCHES / ROTATION_TO_INCHES * GEAR_RATIO; // 17.02 rotation for full extension
+        public static final double ROTATION_TO_METERS = 0.012;
+        public static final double LENGTH_METERS = Units.inchesToMeters(8);
+        public static final double GEAR_RATIO = 4.0;
+        public static final double ROTATIONS_TO_FULL_EXTENSION = LENGTH_METERS / ROTATION_TO_METERS * GEAR_RATIO; // 17.02 rotation for full extension
         // 219 rotations
         // 12:1
 
@@ -107,21 +107,21 @@ public final class Constants {
 
         public static final TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
         static {
-            tilterMap.put(1.23, 135.0);
-            tilterMap.put(1.32, 130.0);
-            tilterMap.put(1.4, 125.0);
-            tilterMap.put(1.53, 110.0);
-            tilterMap.put(1.7, 100.0);
-            tilterMap.put(1.86, 85.0);
-            tilterMap.put(2.16, 60.0);
-            tilterMap.put(2.39, 35.0);
-            tilterMap.put(2.55, 30.0);
-            tilterMap.put(2.68, 17.0);
-            tilterMap.put(2.8, 10.0);
-            tilterMap.put(3.07, 5.0);
-            tilterMap.put(3.2, 5.0);
-            tilterMap.put(3.5, 5.0);
-            tilterMap.put(3.96, 1.0);
+            tilterMap.put(1.23, 135.0 / 4.0);
+            tilterMap.put(1.32, 130.0 / 4.0);
+            tilterMap.put(1.4, 125.0 / 4.0);
+            tilterMap.put(1.53, 110.0 / 4.0);
+            tilterMap.put(1.7, 100.0 / 4.0);
+            tilterMap.put(1.86, 85.0 / 4.0);
+            tilterMap.put(2.16, 60.0 / 4.0);
+            tilterMap.put(2.39, 35.0 / 4.0);
+            tilterMap.put(2.55, 30.0 / 4.0);
+            tilterMap.put(2.68, 17.0 / 4.0);
+            tilterMap.put(2.8, 10.0 / 4.0);
+            tilterMap.put(3.07, 5.0 / 4.0);
+            tilterMap.put(3.2, 5.0 / 4.0);
+            tilterMap.put(3.5, 5.0 / 4.0);
+            tilterMap.put(3.96, 1.0 / 4.0);
 
             talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
             talonFXConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -138,13 +138,14 @@ public final class Constants {
 //            talonFXConfigs.Slot0.kS = 1; // Add 0.25 V output to overcome static friction
 //            talonFXConfigs.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
 //            talonFXConfigs.Slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            talonFXConfigs.Slot0.kP = 5; // A position error of 2.4 rotations results in 12 V output
+            talonFXConfigs.Slot0.kP = 5.0 / 4; // A position error of 2.4 rotations results in 12 V output
             talonFXConfigs.Slot0.kI = 0; // no output for integrated error
             talonFXConfigs.Slot0.kD = 0; // A velocity error of 1 rps results in 0.1 V output
+            talonFXConfigs.Slot0.kG = 0;
 
             // set Motion Magic settings
-            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 110; // Target cruise velocity of 80 rps
-            talonFXConfigs.MotionMagic.MotionMagicAcceleration = 1600; // Target acceleration of 160 rps/s (0.5 seconds)
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 110 / 4.0; // Target cruise velocity of 80 rps
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = 1600 / 4.0; // Target acceleration of 160 rps/s (0.5 seconds)
 //            talonFXConfigs.MotionMagic.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         }
     }
