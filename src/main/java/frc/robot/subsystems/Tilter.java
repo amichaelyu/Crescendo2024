@@ -48,10 +48,10 @@ public class Tilter extends SubsystemBase {
 //    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 10);
 //    m_tilterMotor.getConfigurator().apply(magicConfig);
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
-//    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
 //    SmartDashboard.putNumber("tilter applied current", m_tilterMotor.getTorqueCurrent().getValue());
 //    SmartDashboard.putNumber("tilter applied voltage", m_tilterMotor.getMotorVoltage().getValue());
 
+    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
     SmartDashboard.putBoolean("At Bottom", isAtBottom());
     SmartDashboard.putBoolean("tilter at setpoint", atSetpoint());
     if (isAtBottom()) {
