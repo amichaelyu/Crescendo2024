@@ -47,15 +47,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "intake"
-                }
-              },
-              {
                 "type": "wait",
                 "data": {
                   "waitTime": 0.1
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
                 }
               }
             ]
@@ -84,22 +84,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intake"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "tilterPoseSetpoint"
-                      }
-                    }
-                  ]
+                  "name": "intake"
                 }
               }
             ]
@@ -128,22 +115,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intake"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "tilterPoseSetpoint"
-                      }
-                    }
-                  ]
+                  "name": "intake"
                 }
               }
             ]
