@@ -28,7 +28,7 @@ public final class Constants {
         public static final double FLUSH_DUTY_CYCLE = 0.75;
         
         public static final int CURRENT_CYCLES = 20;
-        public static final int CUTOFF_VOLTAGE = 200;
+        public static final int CUTOFF_VOLTAGE = 10;
     }
 
     public static final class ShooterConstants {
