@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -32,23 +30,23 @@ public class Tilter extends SubsystemBase {
     m_tilterMotor.getConfigurator().apply(TilterConstants.talonFXConfigs);
     m_tilterMotor.setPosition(TilterConstants.START_POSITION);
 
-    SmartDashboard.putNumber("tilter p", 1);
-    SmartDashboard.putNumber("tilter magicVel", 10);
-    SmartDashboard.putNumber("tilter magicAcc", 10);
+//    SmartDashboard.putNumber("tilter p", 1);
+//    SmartDashboard.putNumber("tilter magicVel", 10);
+//    SmartDashboard.putNumber("tilter magicAcc", 10);
 
     isHomed = true;
   }
 
   @Override
   public void periodic() {
-    Slot0Configs slotConfig = TilterConstants.talonFXConfigs.Slot0;
-    slotConfig.kP = SmartDashboard.getNumber("tilter p", 1);
-    m_tilterMotor.getConfigurator().apply(slotConfig);
-
-    MotionMagicConfigs magicConfig = TilterConstants.talonFXConfigs.MotionMagic;
-    magicConfig.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVel", 10);
-    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 10);
-    m_tilterMotor.getConfigurator().apply(magicConfig);
+//    Slot0Configs slotConfig = TilterConstants.talonFXConfigs.Slot0;
+//    slotConfig.kP = SmartDashboard.getNumber("tilter p", 1);
+//    m_tilterMotor.getConfigurator().apply(slotConfig);
+//
+//    MotionMagicConfigs magicConfig = TilterConstants.talonFXConfigs.MotionMagic;
+//    magicConfig.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVel", 10);
+//    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 10);
+//    m_tilterMotor.getConfigurator().apply(magicConfig);
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
 //    SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
 //    SmartDashboard.putNumber("tilter applied current", m_tilterMotor.getTorqueCurrent().getValue());
