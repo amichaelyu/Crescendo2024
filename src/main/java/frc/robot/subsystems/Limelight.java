@@ -78,6 +78,20 @@ public class Limelight extends SubsystemBase {
                 SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
                 Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
             }
+            if (rightResult.hasTargets() && rightResult.targets.size() == 1 && rightPose.isPresent()) {
+                Pose3d pose3d = rightPose.get().estimatedPose;
+                SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
+                if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
+                    Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
+                }
+            }
+            if (leftResult.hasTargets() && leftResult.targets.size() == 1 && leftPose.isPresent()) {
+                Pose3d pose3d = leftPose.get().estimatedPose;
+                SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
+                if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
+                    Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
+                }
+            }
 
 //            if (rightResult.hasTargets() && rightResult.targets.size() >= 2 && rightPose.isPresent()) {
 //                Pose3d pose3d = rightPose.get().estimatedPose;

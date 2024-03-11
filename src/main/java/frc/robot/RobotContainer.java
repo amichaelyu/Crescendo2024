@@ -82,7 +82,7 @@ public class RobotContainer {
 
 
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
-        NamedCommands.registerCommand("tilterSetpoint30", new TilterSetpointPosition(30));
+        NamedCommands.registerCommand("tilterSetpointLow", new TilterSetpointPosition(30.0 / 4.0));
         NamedCommands.registerCommand("tilterPoseSetpoint", new TilterPose());
         NamedCommands.registerCommand("tilterIdle", new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
         NamedCommands.registerCommand("intake", new CG_IntakeIndexer());
@@ -169,6 +169,7 @@ public class RobotContainer {
         autoChooser.addOption("2 note HUMAN PLAYER", AutoBuilder.buildAuto("bottom 1 + 1"));
         autoChooser.addOption("2 note middle", AutoBuilder.buildAuto("middle 1 + 1"));
         autoChooser.addOption("4 note", AutoBuilder.buildAuto("3 note"));
+        autoChooser.addOption("top sprint 5 note", AutoBuilder.buildAuto("top sprint 5 note"));
         autoChooser.addOption("top run", AutoBuilder.buildAuto("top run"));
         autoChooser.addOption("bottom run", AutoBuilder.buildAuto("bottom run"));
 //        autoChooser.addOption("neo 4 note", AutoBuilder.buildAuto("neo 3 note"));
