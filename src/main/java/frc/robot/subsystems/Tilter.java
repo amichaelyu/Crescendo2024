@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -41,14 +39,14 @@ public class Tilter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Slot0Configs slotConfig = TilterConstants.talonFXConfigs.Slot0;
-    slotConfig.kP = SmartDashboard.getNumber("tilter p", 1);
-    m_tilterMotor.getConfigurator().apply(slotConfig);
-
-    MotionMagicConfigs magicConfig = TilterConstants.talonFXConfigs.MotionMagic;
-    magicConfig.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVel", 10);
-    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 10);
-    m_tilterMotor.getConfigurator().apply(magicConfig);
+//    Slot0Configs slotConfig = TilterConstants.talonFXConfigs.Slot0;
+//    slotConfig.kP = SmartDashboard.getNumber("tilter p", 1);
+//    m_tilterMotor.getConfigurator().apply(slotConfig);
+//
+//    MotionMagicConfigs magicConfig = TilterConstants.talonFXConfigs.MotionMagic;
+//    magicConfig.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVel", 10);
+//    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 10);
+//    m_tilterMotor.getConfigurator().apply(magicConfig);
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
     SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
     SmartDashboard.putNumber("tilter applied current", m_tilterMotor.getTorqueCurrent().getValue());
@@ -90,14 +88,11 @@ public class Tilter extends SubsystemBase {
 //      m_tilterMotor.set(0);
 //    }
     setpoint = MathUtil.clamp(position, 0, TilterConstants.MAX_POSITION);
-    System.out.println("created setpoint");
     if (isHomed) {
       if (m_tilterMotor.getPosition().getValue() > setpoint) {
-        System.out.println("drive backward");
         m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.02));
       }
       else {
-        System.out.println("drive forward");
         m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.02));
       }
     }

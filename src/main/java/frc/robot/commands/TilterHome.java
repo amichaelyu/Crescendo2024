@@ -21,15 +21,12 @@ public class TilterHome extends Command {
     @Override
     public void execute() {
         if (tilter.isAtBottom()) {
-            System.out.println("at bottom");
             isHomed = true;
         }
         if (!isHomed) {
-            System.out.println("going down");
             tilter.setVoltage(-3);
         }
         else {
-            System.out.println("running PID");
             tilter.setPosition(TilterConstants.START_POSITION);
         }
     }
