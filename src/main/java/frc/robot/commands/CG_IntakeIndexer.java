@@ -9,7 +9,7 @@ public class CG_IntakeIndexer extends ParallelDeadlineGroup {
         super(
                 new IndexerRun(),
                 new ShooterSetpointSpeed(0),
-                new TilterSetpointPosition(TilterConstants.GROUND_INTAKE_POSITION),
+                new TilterSetpointPositionThenPostition(TilterConstants.GROUND_INTAKE_POSITION, TilterConstants.IDLE_POSITION),
                 new IntakeRun()
         );
     }

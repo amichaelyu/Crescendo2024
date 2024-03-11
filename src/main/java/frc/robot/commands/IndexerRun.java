@@ -35,7 +35,7 @@ public class IndexerRun extends Command {
             sum += indexerCurrents.get(i);
         }
         double avg = sum / currentCycles;
-        return avg > IndexerConstants.CUTOFF_VOLTAGE;
+        return Math.abs(avg) > IndexerConstants.CUTOFF_VOLTAGE;
     }
 
     @Override
