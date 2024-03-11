@@ -138,7 +138,7 @@ public final class Constants {
 //            talonFXConfigs.Slot0.kS = 1; // Add 0.25 V output to overcome static friction
 //            talonFXConfigs.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
 //            talonFXConfigs.Slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            talonFXConfigs.Slot0.kP = 1.0 / 4.0; // old: 5.0
+            talonFXConfigs.Slot0.kP = 0.05; // old: 5.0
             talonFXConfigs.Slot0.kI = 0; // no output for integrated error
             talonFXConfigs.Slot0.kD = 0; // A velocity error of 1 rps results in 0.1 V output
 

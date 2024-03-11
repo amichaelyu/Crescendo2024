@@ -44,7 +44,7 @@ public class Tilter extends SubsystemBase {
   @Override
   public void periodic() {
     Slot0Configs slotConfig = TilterConstants.talonFXConfigs.Slot0;
-    slotConfig.kP = SmartDashboard.getNumber("tilter p", 1.0 / 4.0);
+    slotConfig.kP = SmartDashboard.getNumber("tilter p", 0.05);
     m_tilterMotor.getConfigurator().apply(slotConfig);
 
     MotionMagicConfigs magicConfig = TilterConstants.talonFXConfigs.MotionMagic;
@@ -94,10 +94,10 @@ public class Tilter extends SubsystemBase {
     setpoint = MathUtil.clamp(position, 0, 200);
     if (isHomed) {
       if (m_tilterMotor.getPosition().getValue() > setpoint) {
-        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.01));
+        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.002));
       }
       else {
-        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.01));
+        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.002));
       }
     }
   }
