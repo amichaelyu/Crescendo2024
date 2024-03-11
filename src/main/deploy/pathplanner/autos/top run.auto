@@ -74,12 +74,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 100.0
-          }
-        },
-        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -134,6 +128,12 @@
           "type": "named",
           "data": {
             "name": "citrusShot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 100.0
           }
         },
         {
