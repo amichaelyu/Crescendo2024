@@ -33,7 +33,7 @@ public class TilterHome extends Command {
 
     @Override
     public boolean isFinished() {
-        return tilter.atSetpoint() && isHomed && (tilter.getPosition() > 90);
+        return tilter.atSetpoint() && isHomed && (tilter.getPosition() > 30);
     }
 
     @Override

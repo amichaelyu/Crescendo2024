@@ -34,10 +34,7 @@ public class Tilter extends SubsystemBase {
 
     SmartDashboard.putNumber("tilter p", 0.1);
     SmartDashboard.putNumber("tilter magicVel", 10);
-    SmartDashboard.putNumber("tilter magicAcc", 10);
-//    m_tilterMotor.setNeutralMode(NeutralModeValue.Brake);
 
-//    m_tilterMotor.setInverted(true);
     isHomed = true;
   }
 
@@ -63,8 +60,6 @@ public class Tilter extends SubsystemBase {
   }
 
   public void setVoltage(double voltage) {
-    m_tilterMotor.getRotorPosition();
-    m_tilterMotor.getPosition();
       if (isAtBottom() && voltage < 0) {
         m_tilterMotor.setControl(new VoltageOut(0));
         System.out.println("Lifter at Bottom; not going down.");
@@ -91,7 +86,7 @@ public class Tilter extends SubsystemBase {
 //    if (isAtBottom() && position < m_tilterMotor.getPosition().getValue()) {
 //      m_tilterMotor.set(0);
 //    }
-    setpoint = MathUtil.clamp(position, 0, 200);
+    setpoint = MathUtil.clamp(position, 0, TilterConstants.MAX_POSITION);
     if (isHomed) {
       if (m_tilterMotor.getPosition().getValue() > setpoint) {
         m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.002));
