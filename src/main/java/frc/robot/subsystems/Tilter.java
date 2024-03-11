@@ -90,11 +90,14 @@ public class Tilter extends SubsystemBase {
 //      m_tilterMotor.set(0);
 //    }
     setpoint = MathUtil.clamp(position, 0, TilterConstants.MAX_POSITION);
+    System.out.println("created setpoint");
     if (isHomed) {
       if (m_tilterMotor.getPosition().getValue() > setpoint) {
+        System.out.println("drive backward");
         m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.02));
       }
       else {
+        System.out.println("drive forward");
         m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.02));
       }
     }
