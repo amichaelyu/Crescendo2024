@@ -138,14 +138,13 @@ public final class Constants {
 //            talonFXConfigs.Slot0.kS = 1; // Add 0.25 V output to overcome static friction
 //            talonFXConfigs.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
 //            talonFXConfigs.Slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            talonFXConfigs.Slot0.kP = 5.0 / 4; // A position error of 2.4 rotations results in 12 V output
+            talonFXConfigs.Slot0.kP = 1.0; // old: 5.0
             talonFXConfigs.Slot0.kI = 0; // no output for integrated error
             talonFXConfigs.Slot0.kD = 0; // A velocity error of 1 rps results in 0.1 V output
-            talonFXConfigs.Slot0.kG = 0;
 
             // set Motion Magic settings
-            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 110 / 4.0; // Target cruise velocity of 80 rps
-            talonFXConfigs.MotionMagic.MotionMagicAcceleration = 1600 / 4.0; // Target acceleration of 160 rps/s (0.5 seconds)
+            talonFXConfigs.MotionMagic.MotionMagicCruiseVelocity = 20; // old: 110
+            talonFXConfigs.MotionMagic.MotionMagicAcceleration = 50; // old: 100
 //            talonFXConfigs.MotionMagic.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
         }
     }

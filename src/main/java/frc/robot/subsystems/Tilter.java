@@ -49,7 +49,7 @@ public class Tilter extends SubsystemBase {
 
     MotionMagicConfigs magicConfig = TilterConstants.talonFXConfigs.MotionMagic;
     magicConfig.MotionMagicCruiseVelocity = SmartDashboard.getNumber("tilter magicVel", 50);
-    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 200);
+    magicConfig.MotionMagicAcceleration = SmartDashboard.getNumber("tilter magicAcc", 100);
     m_tilterMotor.getConfigurator().apply(magicConfig);
 //      setVoltage(SmartDashboard.getNumber("tilter voltage", 0));
     SmartDashboard.putNumber("tilter rotations", m_tilterMotor.getPosition().getValue());
