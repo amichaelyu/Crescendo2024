@@ -34,6 +34,7 @@ public class Tilter extends SubsystemBase {
 
     SmartDashboard.putNumber("tilter p", 0.1);
     SmartDashboard.putNumber("tilter magicVel", 10);
+    SmartDashboard.putNumber("tilter magicAcc", 10);
 
     isHomed = true;
   }
@@ -89,10 +90,10 @@ public class Tilter extends SubsystemBase {
     setpoint = MathUtil.clamp(position, 0, TilterConstants.MAX_POSITION);
     if (isHomed) {
       if (m_tilterMotor.getPosition().getValue() > setpoint) {
-        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.002));
+        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.02));
       }
       else {
-        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.002));
+        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.02));
       }
     }
   }
