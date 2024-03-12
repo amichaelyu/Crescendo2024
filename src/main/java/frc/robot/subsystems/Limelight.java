@@ -79,7 +79,7 @@ public class Limelight extends SubsystemBase {
                 if (rightResult.targets.size() >= 2) {
                     Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
                 }
-                else {
+                else if (!DriverStation.isAutonomous()) {
                     if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
                         Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
                     }
@@ -91,7 +91,7 @@ public class Limelight extends SubsystemBase {
                 if (leftResult.targets.size() >= 2) {
                     Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
                 }
-                else {
+                else if (!DriverStation.isAutonomous()) {
                     if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
                         Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
                     }
