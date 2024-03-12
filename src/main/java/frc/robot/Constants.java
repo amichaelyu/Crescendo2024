@@ -79,7 +79,7 @@ public final class Constants {
 
     public static final class TilterConstants {
         public static final int tilterMotorID = 24;
-        public static final double PID_TOLERANCE = 0.01;
+        public static final double PID_TOLERANCE = 0.05;
         public static final double START_POSITION = 160 / 4.0; // 0-50
         public static final double IDLE_POSITION = 80 / 4.0; // 0-50
         public static final double SPEAKER_CENTER_POSITION = 130.0 / 4.0; // 0-50
@@ -113,7 +113,7 @@ public final class Constants {
             tilterMap.put(1.7, 100.0 / 4.0);
             tilterMap.put(1.86, 85.0 / 4.0);
             tilterMap.put(2.16, 60.0 / 4.0);
-            tilterMap.put(2.39, 35.0 / 4.0);
+            tilterMap.put(2.39, 40.0 / 4.0);
             tilterMap.put(2.55, 30.0 / 4.0);
             tilterMap.put(2.68, 17.0 / 4.0);
             tilterMap.put(2.8, 10.0 / 4.0);
