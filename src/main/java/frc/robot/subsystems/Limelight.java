@@ -78,21 +78,6 @@ public class Limelight extends SubsystemBase {
 
             if (rightResult.hasTargets() && rightPose.isPresent()) {
                 Pose3d pose3d = rightPose.get().estimatedPose;
-                List<Pose3d> tagPoses = new ArrayList<>();
-                for (PhotonTrackedTarget target : rightResult.targets) {
-                    int tagId = target.getFiducialId();
-                    Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(tagId);
-                    tagPose.ifPresent(tagPoses::add);
-                }
-                double totalDistance = 0.0;
-                for (Pose3d tagPose : tagPoses) {
-                    totalDistance += tagPose.getTranslation().getDistance(pose3d.getTranslation().plus(VisionConstants.RIGHT_CAMERA_TRANSLATION));
-                }
-                double avgDistance = totalDistance / tagPoses.size();
-                double xyStdDev =
-                        0.005
-                                * Math.pow(avgDistance, 2.0)
-                                / tagPoses.size();
                 SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
                 if (rightResult.targets.size() >= 2) {
                     Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds, xyStdDev);
@@ -105,19 +90,6 @@ public class Limelight extends SubsystemBase {
             }
             if (leftResult.hasTargets() && leftPose.isPresent()) {
                 Pose3d pose3d = leftPose.get().estimatedPose;
-                List<Pose3d> tagPoses = new ArrayList<>();
-                for (PhotonTrackedTarget target : rightResult.targets) {
-                    int tagId = target.getFiducialId();
-                    Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(tagId);
-                    tagPose.ifPresent(tagPoses::add);
-                }
-                double totalDistance = 0.0;
-                for (Pose3d tagPose : tagPoses) {
-                    totalDistance += tagPose.getTranslation().getDistance(pose3d.getTranslation().plus(VisionConstants.LEFT_CAMERA_TRANSLATION));
-                }
-                double avgDistance = totalDistance / tagPoses.size();
-                double xyStdDev =
-                        0.005 * Math.pow(avgDistance, 2.0) / tagPoses.size();
                 SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
                 if (leftResult.targets.size() >= 2) {
                     Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds, xyStdDev);
