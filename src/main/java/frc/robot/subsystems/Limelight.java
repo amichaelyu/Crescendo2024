@@ -3,11 +3,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.Speaker;
 import org.photonvision.EstimatedRobotPose;
@@ -15,7 +18,10 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Limelight extends SubsystemBase {
@@ -27,6 +33,7 @@ public class Limelight extends SubsystemBase {
     private Optional<EstimatedRobotPose> rightPose;
     private PhotonPipelineResult leftResult;
     private PhotonPipelineResult rightResult;
+    private final AprilTagFieldLayout aprilTagFieldLayout;
 
     private Pose2d lastPose = new Pose2d();
 
@@ -39,15 +46,15 @@ public class Limelight extends SubsystemBase {
     private Limelight() {
         //    private final NetworkTable limelightRight = LimelightHelpers.getLimelightNTTable(limelightRightName);
         //    private final NetworkTable limelightLeft = LimelightHelpers.getLimelightNTTable(limelightLeftName);
-        AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+        aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
         aprilTagFieldLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
         camLeft = new PhotonCamera("left"); // 10.63.00.11
         camRight = new PhotonCamera("right"); // 10.63.00.22
 
-        poseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camLeft, new Transform3d(new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(-11), Units.inchesToMeters(16)), new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))));
+        poseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camLeft, new Transform3d(VisionConstants.LEFT_CAMERA_TRANSLATION, VisionConstants.LEFT_CAMERA_ROTATION));
         poseEstimatorLeft.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
-        poseEstimatorRight = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camRight, new Transform3d(new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(11), Units.inchesToMeters(16)), new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180))));
+        poseEstimatorRight = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camRight, new Transform3d(VisionConstants.RIGHT_CAMERA_TRANSLATION, VisionConstants.RIGHT_CAMERA_ROTATION));
         poseEstimatorRight.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 //        setLEDs(LED.OFF);
 //        setPipeline(Pipelines.APRIL);
@@ -68,42 +75,60 @@ public class Limelight extends SubsystemBase {
 //            SmartDashboard.putBoolean("left has targets", leftResult.hasTargets());
 //            SmartDashboard.putBoolean("left pose present", leftPose.isPresent());
 //            SmartDashboard.putNumber("left targets size", leftResult.targets.size());
-            if (rightResult.hasTargets() && rightResult.targets.size() >= 2 && rightPose.isPresent()) {
+
+            if (rightResult.hasTargets() && rightPose.isPresent()) {
                 Pose3d pose3d = rightPose.get().estimatedPose;
+                List<Pose3d> tagPoses = new ArrayList<>();
+                for (PhotonTrackedTarget target : rightResult.targets) {
+                    int tagId = target.getFiducialId();
+                    Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(tagId);
+                    tagPose.ifPresent(tagPoses::add);
+                }
+                double totalDistance = 0.0;
+                for (Pose3d tagPose : tagPoses) {
+                    totalDistance += tagPose.getTranslation().getDistance(pose3d.getTranslation().plus(VisionConstants.RIGHT_CAMERA_TRANSLATION));
+                }
+                double avgDistance = totalDistance / tagPoses.size();
+                double xyStdDev =
+                        0.005
+                                * Math.pow(avgDistance, 2.0)
+                                / tagPoses.size();
                 SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-                Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
-            }
-            if (leftResult.hasTargets() && leftResult.targets.size() >= 2 && leftPose.isPresent()) {
-                Pose3d pose3d = leftPose.get().estimatedPose;
-                SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-                Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
-            }
-            if (rightResult.hasTargets() && rightResult.targets.size() == 1 && rightPose.isPresent()) {
-                Pose3d pose3d = rightPose.get().estimatedPose;
-                SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-                if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
-                    Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
+                if (rightResult.targets.size() >= 2) {
+                    Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds, xyStdDev);
+                }
+                else {
+                    if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
+                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds, xyStdDev);
+                    }
                 }
             }
-            if (leftResult.hasTargets() && leftResult.targets.size() == 1 && leftPose.isPresent()) {
+            if (leftResult.hasTargets() && leftPose.isPresent()) {
                 Pose3d pose3d = leftPose.get().estimatedPose;
+                List<Pose3d> tagPoses = new ArrayList<>();
+                for (PhotonTrackedTarget target : rightResult.targets) {
+                    int tagId = target.getFiducialId();
+                    Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(tagId);
+                    tagPose.ifPresent(tagPoses::add);
+                }
+                double totalDistance = 0.0;
+                for (Pose3d tagPose : tagPoses) {
+                    totalDistance += tagPose.getTranslation().getDistance(pose3d.getTranslation().plus(VisionConstants.LEFT_CAMERA_TRANSLATION));
+                }
+                double avgDistance = totalDistance / tagPoses.size();
+                double xyStdDev =
+                        0.005 * Math.pow(avgDistance, 2.0) / tagPoses.size();
                 SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-                if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
-                    Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
+                if (leftResult.targets.size() >= 2) {
+                    Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds, xyStdDev);
+                }
+                else {
+                    if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
+                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds, xyStdDev);
+                    }
                 }
             }
 
-//            if (rightResult.hasTargets() && rightResult.targets.size() >= 2 && rightPose.isPresent()) {
-//                Pose3d pose3d = rightPose.get().estimatedPose;
-//                SmartDashboard.putNumberArray("limelight right pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-//                Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
-//            }
-//            if (leftResult.hasTargets() && leftResult.targets.size() >= 2 && leftPose.isPresent()) {
-//                Pose3d pose3d = leftPose.get().estimatedPose;
-//                SmartDashboard.putNumberArray("limelight left pose", new double[]{pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d().getRadians()});
-//                Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
-//            }
-//        }
 
         SmartDashboard.putNumberArray("limelight bot pose", new double[]{getBotPose().getX(), getBotPose().getY(), getBotPose().getRotation().getRadians()});
 

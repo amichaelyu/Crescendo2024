@@ -5,9 +5,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -328,5 +326,13 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
+    public static final class VisionConstants {
+        public static final Translation3d LEFT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(-11), Units.inchesToMeters(16));
+        public static final Rotation3d LEFT_CAMERA_ROTATION = new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180));
+
+        public static final Translation3d RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(11), Units.inchesToMeters(16));
+        public static final Rotation3d RIGHT_CAMERA_ROTATION = new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180));
     }
 }

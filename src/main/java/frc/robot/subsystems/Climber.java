@@ -38,8 +38,8 @@ public class Climber extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("right Top", !limitSwitchRightTop.get());
-    SmartDashboard.putBoolean("right bottom", !limitSwitchRightBottom.get());
+    SmartDashboard.putBoolean("climber Top", !limitSwitchRightTop.get());
+    SmartDashboard.putBoolean("climber bottom", !limitSwitchRightBottom.get());
   }
 
   public void move(double pwr) {
