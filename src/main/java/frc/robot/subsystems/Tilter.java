@@ -90,10 +90,10 @@ public class Tilter extends SubsystemBase {
     setpoint = MathUtil.clamp(position, 0, TilterConstants.MAX_POSITION);
     if (isHomed) {
       if (m_tilterMotor.getPosition().getValue() > setpoint) {
-        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.04));
+        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(-m_tilterMotor.getPosition().getValue() * 0.08));
       }
       else {
-        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.04));
+        m_tilterMotor.setControl(new MotionMagicVoltage(setpoint).withFeedForward(m_tilterMotor.getPosition().getValue() * 0.08));
       }
     }
   }
