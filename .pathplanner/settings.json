@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.8826495233692574,
-  "robotLength": 0.8064495645172352,
+  "robotWidth": 0.88,
+  "robotLength": 0.81,
   "holonomicMode": true,
   "pathFolders": [
     "simple 1 + 1"
