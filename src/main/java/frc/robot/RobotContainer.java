@@ -172,7 +172,7 @@ public class RobotContainer {
         autoChooser.addOption("top sprint 5 note", AutoBuilder.buildAuto("top sprint 5 note"));
         autoChooser.addOption("top run", AutoBuilder.buildAuto("top run"));
         autoChooser.addOption("bottom run", AutoBuilder.buildAuto("bottom run"));
-//        autoChooser.addOption("neo 4 note", AutoBuilder.buildAuto("neo 3 note"));
+        autoChooser.addOption("neo 4 note", AutoBuilder.buildAuto("neo 3 note"));
 
         SmartDashboard.putData("Auto Command", autoChooser);
     }
