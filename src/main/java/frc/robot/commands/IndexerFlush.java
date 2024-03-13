@@ -29,6 +29,7 @@ public class IndexerFlush extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        indexer.stop();
 
     }
 }
