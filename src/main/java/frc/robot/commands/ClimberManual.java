@@ -1,18 +1,15 @@
 package frc.robot.commands;
 
 
-
-import frc.robot.subsystems.Climber;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Tilter;
+import frc.robot.subsystems.Climber;
 
 import java.util.function.DoubleSupplier;
 
 
 public class ClimberManual extends Command {
   private final Climber climber = Climber.getInstance();
-  private final Tilter tilter = Tilter.getInstance();
   private final DoubleSupplier pwr;
 
   public ClimberManual(DoubleSupplier pwr) {

@@ -104,7 +104,6 @@ public class RobotContainer {
 //        operator.b().whileTrue(tilterRoutine.quasistatic(Direction.kReverse));
 
         Swerve.getInstance().setDefaultCommand(new SwerveXboxDrive(driver.leftBumper()));
-        Indexer.getInstance().setDefaultCommand(new IndexerManual(() -> (0.25 * (driver.getRightTriggerAxis() - driver.getLeftTriggerAxis()))));
         Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis() - operator.getLeftTriggerAxis()))));
         Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRawAxis(5))));
     }
