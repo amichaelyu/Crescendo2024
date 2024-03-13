@@ -17,7 +17,7 @@ public class ClimberManual extends Command {
 
   public ClimberManual(DoubleSupplier pwr) {
       this.pwr = pwr;
-      addRequirements(climber);
+      addRequirements(climber, tilter);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +31,7 @@ public class ClimberManual extends Command {
       if (MathUtil.applyDeadband(pwr.getAsDouble(),0.1) > 0.2) {
           tilter.setPosition(0);
       }
-     climber.move(MathUtil.applyDeadband(pwr.getAsDouble(),0.1));
+      climber.move(MathUtil.applyDeadband(pwr.getAsDouble(),0.1));
    }
 
   @Override

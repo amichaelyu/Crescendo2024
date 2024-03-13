@@ -78,7 +78,7 @@ public final class Constants {
 
     public static final class TilterConstants {
         public static final int tilterMotorID = 24;
-        public static final double PID_TOLERANCE = 0.05;
+        public static final double PID_TOLERANCE = 0.1;
         public static final double START_POSITION = 160 / 4.0; // 0-50
         public static final double IDLE_POSITION = 80 / 4.0; // 0-50
         public static final double SPEAKER_CENTER_POSITION = 130.0 / 4.0; // 0-50
@@ -136,7 +136,7 @@ public final class Constants {
 //            talonFXConfigs.Slot0.kS = 1; // Add 0.25 V output to overcome static friction
 //            talonFXConfigs.Slot0.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
 //            talonFXConfigs.Slot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-            talonFXConfigs.Slot0.kP = 10; // old: 5.0
+            talonFXConfigs.Slot0.kP = 15; // old: 5.0
             talonFXConfigs.Slot0.kI = 0; // no output for integrated error
             talonFXConfigs.Slot0.kD = 0; // A velocity error of 1 rps results in 0.1 V output
 
