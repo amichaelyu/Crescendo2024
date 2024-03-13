@@ -136,6 +136,7 @@ public class RobotContainer {
         // these are normal operator buttons
         operator.y().whileTrue(new CG_ShootingSpeaker())
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+        operator.a().whileTrue(new TilterSetpointPosition(0));
         operator.b().whileTrue(new CG_ShootingAmp())
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
         operator.x().whileTrue(new IndexerKick());

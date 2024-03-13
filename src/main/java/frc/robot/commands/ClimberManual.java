@@ -28,9 +28,6 @@ public class ClimberManual extends Command {
    // Called every time the scheduler runs while the command is scheduled.
    @Override
    public void execute() {
-      if (MathUtil.applyDeadband(pwr.getAsDouble(),0.1) > 0.2) {
-          tilter.setPosition(0);
-      }
       climber.move(MathUtil.applyDeadband(pwr.getAsDouble(),0.1));
    }
 
