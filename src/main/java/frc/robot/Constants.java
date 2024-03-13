@@ -22,7 +22,7 @@ public final class Constants {
 
     public static final class IndexerConstants {
         public static final int ID = 22;
-        public static final double FORWARD_DUTY_CYCLE = -0.7;
+        public static final double FORWARD_DUTY_CYCLE = -1.0;
         public static final double FLUSH_DUTY_CYCLE = 0.75;
         
         public static final int CURRENT_CYCLES = 20;
