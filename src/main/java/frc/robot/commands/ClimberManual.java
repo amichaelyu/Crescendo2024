@@ -17,7 +17,7 @@ public class ClimberManual extends Command {
 
   public ClimberManual(DoubleSupplier pwr) {
       this.pwr = pwr;
-      addRequirements(climber, tilter);
+      addRequirements(climber);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
