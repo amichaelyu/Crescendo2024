@@ -24,7 +24,7 @@ public class TilterHome extends Command {
             isHomed = true;
         }
         if (!isHomed) {
-            tilter.setVoltage(-3);
+            tilter.setVoltage(-2);
         }
         else {
             tilter.setPosition(TilterConstants.START_POSITION);
