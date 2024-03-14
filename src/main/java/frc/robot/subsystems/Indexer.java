@@ -4,7 +4,6 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.IndexerConstants;
@@ -31,7 +30,6 @@ public class Indexer extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("indexer current", m_indexMotor.getTorqueCurrent().getValue());
   }
 
   public void move(double pwr) {

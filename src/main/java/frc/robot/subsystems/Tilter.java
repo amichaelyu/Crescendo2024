@@ -63,7 +63,7 @@ public class Tilter extends SubsystemBase {
   public void setVoltage(double voltage) {
       if (isAtBottom() && voltage < 0) {
         m_tilterMotor.setControl(new VoltageOut(0));
-        System.out.println("Lifter at Bottom; not going down.");
+//        System.out.println("Lifter at Bottom; not going down.");
       }
       else{
         m_tilterMotor.setControl(new VoltageOut(voltage));

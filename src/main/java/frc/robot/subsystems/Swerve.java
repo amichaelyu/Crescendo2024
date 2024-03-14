@@ -82,7 +82,6 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumberArray("pose", new double[]{getPose().getX(), getPose().getY(), getPose().getRotation().getRadians()});
 
         SmartDashboard.putNumber("swerve degrees", getPose().getRotation().getDegrees());
-        SmartDashboard.putNumber("swerve distance to target", distanceToTargetSwervePose());
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
