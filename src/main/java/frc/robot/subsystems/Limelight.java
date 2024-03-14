@@ -29,8 +29,8 @@ public class Limelight extends SubsystemBase {
     private final PhotonCamera camRight;
     private Optional<EstimatedRobotPose> leftPose;
     private Optional<EstimatedRobotPose> rightPose;
-    private PhotonPipelineResult leftResult;
-    private PhotonPipelineResult rightResult;
+    private PhotonPipelineResult leftResult = new PhotonPipelineResult();
+    private PhotonPipelineResult rightResult = new PhotonPipelineResult();
     private final AprilTagFieldLayout aprilTagFieldLayout;
 
     private Pose2d lastPose = new Pose2d();
@@ -48,6 +48,8 @@ public class Limelight extends SubsystemBase {
         aprilTagFieldLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
         camLeft = new PhotonCamera("left"); // 10.63.00.11
         camRight = new PhotonCamera("right"); // 10.63.00.22
+        camLeft.setLED(VisionLEDMode.kOn);
+        camRight.setLED(VisionLEDMode.kOn);
 
         poseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camLeft, new Transform3d(VisionConstants.LEFT_CAMERA_TRANSLATION, VisionConstants.LEFT_CAMERA_ROTATION));
         poseEstimatorLeft.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
@@ -64,9 +66,7 @@ public class Limelight extends SubsystemBase {
         rightPose = poseEstimatorRight.update();
 
         leftResult = camLeft.getLatestResult();
-        camLeft.setLED(VisionLEDMode.kOn);
         rightResult = camRight.getLatestResult();
-        camRight.setLED(VisionLEDMode.kOn);
 
         Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
 
@@ -85,12 +85,12 @@ public class Limelight extends SubsystemBase {
                     Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
                 }
                 else if (!DriverStation.isAutonomous()) {
-//                    if (distance(adjustedSpeaker, new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 4.0) {
-//                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
-//                    }
-                    if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
+                    if (distance(adjustedSpeaker, new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 4.0) {
                         Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
                     }
+//                    if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
+//                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
+//                    }
                 }
             }
             if (leftResult.hasTargets() && leftPose.isPresent()) {
@@ -100,21 +100,20 @@ public class Limelight extends SubsystemBase {
                     Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
                 }
                 else if (!DriverStation.isAutonomous()) {
-//                    if (distance(adjustedSpeaker, new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 4.0) {
-//                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
-//                    }
-                    if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
-                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
+                    if (distance(adjustedSpeaker, new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 4.0) {
+                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
                     }
+//                    if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
+//                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
+//                    }
                 }
             }
 
 
-        SmartDashboard.putNumberArray("limelight bot pose", new double[]{getBotPose().getX(), getBotPose().getY(), getBotPose().getRotation().getRadians()});
-
+//        SmartDashboard.putNumberArray("limelight bot pose", new double[]{getBotPose().getX(), getBotPose().getY(), getBotPose().getRotation().getRadians()});
         SmartDashboard.putBoolean("has target", hasTarget());
-        SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
-        SmartDashboard.putNumber("distance to target", Swerve.getInstance().distanceToTargetSwervePose());
+//        SmartDashboard.putNumber("wanted rotation", getRotationToTarget().rotateBy(Rotation2d.fromRadians(Math.PI)).getDegrees());
+        SmartDashboard.putNumber("distance to target", distanceToTarget());
     }
 
     public Rotation2d getRotationToTarget() {

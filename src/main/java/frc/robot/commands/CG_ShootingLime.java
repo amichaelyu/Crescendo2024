@@ -8,12 +8,12 @@ public class CG_ShootingLime extends ParallelDeadlineGroup {
     public CG_ShootingLime() {
         super(
             new SequentialCommandGroup(
-                    new SwerveRotateLime(),
+                    new SwerveRotatePose(),
                     new ShooterTilterArmed(),
                     new IndexerKick()
             ),
-            new TilterLime(),
-            new ShooterLime()
+            new TilterPose(),
+            new ShooterPose()
         );
     }
 }

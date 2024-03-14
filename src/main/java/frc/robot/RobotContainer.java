@@ -84,7 +84,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
         NamedCommands.registerCommand("tilterSetpointLow", new TilterSetpointPosition(30.0 / 4.0));
         NamedCommands.registerCommand("tilterPoseSetpoint", new TilterPose());
-        NamedCommands.registerCommand("tilterIdle", new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+        NamedCommands.registerCommand("tilterSetpointIdle", new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
         NamedCommands.registerCommand("intake", new CG_IntakeIndexer());
         NamedCommands.registerCommand("slightBack", new IndexerSlightBack());
         NamedCommands.registerCommand("citrusShot", new CG_ShootingLime());
