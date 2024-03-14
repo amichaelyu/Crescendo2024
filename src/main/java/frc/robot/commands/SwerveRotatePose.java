@@ -10,13 +10,13 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 
-public class SwerveRotateLime extends Command {
+public class SwerveRotatePose extends Command {
     private final Swerve swerve = Swerve.getInstance();
     private final Limelight limelight = Limelight.getInstance();
     private final PIDController pidController;
     private Rotation2d wantedRotation = new Rotation2d();
 
-    public SwerveRotateLime() {
+    public SwerveRotatePose() {
         addRequirements(this.swerve);
         pidController = new PIDController(SwerveConstants.ROTATE_P, SwerveConstants.ROTATE_I, SwerveConstants.ROTATE_D);
         pidController.setTolerance(SwerveConstants.ROTATE_TOLERANCE);
@@ -26,7 +26,7 @@ public class SwerveRotateLime extends Command {
     @Override
     public void initialize() {
         if (DriverStation.getAlliance().isPresent()) {
-            Rotation2d limeRot = limelight.getRotationToTarget();
+            Rotation2d limeRot = swerve.getRotationToTargetSwervePose();
             limeRot = limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
             wantedRotation = limeRot;
             pidController.setSetpoint(wantedRotation.getRadians());

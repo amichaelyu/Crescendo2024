@@ -259,7 +259,7 @@ public final class Constants {
 
         /* SwerveConstants Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = Units.feetToMeters(13.7);
+        public static final double maxSpeed = Units.feetToMeters(15.7);
         /** Radians per Second */
         public static final double maxAngularVelocity = 10;
 

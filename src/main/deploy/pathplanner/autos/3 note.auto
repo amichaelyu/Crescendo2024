@@ -134,6 +134,12 @@
           "data": {
             "name": "citrusShot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 note p4"
+          }
         }
       ]
     }

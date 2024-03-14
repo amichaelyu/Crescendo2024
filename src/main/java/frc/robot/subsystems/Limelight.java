@@ -17,6 +17,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import java.util.Optional;
@@ -63,7 +64,11 @@ public class Limelight extends SubsystemBase {
         rightPose = poseEstimatorRight.update();
 
         leftResult = camLeft.getLatestResult();
+        camLeft.setLED(VisionLEDMode.kOn);
         rightResult = camRight.getLatestResult();
+        camRight.setLED(VisionLEDMode.kOn);
+
+        Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
 
 //        if (!DriverStation.isAutonomous()) {
 //            SmartDashboard.putBoolean("right has targets", rightResult.hasTargets());
@@ -80,6 +85,9 @@ public class Limelight extends SubsystemBase {
                     Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
                 }
                 else if (!DriverStation.isAutonomous()) {
+//                    if (distance(adjustedSpeaker, new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 4.0) {
+//                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
+//                    }
                     if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
                         Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
                     }
@@ -92,8 +100,11 @@ public class Limelight extends SubsystemBase {
                     Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
                 }
                 else if (!DriverStation.isAutonomous()) {
+//                    if (distance(adjustedSpeaker, new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 4.0) {
+//                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
+//                    }
                     if (distance(Swerve.getInstance().getPose(), new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d())) < 0.5) {
-                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), leftPose.get().timestampSeconds);
+                        Swerve.getInstance().addVision(new Pose2d(pose3d.getX(), pose3d.getY(), pose3d.getRotation().toRotation2d()), rightPose.get().timestampSeconds);
                     }
                 }
             }

@@ -12,8 +12,8 @@ public class CG_ShootingLime extends ParallelDeadlineGroup {
                     new ShooterTilterArmed(),
                     new IndexerKick()
             ),
-            new TilterPose(),
-            new ShooterPose()
+            new TilterLime(),
+            new ShooterLime()
         );
     }
 }
