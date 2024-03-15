@@ -48,8 +48,8 @@ public class Limelight extends SubsystemBase {
         aprilTagFieldLayout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
         camLeft = new PhotonCamera("left"); // 10.63.00.11
         camRight = new PhotonCamera("right"); // 10.63.00.22
-        camLeft.setLED(VisionLEDMode.kOn);
-        camRight.setLED(VisionLEDMode.kOn);
+        camLeft.setLED(VisionLEDMode.kOff);
+        camRight.setLED(VisionLEDMode.kOff);
 
         poseEstimatorLeft = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camLeft, new Transform3d(VisionConstants.LEFT_CAMERA_TRANSLATION, VisionConstants.LEFT_CAMERA_ROTATION));
         poseEstimatorLeft.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
@@ -68,7 +68,7 @@ public class Limelight extends SubsystemBase {
         leftResult = camLeft.getLatestResult();
         rightResult = camRight.getLatestResult();
 
-        if (DriverStation.getAlliance().isPresent()) {
+        if (DriverStation.getAlliance().isPresent() && !DriverStation.isAutonomous()) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
 
 //        if (!DriverStation.isAutonomous()) {
