@@ -1,6 +1,6 @@
 //LimelightHelpers v1.3.1 (March 4, 2024)
 
-package frc.robot;
+package frc.lib.util;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;

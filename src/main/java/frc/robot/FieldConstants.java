@@ -99,7 +99,7 @@ public class FieldConstants {
     }
     Translation2d transformedTranslation =
             new Translation2d(fieldLength - pose.getTranslation().getX(), pose.getTranslation().getY());
-    Rotation2d transformedHolonomicRotation = new Rotation2d(-pose.getRotation().getCos(), pose.getRotation().getSin());;
+    Rotation2d transformedHolonomicRotation = new Rotation2d(-pose.getRotation().getCos(), pose.getRotation().getSin());
     return new Pose2d(transformedTranslation, transformedHolonomicRotation);
   }
 
