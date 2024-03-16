@@ -68,7 +68,7 @@ public class Limelight extends SubsystemBase {
         leftResult = camLeft.getLatestResult();
         rightResult = camRight.getLatestResult();
 
-        if (DriverStation.getAlliance().isPresent() && !DriverStation.isAutonomous()) {
+        if (DriverStation.getAlliance().isPresent()) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
 
 //        if (!DriverStation.isAutonomous()) {
