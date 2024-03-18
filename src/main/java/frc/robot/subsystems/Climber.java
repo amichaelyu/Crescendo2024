@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
-  private final TalonFX rightClimberMotor = new TalonFX(ClimberConstants.rightClimberMotorID);
-  private final TalonFX leftClimberMotor = new TalonFX(ClimberConstants.leftClimberMotorID);
+  private final TalonFX rightClimberMotor = new TalonFX(ClimberConstants.rightClimberMotorID, "*");
+  private final TalonFX leftClimberMotor = new TalonFX(ClimberConstants.leftClimberMotorID, "*");
   private final DigitalInput limitSwitchRightTop;
   private final DigitalInput limitSwitchRightBottom;
 

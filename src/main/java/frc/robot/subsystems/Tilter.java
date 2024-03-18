@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.TilterConstants;
 
 public class Tilter extends SubsystemBase {
-  private final TalonFX m_tilterMotor = new TalonFX(TilterConstants.tilterMotorID);
+  private final TalonFX m_tilterMotor = new TalonFX(TilterConstants.tilterMotorID, "*");
   private boolean isHomed;
   private double setpoint = 0;
   private DigitalInput limitSwitchTop;

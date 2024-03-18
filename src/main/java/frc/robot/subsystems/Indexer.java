@@ -10,7 +10,7 @@ import static frc.robot.Constants.IndexerConstants;
 
 
 public class Indexer extends SubsystemBase {
-  private final TalonFX m_indexMotor = new TalonFX(IndexerConstants.ID);
+  private final TalonFX m_indexMotor = new TalonFX(IndexerConstants.ID, "*");
 
   private static final Indexer INSTANCE = new Indexer();
 

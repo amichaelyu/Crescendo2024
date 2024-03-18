@@ -44,7 +44,7 @@ public class SwerveModule {
         angleEncoder.getConfigurator().apply(tempConfig);
 
         /* Angle Motor Config */
-        mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
+        mAngleMotor = new TalonFX(moduleConstants.angleMotorID, "*");
         TalonFXConfiguration tempAngleConfig = Robot.ctreConfigs.swerveAngleFXConfig;
 //        tempAngleConfig.Feedback.FeedbackRemoteSensorID = moduleConstants.cancoderID;
         mAngleMotor.getConfigurator().apply(tempAngleConfig);
@@ -52,7 +52,7 @@ public class SwerveModule {
         resetToAbsolute();
 
         /* Drive Motor Config */
-        mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
+        mDriveMotor = new TalonFX(moduleConstants.driveMotorID, "*");
         mDriveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
         mDriveMotor.getConfigurator().setPosition(0.0);
     }

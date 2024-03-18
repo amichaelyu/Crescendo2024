@@ -10,8 +10,8 @@ import static frc.robot.Constants.ShooterConstants;
 
 
 public class Shooter extends SubsystemBase {
-  private final TalonFX m_rightShooter = new TalonFX(ShooterConstants.rightShooterID);
-  private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID);
+  private final TalonFX m_rightShooter = new TalonFX(ShooterConstants.rightShooterID, "*");
+  private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID, "*");
   private double setpoint = 0;
   private boolean stopped = false;
 
