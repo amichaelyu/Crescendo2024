@@ -57,7 +57,7 @@ public class Limelight extends SubsystemBase {
                 SmartDashboard.putNumberArray("LLPose3D" + i, new double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getZ()});
                 SmartDashboard.putNumberArray("LLPose2D" + i, new double[]{robotPose2d.getX(), robotPose2d.getY(), robotPose2d.getRotation().getRadians()});
 
-                if (robotPose3d.getX() < -FieldConstants.fieldLength
+                if (robotPose3d.getX() < -fieldBorderMargin
                         || robotPose3d.getX() > FieldConstants.fieldLength + fieldBorderMargin
                         || robotPose3d.getY() < -fieldBorderMargin
                         || robotPose3d.getY() > FieldConstants.fieldWidth + fieldBorderMargin
