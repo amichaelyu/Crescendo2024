@@ -130,9 +130,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "3 note p4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3 note p4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "tilterIdle"
+                }
+              }
+            ]
           }
         }
       ]

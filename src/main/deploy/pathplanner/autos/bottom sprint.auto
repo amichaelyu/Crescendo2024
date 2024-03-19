@@ -63,7 +63,26 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "tilterSetpointLow"
+                              "name": "tilterPoseSetpoint"
+                            }
+                          },
+                          {
+                            "type": "sequential",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "wait",
+                                  "data": {
+                                    "waitTime": 0.9
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "shooterPrep"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
@@ -127,7 +146,26 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "tilterSetpointLow"
+                              "name": "tilterPoseSetpoint"
+                            }
+                          },
+                          {
+                            "type": "sequential",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "wait",
+                                  "data": {
+                                    "waitTime": 0.65
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "shooterPrep"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
@@ -137,6 +175,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "citrusShot"
           }
         },
         {
@@ -182,6 +226,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "tilterIdle"
           }
         }
       ]

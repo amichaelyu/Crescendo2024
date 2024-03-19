@@ -59,7 +59,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "tilterSetpointLow"
+                        "name": "tilterPoseSetpoint"
                       }
                     }
                   ]
@@ -116,7 +116,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "tilterSetpointLow"
+                        "name": "tilterPoseSetpoint"
                       }
                     }
                   ]
@@ -173,7 +173,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "tilterSetpointLow"
+                        "name": "tilterPoseSetpoint"
                       }
                     }
                   ]
@@ -234,7 +234,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "tilterSetpointLow"
+                              "name": "tilterPoseSetpoint"
                             }
                           }
                         ]

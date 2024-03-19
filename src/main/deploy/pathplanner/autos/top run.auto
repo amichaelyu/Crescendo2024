@@ -101,15 +101,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "parallel",
                       "data": {
-                        "name": "slightBack"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "tilterSetpointLow"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "slightBack"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "tilterPoseSetpoint"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -122,12 +129,6 @@
           "type": "named",
           "data": {
             "name": "citrusShot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 100.0
           }
         },
         {
@@ -173,6 +174,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "tilterIdle"
           }
         }
       ]
