@@ -67,7 +67,7 @@ public class Limelight extends SubsystemBase {
                 }
 
                 double[] poseDump = LimelightHelpers.getLimelightNTTable(limelights[i]).getEntry("botpose_wpiblue").getDoubleArray(new double[3]);
-                if (Arrays.equals(poseDump, new double[]{0.0,0.0,0.0})) {
+                if (Arrays.equals(poseDump, new double[3])) {
                     continue;
                 }
                 double avgDist = poseDump[9];
@@ -77,7 +77,7 @@ public class Limelight extends SubsystemBase {
 
                 double xyStdDev = 0.01
                                 * Math.pow(avgDist, 2.0)
-                                / tagCount;
+                                / Math.pow(tagCount, 2.0); // squaring 2 tags for more power
                 double thetaStdDev = headingCorrecting ? 0.01
                         * Math.pow(avgDist, 2.0)
                         / tagCount : Double.POSITIVE_INFINITY;

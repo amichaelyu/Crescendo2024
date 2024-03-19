@@ -98,7 +98,10 @@ public class RobotContainer {
         operator.b().whileTrue(new FlipperUp());
         operator.x().whileTrue(new FlipperDown());
 //        operator.b().whileTrue(new CG_ShootingAmp())
-//                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+//                .whileFalse(new ParallelCommandGroup(
+//                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION),
+//                        new FlipperDown()
+//                        ));
 //        operator.x().whileTrue(new IndexerKick());
     }
 
