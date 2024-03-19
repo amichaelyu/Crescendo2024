@@ -54,8 +54,8 @@ public class Limelight extends SubsystemBase {
                     continue;
                 }
 
-                SmartDashboard.putNumberArray("LLPose3D" + i, new double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getZ()});
-                SmartDashboard.putNumberArray("LLPose2D" + i, new double[]{robotPose2d.getX(), robotPose2d.getY(), robotPose2d.getRotation().getRadians()});
+                SmartDashboard.putNumberArray("LLPose3Draw" + i, new double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getZ()});
+                SmartDashboard.putNumberArray("LLPose2Draw" + i, new double[]{robotPose2d.getX(), robotPose2d.getY(), robotPose2d.getRotation().getRadians()});
 
                 if (robotPose3d.getX() < -fieldBorderMargin
                         || robotPose3d.getX() > FieldConstants.fieldLength + fieldBorderMargin
@@ -97,6 +97,8 @@ public class Limelight extends SubsystemBase {
                 else {
                     rightPoseEstimatorField.setRobotPose(robotPose2d);
                 }
+                SmartDashboard.putNumberArray("LLPose3Daccepted" + i, new double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getZ()});
+                SmartDashboard.putNumberArray("LLPose2Daccepted" + i, new double[]{robotPose2d.getX(), robotPose2d.getY(), robotPose2d.getRotation().getRadians()});
                 Swerve.getInstance().addVision(robotPose2d, Timer.getFPGATimestamp() - Units.millisecondsToSeconds(LimelightHelpers.getLatency_Pipeline(limelights[i]) + LimelightHelpers.getLatency_Capture(limelights[i])), xyStdDev, thetaStdDev);
             }
         }
