@@ -30,6 +30,10 @@ public class Flipper extends SubsystemBase {
         SmartDashboard.putBoolean("Flipper At Bottom", atBottom());
     }
 
+    public void dutyCycle(double input) {
+        flipperMotor.set(ControlMode.PercentOutput, input);
+    }
+
     public void flipUp() {
         if (!atTop()) {
             flipperMotor.set(ControlMode.PercentOutput, 0.3);
