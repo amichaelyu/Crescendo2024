@@ -61,7 +61,7 @@ public class Limelight extends SubsystemBase {
                         || robotPose3d.getX() > FieldConstants.fieldLength + fieldBorderMargin
                         || robotPose3d.getY() < -fieldBorderMargin
                         || robotPose3d.getY() > FieldConstants.fieldWidth + fieldBorderMargin
-                        || robotPose3d.getZ() < -0.2
+                        || robotPose3d.getZ() < -0.4
                         || robotPose3d.getZ() > 0.15) {
                     continue;
                 }
