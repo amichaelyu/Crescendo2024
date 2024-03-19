@@ -55,6 +55,7 @@ public class Flipper extends SubsystemBase {
     }
 
     public boolean atBottom() {
-        return !limitSwitchBottom.get();
+        return false;
+//        return !limitSwitchBottom.get();
     }
 }
