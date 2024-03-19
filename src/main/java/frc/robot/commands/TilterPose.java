@@ -24,7 +24,7 @@ public class TilterPose extends Command {
 
     @Override
     public void execute() {
-        tilter.setPosition(TilterConstants.tilterMap.get(Swerve.getInstance().distanceToTargetSwervePose()));
+        tilter.setPosition(TilterConstants.tilterMap.get(Swerve.getInstance().distanceToSpeakerSwervePose()));
     }
 
     @Override

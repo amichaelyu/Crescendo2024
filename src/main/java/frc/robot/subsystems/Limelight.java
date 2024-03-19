@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LimelightHelpers;
@@ -16,8 +17,9 @@ public class Limelight extends SubsystemBase {
     private final String leftName = "limelight-left"; // 10.63.0.11
     private final String rightName = "limelight-right"; //
     private final double fieldBorderMargin = 0.5;
-    private boolean headingCorrecting = true;
     private boolean neverBeenEnabled = true;
+    private final Field2d leftPoseEstimatorField = new Field2d();
+    private final Field2d rightPoseEstimatorField = new Field2d();
 
     private static final Limelight INSTANCE = new Limelight();
 
@@ -25,7 +27,10 @@ public class Limelight extends SubsystemBase {
         return INSTANCE;
     }
 
-    private Limelight() {}
+    private Limelight() {
+        SmartDashboard.putData("Left LL Pose", leftPoseEstimatorField);
+        SmartDashboard.putData("Right LL Pose", rightPoseEstimatorField);
+    }
 
     @Override
     public void periodic() {
@@ -68,7 +73,7 @@ public class Limelight extends SubsystemBase {
                 double avgDist = poseDump[9];
                 double tagCount = poseDump[7];
 
-                headingCorrecting = (tagCount >= 2) || neverBeenEnabled;
+                boolean headingCorrecting = (tagCount >= 2) || neverBeenEnabled;
 
                 double xyStdDev = 0.005
                                 * Math.pow(avgDist, 2.0)
@@ -86,6 +91,12 @@ public class Limelight extends SubsystemBase {
                     continue;
                 }
 
+                if (i == 0) {
+                    leftPoseEstimatorField.setRobotPose(robotPose2d);
+                }
+                else {
+                    rightPoseEstimatorField.setRobotPose(robotPose2d);
+                }
                 Swerve.getInstance().addVision(robotPose2d, Timer.getFPGATimestamp() - Units.millisecondsToSeconds(LimelightHelpers.getLatency_Pipeline(limelights[i]) + LimelightHelpers.getLatency_Capture(limelights[i])), xyStdDev, thetaStdDev);
             }
         }

@@ -19,7 +19,7 @@ public class ShooterPose extends Command {
 
     @Override
     public void execute() {
-        shooter.setSpeed(ShooterConstants.shooterMap.get(Swerve.getInstance().distanceToTargetSwervePose()));
+        shooter.setSpeed(ShooterConstants.shooterMap.get(Swerve.getInstance().distanceToSpeakerSwervePose()));
     }
 
     @Override

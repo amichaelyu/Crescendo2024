@@ -26,7 +26,7 @@ public class SwerveRotatePose extends Command {
     @Override
     public void initialize() {
         if (DriverStation.getAlliance().isPresent()) {
-            Rotation2d limeRot = swerve.getRotationToTargetSwervePose();
+            Rotation2d limeRot = swerve.getRotationToSpeakerSwervePose();
             limeRot = limeRot.rotateBy(Rotation2d.fromRadians(Math.PI));
             wantedRotation = limeRot;
             pidController.setSetpoint(wantedRotation.getRadians());

@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -42,6 +43,8 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
     private final Rotation2d RedAlliancePerspectiveRotation = Rotation2d.fromDegrees(180);
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean hasAppliedOperatorPerspective = false;
+
+    private final Field2d poseEstimatorField = new Field2d();
 
     private final SwerveRequest.ApplyChassisSpeeds AutoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
@@ -91,7 +94,26 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
 
     public Swerve(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, 250, VecBuilder.fill(0.003, 0.003, 0.0002), VecBuilder.fill(0.01, 0.01, 0.02), modules);
+        SmartDashboard.putData("estimated pose", poseEstimatorField);
         configurePathPlanner();
+    }
+
+
+    @Override
+    public void periodic() {
+        if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
+            DriverStation.getAlliance().ifPresent((allianceColor) -> {
+                this.setOperatorPerspectiveForward(
+                        allianceColor == Alliance.Red ? RedAlliancePerspectiveRotation
+                                : BlueAlliancePerspectiveRotation);
+                hasAppliedOperatorPerspective = true;
+            });
+        }
+
+        poseEstimatorField.setRobotPose(getPose());
+
+        SmartDashboard.putNumberArray("fused pose raw", new double[]{getPose().getX(), getPose().getY(), getPose().getRotation().getRadians()});
+        SmartDashboard.putNumber("speaker distance", distanceToSpeakerSwervePose());
     }
 
     public void setPose(Pose2d pose) {
@@ -181,7 +203,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
         this.m_odometry.addVisionMeasurement(pose, time, VecBuilder.fill(xyStd, xyStd, thetaStd));
     }
 
-    public Rotation2d getRotationToTargetSwervePose() {
+    public Rotation2d getRotationToSpeakerSwervePose() {
         Pose2d botPose = this.getState().Pose;
         if (DriverStation.getAlliance().isPresent()) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
@@ -193,7 +215,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
         return new Rotation2d();
     }
 
-    public double distanceToTargetSwervePose() {
+    public double distanceToSpeakerSwervePose() {
         Pose2d botPose = this.getState().Pose;
         if (DriverStation.getAlliance().isPresent()) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
@@ -205,24 +227,5 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
 
     public Pose2d getPose() {
         return this.getState().Pose;
-    }
-
-    @Override
-    public void periodic() {
-        /* Periodically try to apply the operator perspective */
-        /* If we haven't applied the operator perspective before, then we should apply it regardless of DS state */
-        /* This allows us to correct the perspective in case the robot code restarts mid-match */
-        /* Otherwise, only check and apply the operator perspective if the DS is disabled */
-        /* This ensures driving behavior doesn't change until an explicit disable event occurs during testing*/
-        if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
-            DriverStation.getAlliance().ifPresent((allianceColor) -> {
-                this.setOperatorPerspectiveForward(
-                        allianceColor == Alliance.Red ? RedAlliancePerspectiveRotation
-                                : BlueAlliancePerspectiveRotation);
-                hasAppliedOperatorPerspective = true;
-            });
-        }
-
-        SmartDashboard.putNumberArray("fused Pose", new double[]{getPose().getX(), getPose().getY(), getPose().getRotation().getRadians()});
     }
 }
