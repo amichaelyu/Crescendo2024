@@ -21,7 +21,7 @@ public class Flipper extends SubsystemBase {
     }
 
     private Flipper() {
-        flipperMotor.setInverted(false);
+        flipperMotor.setInverted(true);
         flipperMotor.setNeutralMode(NeutralMode.Brake);
         flipperMotor.configContinuousCurrentLimit(12);
         flipperMotor.configPeakCurrentLimit(12);
