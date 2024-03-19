@@ -340,7 +340,7 @@ public final class Constants {
     }
 
     public static final class FlipperConstants {
-        public static int MOTOR_ID = 20;
+        public static int MOTOR_ID = 30;
         public static int BOTTOM_SWITCH_ID = 7;
         public static int TOP_SWITCH_ID = 9;
     }
