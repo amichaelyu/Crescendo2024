@@ -65,7 +65,7 @@ public class Limelight extends SubsystemBase {
                                 * Math.pow(avgDist, 2.0)
                                 / tagCount;
 
-                if (avgDist > 4 && DriverStation.isAutonomous()) {
+                if (avgDist > 4.0 && DriverStation.isAutonomous()) {
                     continue;
                 }
 
