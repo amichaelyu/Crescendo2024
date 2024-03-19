@@ -75,7 +75,7 @@ public class Limelight extends SubsystemBase {
 
                 boolean headingCorrecting = (tagCount >= 2) || neverBeenEnabled;
 
-                double xyStdDev = 0.005
+                double xyStdDev = 0.01
                                 * Math.pow(avgDist, 2.0)
                                 / tagCount;
                 double thetaStdDev = headingCorrecting ? 0.01
