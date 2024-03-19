@@ -117,7 +117,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
     }
 
     public void setPose(Pose2d pose) {
-        m_odometry.resetPosition(Rotation2d.fromDegrees(m_pigeon2.getYaw().getValue()), m_modulePositions, pose);
+        this.seedFieldRelative(pose);
     }
 
     public void driveX() {
@@ -200,7 +200,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
     }
 
     public void addVision(Pose2d pose, double time, double xyStd, double thetaStd) {
-        this.m_odometry.addVisionMeasurement(pose, time, VecBuilder.fill(xyStd, xyStd, thetaStd));
+        this.addVisionMeasurement(pose, time, VecBuilder.fill(xyStd, xyStd, thetaStd));
     }
 
     public Rotation2d getRotationToSpeakerSwervePose() {
