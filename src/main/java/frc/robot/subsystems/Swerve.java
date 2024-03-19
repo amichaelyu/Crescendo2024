@@ -1,261 +1,231 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
-import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.SignalLogger;
+import com.ctre.phoenix6.mechanisms.swerve.*;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.lib.GeomUtils;
+import frc.lib.PointWheelsAtCustom;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.FieldConstants;
 import frc.robot.FieldConstants.Speaker;
-import frc.robot.SwerveModule;
+import frc.robot.TunerConstants;
 
-public class Swerve extends SubsystemBase {
-    private final SwerveDrivePoseEstimator poseEstimator;
-    private final SwerveModule[] mSwerveMods;
-    private final Pigeon2 gyro;
+import java.util.function.Supplier;
 
-    private static final Swerve INSTANCE = new Swerve();
+import static edu.wpi.first.units.Units.Volts;
+
+/**
+ * Class that extends the Phoenix SwerveDrivetrain class and implements
+ * subsystem so it can be used in command-based projects easily.
+ */
+public class Swerve extends SwerveDrivetrain implements Subsystem {
+    /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
+    private final Rotation2d BlueAlliancePerspectiveRotation = Rotation2d.fromDegrees(0);
+    /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
+    private final Rotation2d RedAlliancePerspectiveRotation = Rotation2d.fromDegrees(180);
+    /* Keep track if we've ever applied the operator perspective before or not */
+    private boolean hasAppliedOperatorPerspective = false;
+
+    private final SwerveRequest.ApplyChassisSpeeds AutoRequest = new SwerveRequest.ApplyChassisSpeeds();
+
+    private final SwerveRequest.SysIdSwerveTranslation TranslationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
+    private final SwerveRequest.SysIdSwerveRotation RotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+    private final SwerveRequest.SysIdSwerveSteerGains SteerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
 
     public static Swerve getInstance() {
-        return INSTANCE;
+        return TunerConstants.DriveTrain;
     }
 
-    private Swerve() {
-        gyro = new Pigeon2(SwerveConstants.pigeonID);
-        gyro.getConfigurator().apply(new Pigeon2Configuration());
-        gyro.setYaw(0);
+    /* Use one of these sysidroutines for your particular test */
+    private final SysIdRoutine SysIdRoutineTranslation = new SysIdRoutine(
+            new SysIdRoutine.Config(
+                    null,
+                    Volts.of(4),
+                    null,
+                    (state) -> SignalLogger.writeString("state", state.toString())),
+            new SysIdRoutine.Mechanism(
+                    (volts) -> setControl(TranslationCharacterization.withVolts(volts)),
+                    null,
+                    this));
 
-        mSwerveMods = new SwerveModule[] {
-            new SwerveModule(0, SwerveConstants.Mod0.constants),
-            new SwerveModule(1, SwerveConstants.Mod1.constants),
-            new SwerveModule(2, SwerveConstants.Mod2.constants),
-            new SwerveModule(3, SwerveConstants.Mod3.constants)
-        };
+    private final SysIdRoutine SysIdRoutineRotation = new SysIdRoutine(
+            new SysIdRoutine.Config(
+                    null,
+                    Volts.of(4),
+                    null,
+                    (state) -> SignalLogger.writeString("state", state.toString())),
+            new SysIdRoutine.Mechanism(
+                    (volts) -> setControl(RotationCharacterization.withVolts(volts)),
+                    null,
+                    this));
+    private final SysIdRoutine SysIdRoutineSteer = new SysIdRoutine(
+            new SysIdRoutine.Config(
+                    null,
+                    Volts.of(7),
+                    null,
+                    (state) -> SignalLogger.writeString("state", state.toString())),
+            new SysIdRoutine.Mechanism(
+                    (volts) -> setControl(SteerCharacterization.withVolts(volts)),
+                    null,
+                    this));
 
-        poseEstimator = new SwerveDrivePoseEstimator(SwerveConstants.swerveKinematics, getGyroYaw(), getModulePositions(), new Pose2d());
+    /* Change this to the sysid routine you want to test */
+    private final SysIdRoutine RoutineToApply = SysIdRoutineTranslation;
 
-        AutoBuilder.configureHolonomic(
-                this::getPose, // Robot pose supplier
-                this::setPose, // Method to reset odometry (will be called if your auto has a starting pose)
-                this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        new PIDConstants(SwerveConstants.AUTO_LINEAR_P, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(SwerveConstants.AUTO_ROT_P, 0.0, 0.0), // Rotation PID constants
-                        SwerveConstants.AUTO_MAX_SPEED, // Max module speed, in m/s
-                        SwerveConstants.DRIVEBASE_RADIUS, // Drive base radius in meters. Distance from robot center to furthest module.
-                        new ReplanningConfig(true, true)
-                ),
-                () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red alliance
-                    // This will flip the path being followed to the red side of the field.
-                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
-                this // Reference to this subsystem to set requirements
-        );
+    public Swerve(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
+        super(driveTrainConstants, 250, VecBuilder.fill(0.1, 0.1, 0.000001), VecBuilder.fill(0.3, 0.3, 9999999), modules);
+        configurePathPlanner();
     }
 
-    @Override
-    public void periodic(){
-        poseEstimator.update(getGyroYaw(), getModulePositions());
-
-        SmartDashboard.putNumberArray("pose", new double[]{getPose().getX(), getPose().getY(), getPose().getRotation().getRadians()});
-
-        SmartDashboard.putNumber("swerve degrees", getPose().getRotation().getDegrees());
-
-        for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
-        }
-    }
-
-    public void addVision(Pose2d pose, double time) {
-        Pose2d poseWithoutHeading = new Pose2d(pose.getX(), pose.getY(), getPose().getRotation());
-        poseEstimator.addVisionMeasurement(poseWithoutHeading, time);
-    }
-
-    public void addVision(Pose2d pose, double time, double std) {
-        Pose2d poseWithoutHeading = new Pose2d(pose.getX(), pose.getY(), getPose().getRotation());
-        poseEstimator.addVisionMeasurement(poseWithoutHeading, time, VecBuilder.fill(std, std, 1));
-    }
-
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-        SwerveModuleState[] swerveModuleStates =
-            SwerveConstants.swerveKinematics.toSwerveModuleStates(
-                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation, 
-                                    getHeading()
-                                )
-                                : new ChassisSpeeds(
-                                    translation.getX(), 
-                                    translation.getY(), 
-                                    rotation)
-                                );
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.maxSpeed);
-
-        for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
-        }
-    }
-
-    public void driveX() {
-        setModuleStates(new SwerveModuleState[]{
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(45)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(-45)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(315)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(45)),
-        });
-    }
-
-    public void driveForward() {
-        setModuleStates(new SwerveModuleState[]{
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-        });
-    }
-
-    public void setChassisSpeeds(ChassisSpeeds speeds) {
-        setModuleStates(SwerveConstants.swerveKinematics.toSwerveModuleStates(speeds));
-    }
-
-    public void setModuleVoltage(double voltage) {
-        for(SwerveModule mod : mSwerveMods){
-            mod.setVoltage(voltage);
-        }
-    }
-
-    public double getMotorVoltage() {
-        return mSwerveMods[0].getVoltage();
-    }
-
-    public double getMotorPosition() {
-        return getModulePositions()[0].distanceMeters;
-    }
-
-    public double getMotorVelocity() {
-        return mSwerveMods[0].getVelocity();
-    }
-
-    /* Used by SwerveControllerCommand in Auto */
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.maxSpeed);
-        
-        for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(desiredStates[mod.moduleNumber], false);
-        }
-    }
-
-    public SwerveModuleState[] getModuleStates(){
-        SwerveModuleState[] states = new SwerveModuleState[4];
-        for(SwerveModule mod : mSwerveMods){
-            states[mod.moduleNumber] = mod.getState();
-        }
-        return states;
-    }
-
-    public SwerveModulePosition[] getModulePositions(){
-        SwerveModulePosition[] positions = new SwerveModulePosition[4];
-        for(SwerveModule mod : mSwerveMods){
-            positions[mod.moduleNumber] = mod.getPosition();
-        }
-        return positions;
-    }
-
-    public ChassisSpeeds getChassisSpeeds() {
-        return SwerveConstants.swerveKinematics.toChassisSpeeds(getModuleStates());
-    }
-
-    public Pose2d getPose() {
-        return poseEstimator.getEstimatedPosition();
+    public void setChassisSpeed(ChassisSpeeds speeds) {
+        setControl(new SwerveRequest.ApplyChassisSpeeds());
     }
 
     public void setPose(Pose2d pose) {
-        poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(pose.getTranslation(), pose.getRotation()));
+        m_odometry.resetPosition(Rotation2d.fromDegrees(m_pigeon2.getYaw().getValue()), m_modulePositions, pose);
     }
 
-    public Rotation2d getHeading(){
-        return getPose().getRotation();
+    public void driveX() {
+        this.setControl(new PointWheelsAtCustom().withModuleDirection(
+                new Rotation2d[]{
+                        Rotation2d.fromDegrees(45),
+                        Rotation2d.fromDegrees(-45),
+                        Rotation2d.fromDegrees(315),
+                        Rotation2d.fromDegrees(45)
+                }));
     }
 
-    public void setHeading(Rotation2d heading){
-        poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
+    private void configurePathPlanner() {
+        double driveBaseRadius = 0;
+        for (var moduleLocation : m_moduleLocations) {
+            driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
+        }
+
+        AutoBuilder.configureHolonomic(
+                ()->this.getState().Pose, // Supplier of current robot pose
+                this::seedFieldRelative,  // Consumer for seeding pose against auto
+                this::getCurrentRobotChassisSpeeds,
+                (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
+                new HolonomicPathFollowerConfig(new PIDConstants(SwerveConstants.AUTO_LINEAR_P, 0, 0),
+                        new PIDConstants(SwerveConstants.AUTO_ROT_P, 0, 0),
+                        TunerConstants.kSpeedAt12VoltsMps,
+                        driveBaseRadius,
+                        new ReplanningConfig(true, true)
+                ),
+                () -> DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Red, // Assume the path needs to be flipped for Red vs Blue, this is normally the case
+                this
+        ); // Subsystem for requirements
     }
 
-    public void zeroHeading(){
+    public void zeroHeading() {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
             if (alliance.get() == DriverStation.Alliance.Red) {
-                poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
+                this.m_odometry.resetPosition(Rotation2d.fromDegrees(this.m_pigeon2.getYaw().getValue()), m_modulePositions, new Pose2d(this.getState().Pose.getTranslation(), Rotation2d.fromDegrees(180)));
             }
             else if (alliance.get() == DriverStation.Alliance.Blue) {
-                poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+                this.m_odometry.resetPosition(Rotation2d.fromDegrees(this.m_pigeon2.getYaw().getValue()), m_modulePositions, new Pose2d(this.getState().Pose.getTranslation(), Rotation2d.fromDegrees(0)));
             }
         }
     }
 
-    public void zeroHeadingWithVision(){
-        if (Limelight.getInstance().hasTarget()) {
-            var alliance = DriverStation.getAlliance();
-            if (alliance.isPresent()) {
-                if (alliance.get() == DriverStation.Alliance.Red) {
-                    poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), Limelight.getInstance().getBotPose().getRotation().rotateBy(Rotation2d.fromDegrees(180))));
-                } else if (alliance.get() == DriverStation.Alliance.Blue) {
-                    poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), Limelight.getInstance().getBotPose().getRotation()));
-                }
-            }
+    public void drive(Translation2d translation2d, double rotation, boolean fieldRelative) {
+        if (fieldRelative) {
+            this.setControl(new SwerveRequest.FieldCentric()
+                    .withVelocityX(translation2d.getX())
+                    .withVelocityY(translation2d.getY())
+                    .withRotationalRate(rotation));
         }
+        else {
+            this.setControl(new SwerveRequest.RobotCentric()
+                    .withVelocityX(translation2d.getX())
+                    .withVelocityY(translation2d.getY())
+                    .withRotationalRate(rotation));
+        }
+    }
+
+    public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
+        return run(() -> this.setControl(requestSupplier.get()));
+    }
+
+    public Command getAutoPath(String pathName) {
+        return new PathPlannerAuto(pathName);
+    }
+
+    /*
+     * Both the sysid commands are specific to one particular sysid routine, change
+     * which one you're trying to characterize
+     */
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return RoutineToApply.quasistatic(direction);
+    }
+
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return RoutineToApply.dynamic(direction);
+    }
+
+    public ChassisSpeeds getCurrentRobotChassisSpeeds() {
+        return m_kinematics.toChassisSpeeds(getState().ModuleStates);
+    }
+
+    public void addVision(Pose2d pose, double time, double std) {
+        this.m_odometry.addVisionMeasurement(pose, time, VecBuilder.fill(std, std, 999999));
     }
 
     public Rotation2d getRotationToTargetSwervePose() {
+        Pose2d botPose = this.getState().Pose;
         if (DriverStation.getAlliance().isPresent()) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
-            double xDiff = adjustedSpeaker.getX() - Swerve.getInstance().getPose().getX();
-            double yDiff = adjustedSpeaker.getY() - Swerve.getInstance().getPose().getY();
+            double xDiff = adjustedSpeaker.getX() - botPose.getX();
+            double yDiff = adjustedSpeaker.getY() - botPose.getY();
             return new Rotation2d(xDiff, yDiff);
         }
+        System.out.println("No Alliance present! Failing to generate desired rotation!");
         return new Rotation2d();
     }
 
     public double distanceToTargetSwervePose() {
-        Pose2d botPose = Swerve.getInstance().getPose();
+        Pose2d botPose = this.getState().Pose;
         if (DriverStation.getAlliance().isPresent()) {
             Pose2d adjustedSpeaker = FieldConstants.allianceFlipper(new Pose2d(Speaker.centerSpeakerOpening.getX(), Speaker.centerSpeakerOpening.getY(), new Rotation2d()), DriverStation.getAlliance().get());
-            return distance(botPose, adjustedSpeaker);
+            return GeomUtils.distance(botPose, adjustedSpeaker);
         }
+        System.out.println("No Alliance present! Failing to generate desired distance!");
         return 0.0;
     }
 
-    public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(gyro.getYaw().getValue());
+    public Pose2d getPose() {
+        return this.getState().Pose;
     }
 
-    private double distance(Pose2d pose1, Pose2d pose2) {
-        Pose2d relPose = pose1.relativeTo(pose2);
-        return Math.sqrt(Math.pow(relPose.getX(), 2) + Math.pow(relPose.getY(), 2));
+    @Override
+    public void periodic() {
+        /* Periodically try to apply the operator perspective */
+        /* If we haven't applied the operator perspective before, then we should apply it regardless of DS state */
+        /* This allows us to correct the perspective in case the robot code restarts mid-match */
+        /* Otherwise, only check and apply the operator perspective if the DS is disabled */
+        /* This ensures driving behavior doesn't change until an explicit disable event occurs during testing*/
+        if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
+            DriverStation.getAlliance().ifPresent((allianceColor) -> {
+                this.setOperatorPerspectiveForward(
+                        allianceColor == Alliance.Red ? RedAlliancePerspectiveRotation
+                                : BlueAlliancePerspectiveRotation);
+                hasAppliedOperatorPerspective = true;
+            });
+        }
     }
 }

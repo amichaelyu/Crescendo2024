@@ -38,7 +38,7 @@ public class SwerveAutoRotate extends Command {
     @Override
     public void execute() {
         double feedforward = swerve.getPose().getRotation().getRadians() < rotation2d.getRadians() ? SwerveConstants.ROTATE_FF : -SwerveConstants.ROTATE_FF;
-        swerve.drive(new Translation2d(), pidController.calculate(swerve.getPose().getRotation().getRadians()) + feedforward, true, false);
+        swerve.drive(new Translation2d(), pidController.calculate(swerve.getPose().getRotation().getRadians()) + feedforward, true);
     }
 
     @Override

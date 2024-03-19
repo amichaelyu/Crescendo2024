@@ -2,18 +2,25 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.units.*;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TilterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.old.TeleIntake;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Tilter;
 
 import static edu.wpi.first.units.MutableMeasure.mutable;
 import static edu.wpi.first.units.Units.*;
@@ -35,49 +42,6 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        SysIdRoutine driveRoutine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, Units.Volts.of(4),  null, null),
-                new SysIdRoutine.Mechanism((volts) -> Swerve.getInstance().setModuleVoltage(volts.in(Units.Volts)),
-                        log -> {
-                            log.motor("drive-motor")
-                                    .voltage(
-                                            m_appliedVoltage.mut_replace(
-                                                    Swerve.getInstance().getMotorVoltage(), Volts))
-                                    .linearPosition(m_distance.mut_replace(Swerve.getInstance().getMotorPosition(), Meters))
-                                    .linearVelocity(
-                                            m_velocity.mut_replace(Swerve.getInstance().getMotorVelocity(), MetersPerSecond));
-                        }, Swerve.getInstance())
-        );
-
-        SysIdRoutine shooterRoutine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, Units.Volts.of(4),  null, null),
-                new SysIdRoutine.Mechanism((volts) -> Shooter.getInstance().setVoltage(volts.in(Units.Volts)),
-                        log -> {
-                            log.motor("shooter-motor")
-                                    .voltage(
-                                            m_appliedVoltage.mut_replace(
-                                                    Shooter.getInstance().getVoltage(), Volts))
-                                    .linearPosition(m_distance.mut_replace(Shooter.getInstance().getPosition(), Meters))
-                                    .linearVelocity(
-                                            m_velocity.mut_replace(Shooter.getInstance().getVelocity(), MetersPerSecond));
-                        }, Shooter.getInstance())
-        );
-
-        SysIdRoutine tilterRoutine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, Units.Volts.of(4),  null, null),
-                new SysIdRoutine.Mechanism((volts) -> Tilter.getInstance().setVoltage(volts.in(Units.Volts)),
-                        log -> {
-                            log.motor("tilter-motor")
-                                    .voltage(
-                                            m_appliedVoltage.mut_replace(
-                                                    Tilter.getInstance().getVoltage(), Volts))
-                                    .linearPosition(m_distance.mut_replace(Tilter.getInstance().getPosition(), Meters))
-                                    .linearVelocity(
-                                            m_velocity.mut_replace(Tilter.getInstance().getVelocity(), MetersPerSecond));
-                        }, Tilter.getInstance())
-        );
-
-
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
         NamedCommands.registerCommand("tilterSetpointLow", new TilterSetpointPosition(30.0 / 4.0));
         NamedCommands.registerCommand("tilterPoseSetpoint", new TilterPose());
@@ -133,16 +97,18 @@ public class RobotContainer {
         operator.y().whileTrue(new CG_ShootingSpeaker())
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
         operator.a().whileTrue(new TilterSetpointPosition(0));
-        operator.b().whileTrue(new CG_ShootingAmp())
-                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
-        operator.x().whileTrue(new IndexerKick());
+        operator.b().whileTrue(new FlipperUp());
+        operator.x().whileTrue(new FlipperDown());
+//        operator.b().whileTrue(new CG_ShootingAmp())
+//                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+//        operator.x().whileTrue(new IndexerKick());
     }
 
     private void configureButtonBindings() {
 
 //        driver.a().whileTrue(new TilterDashboardPosition());
-        driver.a().whileTrue(new CG_ShootingLime());
-        driver.b().whileTrue(new SwerveRotateLime());
+//        driver.a().whileTrue(new CG_ShootingLime());
+//        driver.b().whileTrue(new SwerveRotateLime());
 //        driver.a().whileTrue(new ShooterDashboardSpeed());
 //        driver.b().whileTrue(new TilterDashboardPosition());
 //        driver.x().whileTrue(new IndexerRun());

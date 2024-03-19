@@ -260,8 +260,8 @@ public final class Constants {
         /* SwerveConstants Profiling Values */
         /** Meters per Second */
         public static final double maxSpeed = Units.feetToMeters(15.7);
-        /** Radians per Second */
-        public static final double maxAngularVelocity = 10;
+        /** Rotations per Second */
+        public static final double maxAngularVelocity = Units.radiansToRotations(10);
 
         /* Neutral Modes */
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
@@ -329,9 +329,15 @@ public final class Constants {
 
     public static final class VisionConstants {
         public static final Translation3d LEFT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(-11), Units.inchesToMeters(16));
-        public static final Rotation3d LEFT_CAMERA_ROTATION = new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180));
+        public static final Rotation3d LEFT_CAMERA_ROTATION = new Rotation3d(0, Units.degreesToRadians(-28), Units.degreesToRadians(180));
 
         public static final Translation3d RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(11), Units.inchesToMeters(16));
-        public static final Rotation3d RIGHT_CAMERA_ROTATION = new Rotation3d(0, Units.degreesToRadians(-30), Units.degreesToRadians(180));
+        public static final Rotation3d RIGHT_CAMERA_ROTATION = new Rotation3d(0, Units.degreesToRadians(-28), Units.degreesToRadians(180));
+    }
+
+    public static final class FlipperConstants {
+        public static int MOTOR_ID = 20;
+        public static int BOTTOM_SWITCH_ID = 4;
+        public static int TOP_SWITCH_ID = 3;
     }
 }
