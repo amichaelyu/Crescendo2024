@@ -14,8 +14,8 @@ import frc.robot.FieldConstants;
 import java.util.Arrays;
 
 public class Limelight extends SubsystemBase {
-    private final String leftName = "limelight-left"; // 10.63.0.11
-    private final String rightName = "limelight-right"; //
+    private final String leftName = "limelight-left"; // 10.63.0.11 0.2 to right
+    private final String rightName = "limelight-right"; // 10.63.0.22 -0.2 to right
     private final double fieldBorderMargin = 0.5;
     private boolean neverBeenEnabled = true;
     private final Field2d leftPoseEstimatorField = new Field2d();
@@ -54,8 +54,8 @@ public class Limelight extends SubsystemBase {
                     continue;
                 }
 
-                SmartDashboard.putNumberArray("LLPose3D" + i, new Double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getZ()});
-                SmartDashboard.putNumberArray("LLPose2D" + i, new Double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getRotation().getAngle()});
+                SmartDashboard.putNumberArray("LLPose3D" + i, new double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getZ()});
+                SmartDashboard.putNumberArray("LLPose2D" + i, new double[]{robotPose2d.getX(), robotPose2d.getY(), robotPose2d.getRotation().getRadians()});
 
                 if (robotPose3d.getX() < -FieldConstants.fieldLength
                         || robotPose3d.getX() > FieldConstants.fieldLength + fieldBorderMargin

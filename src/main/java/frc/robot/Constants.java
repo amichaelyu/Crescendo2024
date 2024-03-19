@@ -335,7 +335,7 @@ public final class Constants {
         public static final Translation3d LEFT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(-11), Units.inchesToMeters(14.125));
         public static final Rotation3d LEFT_CAMERA_ROTATION = new Rotation3d(0, Units.degreesToRadians(-28), Units.degreesToRadians(180));
 
-        public static final Translation3d RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(-8), Units.inchesToMeters(11), Units.inchesToMeters(14.125));
+        public static final Translation3d RIGHT_CAMERA_TRANSLATION = new Translation3d(Units.inchesToMeters(8), Units.inchesToMeters(11), Units.inchesToMeters(14.125));
         public static final Rotation3d RIGHT_CAMERA_ROTATION = new Rotation3d(0, Units.degreesToRadians(-28), Units.degreesToRadians(180));
     }
 
