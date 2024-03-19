@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "bottom run p1.1"
+                  "pathName": "bottom run p1"
                 }
               },
               {
@@ -121,7 +121,7 @@
         {
           "type": "named",
           "data": {
-            "name": "tilterSetpointIdle"
+            "name": "tilterIdle"
           }
         }
       ]
