@@ -35,12 +35,14 @@ public class Limelight extends SubsystemBase {
 
         for (int i = 0; i < 2; ++i) {
             if (DriverStation.getAlliance().isPresent()) {
-                if (!(LimelightHelpers.getLimelightNTTable(limelights[i]).getEntry("hb").getDouble(0.0) > 0.0)) {
-                    continue;
-                }
-
                 Pose3d robotPose3d = LimelightHelpers.getBotPose3d_wpiBlue(limelights[i]);
                 Pose2d robotPose2d = LimelightHelpers.getBotPose2d_wpiBlue(limelights[i]);
+                if (!(LimelightHelpers.getLimelightNTTable(limelights[i]).getEntry("hb").getDouble(0.0) > 0.0)
+                        && !robotPose2d.equals(new Pose2d())
+                        && !robotPose3d.equals(new Pose3d())
+                ) {
+                    continue;
+                }
 
                 SmartDashboard.putNumberArray("LLPose3D" + i, new Double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getZ()});
                 SmartDashboard.putNumberArray("LLPose2D" + i, new Double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getRotation().getAngle()});
