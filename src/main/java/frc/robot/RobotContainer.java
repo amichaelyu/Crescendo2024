@@ -135,7 +135,7 @@ public class RobotContainer {
         autoChooser.addOption("2 note middle", AutoBuilder.buildAuto("middle 1 + 1"));
         autoChooser.addOption("4 note", AutoBuilder.buildAuto("3 note"));
         autoChooser.addOption("top sprint 5 note", AutoBuilder.buildAuto("top sprint 5 note"));
-//        autoChooser.addOption("top sprint 6 note", AutoBuilder.buildAuto("top sprint 6 note"));
+        autoChooser.addOption("top sprint 6 note", AutoBuilder.buildAuto("top sprint 6 note"));
         autoChooser.addOption("top run", AutoBuilder.buildAuto("top run"));
         autoChooser.addOption("bottom run", AutoBuilder.buildAuto("bottom run"));
         autoChooser.addOption("bottom sprint", AutoBuilder.buildAuto("bottom sprint"));
