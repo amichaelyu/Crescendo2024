@@ -7,11 +7,12 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import static frc.robot.Constants.TilterConstants;
 
 public class Tilter extends SubsystemBase {
-  private final TalonFX m_tilterMotor = new TalonFX(TilterConstants.tilterMotorID, "*");
+  private final TalonFX m_tilterMotor = new TalonFX(TilterConstants.tilterMotorID, Constants.CAN_BUS_NAME);
   private boolean isHomed;
   private double setpoint = 0;
   private DigitalInput limitSwitchTop;

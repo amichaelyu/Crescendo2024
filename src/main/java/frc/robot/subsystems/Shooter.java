@@ -5,13 +5,14 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import static frc.robot.Constants.ShooterConstants;
 
 
 public class Shooter extends SubsystemBase {
-  private final TalonFX m_rightShooter = new TalonFX(ShooterConstants.rightShooterID, "*");
-  private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID, "*");
+  private final TalonFX m_rightShooter = new TalonFX(ShooterConstants.rightShooterID, Constants.CAN_BUS_NAME);
+  private final TalonFX m_leftShooter = new TalonFX(ShooterConstants.leftShooterID, Constants.CAN_BUS_NAME);
   private double setpoint = 0;
   private boolean stopped = false;
 

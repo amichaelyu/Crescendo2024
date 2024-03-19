@@ -50,7 +50,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("slightBack", new IndexerSlightBack());
         NamedCommands.registerCommand("citrusShot", new CG_ShootingLime());
         NamedCommands.registerCommand("citrusShotNoRot", new CG_ShootingLimeNoRot());
-        NamedCommands.registerCommand("citrusPose", new SwerveLimePose());
 
         autoConfig();
 

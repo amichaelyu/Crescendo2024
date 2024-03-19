@@ -14,6 +14,10 @@ import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
+    // rio for rio
+    // canivore for canivore
+    public static final String CAN_BUS_NAME = "canivore";
+
     public static final class IntakeConstants {
         public static final int intakeMotorID = 23;
         public static final double INTAKE_FORWARD = -1;
@@ -261,7 +265,7 @@ public final class Constants {
         /** Meters per Second */
         public static final double maxSpeed = Units.feetToMeters(15.7);
         /** Rotations per Second */
-        public static final double maxAngularVelocity = Units.radiansToRotations(10);
+        public static final double maxAngularVelocity = Units.radiansToRotations(11.5);
 
         /* Neutral Modes */
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;

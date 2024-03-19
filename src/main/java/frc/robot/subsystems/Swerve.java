@@ -1,9 +1,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.SignalLogger;
-import com.ctre.phoenix6.mechanisms.swerve.*;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -92,10 +94,6 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
         configurePathPlanner();
     }
 
-    public void setChassisSpeed(ChassisSpeeds speeds) {
-        setControl(new SwerveRequest.ApplyChassisSpeeds());
-    }
-
     public void setPose(Pose2d pose) {
         m_odometry.resetPosition(Rotation2d.fromDegrees(m_pigeon2.getYaw().getValue()), m_modulePositions, pose);
     }
@@ -118,7 +116,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
 
         AutoBuilder.configureHolonomic(
                 () -> this.getState().Pose, // Supplier of current robot pose
-                this::doNothing,  // Consumer for seeding pose against auto: this::seedFieldRelative
+                this::seedFieldRelative,  // Consumer for seeding pose against auto: this::seedFieldRelative
                 this::getCurrentRobotChassisSpeeds,
                 (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
                 new HolonomicPathFollowerConfig(new PIDConstants(SwerveConstants.AUTO_LINEAR_P, 0, 0),
@@ -132,16 +130,14 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
         ); // Subsystem for requirements
     }
 
-    public void doNothing(Pose2d pose) {}
-
     public void zeroHeading() {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
             if (alliance.get() == DriverStation.Alliance.Red) {
-                this.m_odometry.resetPosition(Rotation2d.fromDegrees(this.m_pigeon2.getYaw().getValue()), m_modulePositions, new Pose2d(this.getState().Pose.getTranslation(), Rotation2d.fromDegrees(180)));
+                seedFieldRelative(new Pose2d(this.getState().Pose.getTranslation(), Rotation2d.fromDegrees(180)));
             }
             else if (alliance.get() == DriverStation.Alliance.Blue) {
-                this.m_odometry.resetPosition(Rotation2d.fromDegrees(this.m_pigeon2.getYaw().getValue()), m_modulePositions, new Pose2d(this.getState().Pose.getTranslation(), Rotation2d.fromDegrees(0)));
+                seedFieldRelative(new Pose2d(this.getState().Pose.getTranslation(), Rotation2d.fromDegrees(0)));
             }
         }
     }
@@ -163,10 +159,6 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
 
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
-    }
-
-    public Command getAutoPath(String pathName) {
-        return new PathPlannerAuto(pathName);
     }
 
     /*
