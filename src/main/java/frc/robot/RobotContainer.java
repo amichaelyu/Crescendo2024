@@ -8,7 +8,10 @@ import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lib.controller.BetterXboxController;
 import frc.lib.controller.BetterXboxController.Humans;
 import frc.robot.Constants.ShooterConstants;
@@ -16,7 +19,6 @@ import frc.robot.Constants.TilterConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.old.TeleIntake;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Flipper;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Tilter;
 
@@ -64,7 +66,7 @@ public class RobotContainer {
         Swerve.getInstance().setDefaultCommand(new SwerveXboxDrive(driver.leftBumper()));
         Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis() - operator.getLeftTriggerAxis()))));
         Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRightY())));
-        Flipper.getInstance().setDefaultCommand(new RepeatCommand(new InstantCommand(() -> Flipper.getInstance().dutyCycle(operator.getLeftY()))));
+//        Flipper.getInstance().setDefaultCommand(new RepeatCommand(new InstantCommand(() -> Flipper.getInstance().dutyCycle(operator.getLeftY()))));
     }
 
     private void competitionButtons() {
