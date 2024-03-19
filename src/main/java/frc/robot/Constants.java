@@ -196,7 +196,7 @@ public final class Constants {
         public static final double DRIVEBASE_RADIUS = Math.hypot(trackWidth / 2.0, wheelBase / 2.0);
         public static final double AUTO_MAX_SPEED = 1;
 
-        public static final double ROTATE_P = 5;
+        public static final double ROTATE_P = 4; // dec from 5
         public static final double ROTATE_I = 0;
         public static final double ROTATE_D = 0;
         public static final double ROTATE_FF = 1;

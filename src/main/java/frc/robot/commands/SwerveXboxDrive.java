@@ -14,7 +14,7 @@ import java.util.function.BooleanSupplier;
 
 
 public class SwerveXboxDrive extends Command {
-    private final Swerve s_Swerve = TunerConstants.DriveTrain;
+    private final Swerve swerve = Swerve.getInstance();
     private final BooleanSupplier robotCentricSup;
 
     private final SwerveRequest.FieldCentric driveFieldCentric = new SwerveRequest.FieldCentric()
@@ -28,7 +28,7 @@ public class SwerveXboxDrive extends Command {
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
 
     public SwerveXboxDrive(BooleanSupplier robotCentricSup) {
-        addRequirements(s_Swerve);
+        addRequirements(swerve);
         this.robotCentricSup = robotCentricSup;
     }
 
@@ -37,14 +37,14 @@ public class SwerveXboxDrive extends Command {
         /* Drive */
         if (!DriverStation.isAutonomous()) {
             if (robotCentricSup.getAsBoolean()) {
-                s_Swerve.setControl(
+                swerve.setControl(
                         driveRobotCentric.withVelocityX(BetterXboxController.getController(Humans.DRIVER).getSwerveTranslation().getX() * TunerConstants.kSpeedAt12VoltsMps)
                                 .withVelocityY(BetterXboxController.getController(Humans.DRIVER).getSwerveTranslation().getY() * TunerConstants.kSpeedAt12VoltsMps)
                                 .withRotationalRate(BetterXboxController.getController(Humans.DRIVER).getSwerveRotation() * SwerveConstants.maxAngularVelocity)
                 );
             }
             else {
-                s_Swerve.setControl(
+                swerve.setControl(
                         driveFieldCentric.withVelocityX(BetterXboxController.getController(Humans.DRIVER).getSwerveTranslation().getX() * TunerConstants.kSpeedAt12VoltsMps)
                                 .withVelocityY(BetterXboxController.getController(Humans.DRIVER).getSwerveTranslation().getY() * TunerConstants.kSpeedAt12VoltsMps)
                                 .withRotationalRate(BetterXboxController.getController(Humans.DRIVER).getSwerveRotation() * SwerveConstants.maxAngularVelocity)

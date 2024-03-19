@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -87,7 +88,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
     private final SysIdRoutine RoutineToApply = SysIdRoutineTranslation;
 
     public Swerve(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
-        super(driveTrainConstants, 250, VecBuilder.fill(0.1, 0.1, 0.000001), VecBuilder.fill(0.3, 0.3, 9999999), modules);
+        super(driveTrainConstants, 250, VecBuilder.fill(0.003, 0.003, 0.0002), VecBuilder.fill(0.01, 0.01, 0.02), modules);
         configurePathPlanner();
     }
 
@@ -116,8 +117,8 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
         }
 
         AutoBuilder.configureHolonomic(
-                ()->this.getState().Pose, // Supplier of current robot pose
-                this::seedFieldRelative,  // Consumer for seeding pose against auto
+                () -> this.getState().Pose, // Supplier of current robot pose
+                this::doNothing,  // Consumer for seeding pose against auto: this::seedFieldRelative
                 this::getCurrentRobotChassisSpeeds,
                 (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
                 new HolonomicPathFollowerConfig(new PIDConstants(SwerveConstants.AUTO_LINEAR_P, 0, 0),
@@ -130,6 +131,8 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
                 this
         ); // Subsystem for requirements
     }
+
+    public void doNothing(Pose2d pose) {}
 
     public void zeroHeading() {
         var alliance = DriverStation.getAlliance();
@@ -182,8 +185,8 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
         return m_kinematics.toChassisSpeeds(getState().ModuleStates);
     }
 
-    public void addVision(Pose2d pose, double time, double std) {
-        this.m_odometry.addVisionMeasurement(pose, time, VecBuilder.fill(std, std, 999999));
+    public void addVision(Pose2d pose, double time, double xyStd, double thetaStd) {
+        this.m_odometry.addVisionMeasurement(pose, time, VecBuilder.fill(xyStd, xyStd, thetaStd));
     }
 
     public Rotation2d getRotationToTargetSwervePose() {
@@ -227,5 +230,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
                 hasAppliedOperatorPerspective = true;
             });
         }
+
+        SmartDashboard.putNumberArray("fused Pose", new double[]{getPose().getX(), getPose().getY(), getPose().getRotation().getRadians()});
     }
 }

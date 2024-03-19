@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.LimelightHelpers;
 import frc.robot.FieldConstants;
-import frc.robot.TunerConstants;
 
 import java.util.Arrays;
 
@@ -17,6 +16,8 @@ public class Limelight extends SubsystemBase {
     private final String leftName = "limelight-left"; // 10.63.0.11
     private final String rightName = "limelight-right"; //
     private final double fieldBorderMargin = 0.5;
+    private boolean headingCorrecting = true;
+    private boolean neverBeenEnabled = true;
 
     private static final Limelight INSTANCE = new Limelight();
 
@@ -28,6 +29,10 @@ public class Limelight extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (neverBeenEnabled) {
+            neverBeenEnabled = !DriverStation.isEnabled();
+        }
+
         String[] limelights = {
                 leftName,
                 rightName
@@ -52,7 +57,7 @@ public class Limelight extends SubsystemBase {
                         || robotPose3d.getY() < -fieldBorderMargin
                         || robotPose3d.getY() > FieldConstants.fieldWidth + fieldBorderMargin
                         || robotPose3d.getZ() < -0.2
-                        || robotPose3d.getZ() > 0.1) {
+                        || robotPose3d.getZ() > 0.15) {
                     continue;
                 }
 
@@ -63,20 +68,34 @@ public class Limelight extends SubsystemBase {
                 double avgDist = poseDump[9];
                 double tagCount = poseDump[7];
 
-                double xyStdDev = 0.01
+                headingCorrecting = (tagCount >= 2) || neverBeenEnabled;
+
+                double xyStdDev = 0.005
                                 * Math.pow(avgDist, 2.0)
                                 / tagCount;
+                double thetaStdDev = headingCorrecting ? 0.01
+                        * Math.pow(avgDist, 2.0)
+                        / tagCount : Double.POSITIVE_INFINITY;
+
+                if (!headingCorrecting
+                    && Math.abs(Swerve.getInstance().getPose().getRotation().minus(robotPose2d.getRotation()).getRadians()) > Units.degreesToRadians(5)) {
+                    continue;
+                }
 
                 if (avgDist > 4.0 && DriverStation.isAutonomous()) {
                     continue;
                 }
 
-                TunerConstants.DriveTrain.addVision(robotPose2d, Timer.getFPGATimestamp() - Units.millisecondsToSeconds(LimelightHelpers.getLatency_Pipeline(limelights[i]) + LimelightHelpers.getLatency_Capture(limelights[i])), xyStdDev);
+                Swerve.getInstance().addVision(robotPose2d, Timer.getFPGATimestamp() - Units.millisecondsToSeconds(LimelightHelpers.getLatency_Pipeline(limelights[i]) + LimelightHelpers.getLatency_Capture(limelights[i])), xyStdDev, thetaStdDev);
             }
         }
 
         SmartDashboard.putBoolean("has right target", hasTargetRight());
         SmartDashboard.putBoolean("has left target", hasTargetLeft());
+    }
+
+    public void setHeadingCorrection(boolean enable) {
+
     }
 
     public boolean hasTargetLeft() {
