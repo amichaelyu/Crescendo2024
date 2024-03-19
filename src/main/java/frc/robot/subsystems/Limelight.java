@@ -45,11 +45,11 @@ public class Limelight extends SubsystemBase {
 
         for (int i = 0; i < 2; ++i) {
             if (DriverStation.getAlliance().isPresent()) {
-                Pose3d robotPose3d = LimelightHelpers.getBotPose3d_wpiBlue(limelights[i]);
                 Pose2d robotPose2d = LimelightHelpers.getBotPose2d_wpiBlue(limelights[i]);
+                Pose3d robotPose3d = LimelightHelpers.getBotPose3d_wpiBlue(limelights[i]);
                 if (!(LimelightHelpers.getLimelightNTTable(limelights[i]).getEntry("hb").getDouble(0.0) > 0.0)
-                        && !robotPose2d.equals(new Pose2d())
-                        && !robotPose3d.equals(new Pose3d())
+                        || robotPose2d.equals(new Pose2d())
+                        || robotPose3d.equals(new Pose3d())
                 ) {
                     continue;
                 }
@@ -66,8 +66,8 @@ public class Limelight extends SubsystemBase {
                     continue;
                 }
 
-                Double[] poseDump = LimelightHelpers.getLimelightNTTable(limelights[i]).getEntry("botpose_wpiblue").getDoubleArray(new Double[]{});
-                if (Arrays.equals(poseDump, new Double[]{})) {
+                double[] poseDump = LimelightHelpers.getLimelightNTTable(limelights[i]).getEntry("botpose_wpiblue").getDoubleArray(new double[3]);
+                if (Arrays.equals(poseDump, new double[]{0.0,0.0,0.0})) {
                     continue;
                 }
                 double avgDist = poseDump[9];
