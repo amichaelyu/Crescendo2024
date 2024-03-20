@@ -168,7 +168,7 @@ public final class Constants {
 
         static {
             var softLimit = talonFXConfigs.SoftwareLimitSwitch;
-//            softLimit.ForwardSoftLimitThreshold = ROTATIONS_TO_FULL_EXTENSION;
+//            softLimit.ForwardSoftLimitThreshold = 10;
 //            softLimit.ForwardSoftLimitEnable = true;
 //            softLimit.ReverseSoftLimitThreshold = 0;
 //            softLimit.ReverseSoftLimitEnable = false;

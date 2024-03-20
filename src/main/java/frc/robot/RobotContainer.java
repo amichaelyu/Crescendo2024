@@ -63,7 +63,7 @@ public class RobotContainer {
 
         Swerve.getInstance().setDefaultCommand(new SwerveXboxDrive(driver.leftBumper()));
 //        Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis() - operator.getLeftTriggerAxis()))));
-        Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRightY() * 0.8)));
+        Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRightY())));
         Flipper.getInstance().setDefaultCommand(new RepeatCommand(new InstantCommand(() -> Flipper.getInstance().dutyCycle(operator.getLeftY()), Flipper.getInstance())));
     }
 

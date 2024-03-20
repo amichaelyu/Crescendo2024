@@ -39,6 +39,15 @@ public class Climber extends SubsystemBase {
   }
 
   public void periodic() {
+    if (!limitSwitchRightBottom.get()) {
+      rightClimberMotor.setPosition(0);
+    }
+
+//    if (rightClimberMotor.getPosition().getValue() > ) {
+//
+//    }
+
+    SmartDashboard.putNumber("climber encoder", rightClimberMotor.getPosition().getValue());
     SmartDashboard.putBoolean("climber Top", !limitSwitchRightTop.get());
     SmartDashboard.putBoolean("climber bottom", !limitSwitchRightBottom.get());
   }
