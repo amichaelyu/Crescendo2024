@@ -100,14 +100,12 @@ public class RobotContainer {
                 new ShooterSetpointSpeed(ShooterConstants.AMP_SPEED),
                 new TilterSetpointPosition(TilterConstants.AMP_POSITION)
         ));
-        operator.b().whileTrue(new FlipperUp());
-        operator.x().whileTrue(new FlipperDown());
-//        operator.b().whileTrue(new CG_ShootingAmp())
-//                .whileFalse(new ParallelCommandGroup(
-//                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION),
-//                        new FlipperDown()
-//                        ));
-//        operator.x().whileTrue(new IndexerKick());
+        operator.b().whileTrue(new CG_ShootingAmp())
+                .whileFalse(new SequentialCommandGroup(
+                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION),
+                        new FlipperDown()
+                        ));
+        operator.x().whileTrue(new IndexerKick());
     }
 
     private void configureButtonBindings() {
