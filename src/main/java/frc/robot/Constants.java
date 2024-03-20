@@ -167,11 +167,11 @@ public final class Constants {
         public static final int leftClimberMotorID = 26;
 
         static {
-            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
-            softLimit.ForwardSoftLimitThreshold = -2;
-            softLimit.ForwardSoftLimitEnable = false;
-            softLimit.ReverseSoftLimitThreshold = -60;
-            softLimit.ReverseSoftLimitEnable = false;
+//            var softLimit = talonFXConfigs.SoftwareLimitSwitch;
+//            softLimit.ForwardSoftLimitThreshold = -2;
+//            softLimit.ForwardSoftLimitEnable = false;
+//            softLimit.ReverseSoftLimitThreshold = -60;
+//            softLimit.ReverseSoftLimitEnable = false;
 
             // set slot 0 gains
 //            var slot0Configs = talonFXConfigs.Slot0;
