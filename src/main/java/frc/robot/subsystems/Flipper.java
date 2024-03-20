@@ -25,7 +25,9 @@ public class Flipper extends SubsystemBase {
         flipperMotor.setNeutralMode(NeutralMode.Brake);
         flipperMotor.configContinuousCurrentLimit(12);
         flipperMotor.configPeakCurrentLimit(12);
+    }
 
+    public void periodic() {
         SmartDashboard.putBoolean("Flipper At Top", atTop());
         SmartDashboard.putBoolean("Flipper At Bottom", atBottom());
     }
@@ -55,7 +57,6 @@ public class Flipper extends SubsystemBase {
     }
 
     public boolean atBottom() {
-        return false;
-//        return !limitSwitchBottom.get();
+        return !limitSwitchBottom.get();
     }
 }

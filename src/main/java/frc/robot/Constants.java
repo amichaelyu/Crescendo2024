@@ -87,7 +87,7 @@ public final class Constants {
         public static final double IDLE_POSITION =  10.2; // 80 / 4.0 without AMP piece
         public static final double SPEAKER_CENTER_POSITION = 130.0 / 4.0; // 0-50
         public static final double SPEAKER_CORNER_POSITION = 145.0 / 4.0; // 0-50
-        public static final double AMP_POSITION = 185 / 4.0; // 0-50
+        public static final double AMP_POSITION = 165 / 4.0; // 0-50
         public static final double TRAP_POSITION = 135 / 4.0; // 0-50
         public static final double HUMAN_INTAKE_POSITION = 95.0 / 4.0; // 0-50
         public static final double GROUND_INTAKE_POSITION = 140.0 / 4.0; // 0-50
