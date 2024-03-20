@@ -77,7 +77,7 @@ public class Limelight extends SubsystemBase {
 
                 double xyStdDev = 0.01
                                 * Math.pow(avgDist, 2.0)
-                                / Math.pow(tagCount, 2.0); // squaring 2 tags for more power
+                                / tagCount;
                 double thetaStdDev = headingCorrecting ? 0.01
                         * Math.pow(avgDist, 2.0)
                         / tagCount : Double.POSITIVE_INFINITY;
