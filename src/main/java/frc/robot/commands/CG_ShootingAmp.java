@@ -11,8 +11,10 @@ public class CG_ShootingAmp extends ParallelDeadlineGroup {
         super(
                 new SequentialCommandGroup(
                         new ShooterTilterArmed(),
+                        new FlipperCheckUp(),
                         new IndexerKick()
                 ),
+                new FlipperUp(),
                 new ShooterSetpointSpeed(ShooterConstants.AMP_SPEED),
                 new TilterSetpointPosition(TilterConstants.AMP_POSITION)
         );
