@@ -49,6 +49,7 @@ public class Climber extends SubsystemBase {
       TalonFXConfiguration configuration = ClimberConstants.talonFXConfigs;
       configuration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
       rightClimberMotor.getConfigurator().apply(configuration);
+      leftClimberMotor.getConfigurator().apply(configuration);
       lowerLimitSet = true;
     }
 
