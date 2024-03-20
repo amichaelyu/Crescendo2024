@@ -168,10 +168,10 @@ public final class Constants {
 
         static {
             var softLimit = talonFXConfigs.SoftwareLimitSwitch;
-//            softLimit.ForwardSoftLimitThreshold = 10;
-//            softLimit.ForwardSoftLimitEnable = true;
-//            softLimit.ReverseSoftLimitThreshold = 0;
-//            softLimit.ReverseSoftLimitEnable = false;
+            softLimit.ForwardSoftLimitThreshold = -2;
+            softLimit.ForwardSoftLimitEnable = false;
+            softLimit.ReverseSoftLimitThreshold = -60;
+            softLimit.ReverseSoftLimitEnable = true;
 
             // set slot 0 gains
 //            var slot0Configs = talonFXConfigs.Slot0;

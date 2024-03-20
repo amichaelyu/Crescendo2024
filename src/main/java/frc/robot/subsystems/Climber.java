@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,6 +15,7 @@ public class Climber extends SubsystemBase {
   private final TalonFX leftClimberMotor = new TalonFX(ClimberConstants.leftClimberMotorID, Constants.CAN_BUS_NAME);
   private final DigitalInput limitSwitchRightTop;
   private final DigitalInput limitSwitchRightBottom;
+  private boolean lowerLimitSet = false;
 
   private static final Climber INSTANCE = new Climber();
 
@@ -43,9 +45,12 @@ public class Climber extends SubsystemBase {
       rightClimberMotor.setPosition(0);
     }
 
-//    if (rightClimberMotor.getPosition().getValue() > ) {
-//
-//    }
+    if (rightClimberMotor.getPosition().getValue() < -40 && !lowerLimitSet) {
+      TalonFXConfiguration configuration = ClimberConstants.talonFXConfigs;
+      configuration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      rightClimberMotor.getConfigurator().apply(configuration);
+      lowerLimitSet = true;
+    }
 
     SmartDashboard.putNumber("climber encoder", rightClimberMotor.getPosition().getValue());
     SmartDashboard.putBoolean("climber Top", !limitSwitchRightTop.get());
