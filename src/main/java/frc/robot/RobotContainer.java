@@ -18,7 +18,6 @@ import frc.robot.commands.old.TeleIntake;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Flipper;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Tilter;
 
 import static edu.wpi.first.units.MutableMeasure.mutable;
 import static edu.wpi.first.units.Units.*;
@@ -63,8 +62,8 @@ public class RobotContainer {
 //        operator.b().whileTrue(tilterRoutine.quasistatic(Direction.kReverse));
 
         Swerve.getInstance().setDefaultCommand(new SwerveXboxDrive(driver.leftBumper()));
-        Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis() - operator.getLeftTriggerAxis()))));
-        Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRightY())));
+//        Tilter.getInstance().setDefaultCommand(new TilterManual(() -> ((operator.getRightTriggerAxis() - operator.getLeftTriggerAxis()))));
+        Climber.getInstance().setDefaultCommand(new ClimberManual(() -> (operator.getRightY() * 0.8)));
         Flipper.getInstance().setDefaultCommand(new RepeatCommand(new InstantCommand(() -> Flipper.getInstance().dutyCycle(operator.getLeftY()), Flipper.getInstance())));
     }
 
@@ -95,11 +94,11 @@ public class RobotContainer {
         // these are normal operator buttons
         operator.y().whileTrue(new CG_ShootingSpeaker())
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
-//        operator.a().whileTrue(new TilterSetpointPosition(0));
-        operator.a().whileTrue(new ParallelCommandGroup(
-                new ShooterSetpointSpeed(ShooterConstants.AMP_SPEED),
-                new TilterSetpointPosition(TilterConstants.AMP_POSITION)
-        ));
+        operator.a().whileTrue(new TilterSetpointPosition(0));
+//        operator.a().whileTrue(new ParallelCommandGroup(
+//                new ShooterSetpointSpeed(ShooterConstants.AMP_SPEED),
+//                new TilterSetpointPosition(TilterConstants.AMP_POSITION)
+//        ));
         operator.b().whileTrue(new CG_ShootingAmp())
                 .whileFalse(new SequentialCommandGroup(
                         new FlipperDown(),
