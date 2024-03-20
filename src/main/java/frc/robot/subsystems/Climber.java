@@ -16,6 +16,7 @@ public class Climber extends SubsystemBase {
   private final DigitalInput limitSwitchRightTop;
   private final DigitalInput limitSwitchRightBottom;
   private boolean lowerLimitSet = false;
+  private boolean hasBeenZeroed = false;
 
   private static final Climber INSTANCE = new Climber();
 
@@ -43,9 +44,10 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     if (!limitSwitchRightBottom.get()) {
       rightClimberMotor.setPosition(0);
+      hasBeenZeroed = true;
     }
 
-    if (rightClimberMotor.getPosition().getValue() < -40 && !lowerLimitSet) {
+    if (rightClimberMotor.getPosition().getValue() < -40 && !lowerLimitSet && hasBeenZeroed) {
       TalonFXConfiguration configuration = ClimberConstants.talonFXConfigs;
       configuration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
       rightClimberMotor.getConfigurator().apply(configuration);
