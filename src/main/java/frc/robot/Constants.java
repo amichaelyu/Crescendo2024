@@ -265,7 +265,7 @@ public final class Constants {
         /** Meters per Second */
         public static final double maxSpeed = Units.feetToMeters(15.7);
         /** Rotations per Second */
-        public static final double maxAngularVelocity = Units.radiansToRotations(11.5);
+        public static final double maxAngularVelocity = 7.0;
 
         /* Neutral Modes */
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
