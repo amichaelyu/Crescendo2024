@@ -87,9 +87,14 @@ public class Limelight extends SubsystemBase {
                     continue;
                 }
 
-                if (DriverStation.isAutonomous() && avgDist > 4.0)
+                if (DriverStation.isAutonomous())
                 {
-                    continue;
+                    if (avgDist > 4.0) {
+                        continue;
+                    }
+                    if (tagCount == 1) {
+                        continue;
+                    }
                 }
 
                 if (i == 0) {

@@ -195,8 +195,8 @@ public final class Constants {
         public static final double trackWidth = Units.inchesToMeters(31 - 2.625 * 2); // 25.75
         public static final double wheelBase = Units.inchesToMeters(28 - 2.625 * 2); // 22.75
 
-        public static final double AUTO_LINEAR_P = 5;
-        public static final double AUTO_ROT_P = 5;
+        public static final double AUTO_LINEAR_P = 10;
+        public static final double AUTO_ROT_P = 10;
         public static final double DRIVEBASE_RADIUS = Math.hypot(trackWidth / 2.0, wheelBase / 2.0);
         public static final double AUTO_MAX_SPEED = 1;
 
