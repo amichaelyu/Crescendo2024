@@ -92,9 +92,6 @@ public class Limelight extends SubsystemBase {
                     if (avgDist > 4.0) {
                         continue;
                     }
-                    if (tagCount == 1) {
-                        continue;
-                    }
                 }
 
                 if (i == 0) {
