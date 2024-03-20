@@ -40,7 +40,7 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         NamedCommands.registerCommand("speakerShot", new CG_ShootingSpeaker());
-//        NamedCommands.registerCommand("tilterSetpointLow", new TilterSetpointPosition(5));
+        NamedCommands.registerCommand("citrusPose", new SwerveLimePose());
         NamedCommands.registerCommand("shooterPrep", new ShooterAutoPrep());
         NamedCommands.registerCommand("tilterPoseSetpoint", new TilterPose());
         NamedCommands.registerCommand("tilterIdle", new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
