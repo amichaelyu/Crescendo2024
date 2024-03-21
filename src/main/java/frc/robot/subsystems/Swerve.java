@@ -141,7 +141,7 @@ public class Swerve extends SwerveDrivetrain implements Subsystem {
                 this::seedFieldRelative,  // Consumer for seeding pose against auto: this::seedFieldRelative
                 this::getCurrentRobotChassisSpeeds,
                 (speeds) -> this.setControl(AutoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
-                new HolonomicPathFollowerConfig(new PIDConstants(SwerveConstants.AUTO_LINEAR_P, 0, 0.08),
+                new HolonomicPathFollowerConfig(new PIDConstants(SwerveConstants.AUTO_LINEAR_P, 0, 0),
                         new PIDConstants(SwerveConstants.AUTO_ROT_P, 0, 0),
                         TunerConstants.kSpeedAt12VoltsMps,
                         driveBaseRadius,

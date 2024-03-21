@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
@@ -14,6 +15,7 @@ import frc.robot.FieldConstants;
 import java.util.Arrays;
 
 public class Limelight extends SubsystemBase {
+    private final double kEpsilon = 1e-12;
     private final String leftName = "limelight-left"; // 10.63.0.11 0.2 to right
     private final String rightName = "limelight-right"; // 10.63.0.22 -0.2 to right
     private final double fieldBorderMargin = 0.5;
@@ -73,9 +75,17 @@ public class Limelight extends SubsystemBase {
                 double avgDist = poseDump[9];
                 double tagCount = poseDump[7];
 
-                if (avgDist == 0.0 || tagCount == 0.0) {
+                if (MathUtil.isNear(avgDist, 0.0, kEpsilon) || MathUtil.isNear(tagCount, 0.0, kEpsilon)) {
                     continue;
                 }
+
+                double ambg = poseDump[17];
+
+                if (tagCount == 1 && ambg >= 0.9) {
+                    continue;
+                }
+
+
                 SmartDashboard.putNumber("LLavgDist" + i, avgDist);
                 SmartDashboard.putNumber("LLtagCount" + i, tagCount);
 
@@ -91,7 +101,7 @@ public class Limelight extends SubsystemBase {
                 SmartDashboard.putNumber("LLxyStd" + i, xyStdDev);
                 SmartDashboard.putNumber("LLthetaStd" + i, thetaStdDev);
 
-                if (xyStdDev == 0.0 || thetaStdDev == 0.0) {
+                if (MathUtil.isNear(xyStdDev, 0.0, kEpsilon) || MathUtil.isNear(thetaStdDev, 0.0, kEpsilon)) {
                     continue;
                 }
 
