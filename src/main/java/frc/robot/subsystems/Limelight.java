@@ -62,7 +62,7 @@ public class Limelight extends SubsystemBase {
                         || robotPose3d.getY() < -fieldBorderMargin
                         || robotPose3d.getY() > FieldConstants.fieldWidth + fieldBorderMargin
                         || robotPose3d.getZ() < -0.4
-                        || robotPose3d.getZ() > 0.15) {
+                        || robotPose3d.getZ() > 0.1) {
                     continue;
                 }
 
@@ -73,7 +73,14 @@ public class Limelight extends SubsystemBase {
                 double avgDist = poseDump[9];
                 double tagCount = poseDump[7];
 
+                if (avgDist == 0.0 || tagCount == 0.0) {
+                    continue;
+                }
+                SmartDashboard.putNumber("LLavgDist" + i, avgDist);
+                SmartDashboard.putNumber("LLtagCount" + i, tagCount);
+
                 boolean headingCorrecting = (tagCount >= 2) || neverBeenEnabled;
+                SmartDashboard.putBoolean("LLheadingCorrecting" + i, headingCorrecting);
 
                 double xyStdDev = 0.01
                                 * Math.pow(avgDist, 2.0)
@@ -81,6 +88,12 @@ public class Limelight extends SubsystemBase {
                 double thetaStdDev = headingCorrecting ? 0.01
                         * Math.pow(avgDist, 2.0)
                         / tagCount : Double.POSITIVE_INFINITY;
+                SmartDashboard.putNumber("LLxyStd" + i, xyStdDev);
+                SmartDashboard.putNumber("LLthetaStd" + i, thetaStdDev);
+
+                if (xyStdDev == 0.0 || thetaStdDev == 0.0) {
+                    continue;
+                }
 
                 if (!headingCorrecting
                     && Math.abs(Swerve.getInstance().getPose().getRotation().minus(robotPose2d.getRotation()).getRadians()) > Units.degreesToRadians(5)) {
