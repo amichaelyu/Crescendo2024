@@ -44,7 +44,7 @@ public class Flipper extends SubsystemBase {
 
     public void flipDown() {
         if (!atBottom()) {
-            flipperMotor.set(ControlMode.PercentOutput, -0.7);
+            flipperMotor.set(ControlMode.PercentOutput, -1);
         }
     }
 
