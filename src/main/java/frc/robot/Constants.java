@@ -117,7 +117,7 @@ public final class Constants {
             tilterMap.put(1.86, 85.0 / 4.0);
             tilterMap.put(2.16, 60.0 / 4.0);
             tilterMap.put(2.39, 40.0 / 4.0);
-            tilterMap.put(2.55, 30.0 / 4.0);
+            tilterMap.put(2.55, 8.5);
             tilterMap.put(2.68, 17.0 / 4.0);
             tilterMap.put(2.8, 10.0 / 4.0);
             tilterMap.put(3.07, 1.5);
