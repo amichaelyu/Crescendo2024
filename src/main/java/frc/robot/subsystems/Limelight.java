@@ -133,10 +133,6 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putBoolean("has left target", hasTargetLeft());
     }
 
-    public void setHeadingCorrection(boolean enable) {
-
-    }
-
     public boolean hasTargetLeft() {
         return LimelightHelpers.getTV(leftName);
     }
