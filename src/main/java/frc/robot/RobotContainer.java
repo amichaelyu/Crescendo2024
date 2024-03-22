@@ -86,22 +86,22 @@ public class RobotContainer {
                 .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
 
         // uses these for obtaining new data
-        operator.a().whileTrue(new TilterDashboardPosition());
-        operator.b().whileTrue(new ShooterDashboardSpeed());
-        operator.x().whileTrue(new IndexerKick());
+//        operator.a().whileTrue(new TilterDashboardPosition());
+//        operator.b().whileTrue(new ShooterDashboardSpeed());
+//        operator.x().whileTrue(new IndexerKick());
 
 
         // these are normal operator buttons
-//        operator.y().whileTrue(new CG_ShootingSpeaker())
-//                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
-////        operator.a().whileTrue(new TilterSetpointPosition(0));
-//        operator.leftTrigger(0.2).whileTrue(new TilterSetpointPosition(0)); // TODO: figure out why this doesn't work
-//        operator.b().whileTrue(new CG_ShootingAmp())
-//                .whileFalse(new SequentialCommandGroup(
-//                        new FlipperDown(),
-//                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION)
-//                    ));
-//        operator.x().whileTrue(new IndexerKick());
+        operator.y().whileTrue(new CG_ShootingSpeaker())
+                .whileFalse(new TilterSetpointPosition(TilterConstants.IDLE_POSITION));
+//        operator.a().whileTrue(new TilterSetpointPosition(0));
+        operator.leftTrigger(0.2).whileTrue(new TilterSetpointPosition(0));
+        operator.b().whileTrue(new CG_ShootingAmp())
+                .whileFalse(new SequentialCommandGroup(
+                        new FlipperDown(),
+                        new TilterSetpointPosition(TilterConstants.IDLE_POSITION)
+                    ));
+        operator.x().whileTrue(new IndexerKick());
     }
 
     private void configureButtonBindings() {
