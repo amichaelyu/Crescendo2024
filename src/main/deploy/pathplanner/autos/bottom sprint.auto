@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3327863216400146,
-      "y": 4.132346153259277
+      "x": 0.6899403929710388,
+      "y": 4.422460556030273
     },
-    "rotation": -42.456172619194
+    "rotation": -58.81503496209925
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "named",
           "data": {
-            "name": "citrusShot"
+            "name": "speakerShot"
           }
         },
         {
@@ -44,7 +44,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 3.4
+                              "waitTime": 3.6
                             }
                           },
                           {
@@ -127,7 +127,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 3.45
+                              "waitTime": 3.4
                             }
                           },
                           {
@@ -162,7 +162,7 @@
                                 {
                                   "type": "wait",
                                   "data": {
-                                    "waitTime": 0.65
+                                    "waitTime": 1.0
                                   }
                                 },
                                 {
@@ -210,7 +210,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 1.4
+                              "waitTime": 1.8
                             }
                           },
                           {
