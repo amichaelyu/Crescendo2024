@@ -16,8 +16,8 @@ import java.util.Arrays;
 
 public class Limelight extends SubsystemBase {
     private final double kEpsilon = 1e-12;
-    private final String leftName = "limelight-left"; // 10.63.0.11 0.2 to right
-    private final String rightName = "limelight-right"; // 10.63.0.22 -0.2 to right
+    private final String leftName = "limelight-left"; // 10.63.0.22 0.2 to right
+    private final String rightName = "limelight-right"; // 10.63.0.11 -0.2 to right
     private final double fieldBorderMargin = 0.5;
     private boolean neverBeenEnabled = true;
     private final Field2d leftPoseEstimatorField = new Field2d();
@@ -85,24 +85,21 @@ public class Limelight extends SubsystemBase {
                     continue;
                 }
 
-
                 SmartDashboard.putNumber("LLavgDist" + i, avgDist);
                 SmartDashboard.putNumber("LLtagCount" + i, tagCount);
 
                 boolean headingCorrecting = (tagCount >= 2) || neverBeenEnabled;
                 SmartDashboard.putBoolean("LLheadingCorrecting" + i, headingCorrecting);
 
-                boolean autonomous = DriverStation.isAutonomous();
-                double autoWeight = autonomous ? 0.5 : 1;
-
-                double xyStdDev = 0.01
+                double autoWeight = DriverStation.isAutonomous() ? 0.5 : 1;
+                double xyStdDev = (0.01
                                 * Math.pow(avgDist, 2.0)
-                                / tagCount;
-                double thetaStdDev = headingCorrecting ? 0.01
+                                / tagCount) * autoWeight;
+                double thetaStdDev = (headingCorrecting ? 0.01
                         * Math.pow(avgDist, 2.0)
-                        / tagCount : Double.POSITIVE_INFINITY;
-                SmartDashboard.putNumber("LLxyStd" + i, xyStdDev * autoWeight);
-                SmartDashboard.putNumber("LLthetaStd" + i, thetaStdDev * autoWeight);
+                        / tagCount : Double.POSITIVE_INFINITY) * autoWeight;
+                SmartDashboard.putNumber("LLxyStd" + i, xyStdDev);
+                SmartDashboard.putNumber("LLthetaStd" + i, thetaStdDev);
 
                 if (MathUtil.isNear(xyStdDev, 0.0, kEpsilon) || MathUtil.isNear(thetaStdDev, 0.0, kEpsilon)) {
                     continue;
@@ -128,7 +125,7 @@ public class Limelight extends SubsystemBase {
                 }
                 SmartDashboard.putNumberArray("LLPose3Daccepted" + i, new double[]{robotPose3d.getX(), robotPose3d.getY(), robotPose3d.getZ()});
                 SmartDashboard.putNumberArray("LLPose2Daccepted" + i, new double[]{robotPose2d.getX(), robotPose2d.getY(), robotPose2d.getRotation().getRadians()});
-                Swerve.getInstance().addVision(robotPose2d, Timer.getFPGATimestamp() - Units.millisecondsToSeconds(LimelightHelpers.getLatency_Pipeline(limelights[i]) + LimelightHelpers.getLatency_Capture(limelights[i])), xyStdDev * autoWeight, thetaStdDev * autoWeight);
+                Swerve.getInstance().addVision(robotPose2d, Timer.getFPGATimestamp() - Units.millisecondsToSeconds(LimelightHelpers.getLatency_Pipeline(limelights[i]) + LimelightHelpers.getLatency_Capture(limelights[i])), xyStdDev, thetaStdDev);
             }
         }
 
