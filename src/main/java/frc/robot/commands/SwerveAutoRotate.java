@@ -9,32 +9,36 @@ import frc.robot.subsystems.Swerve;
 
 
 public class SwerveAutoRotate extends Command {
-    private final Swerve swerve;
-    private final Rotation2d rotation2d;
-    private PIDController pidController;
+    private final Swerve swerve = Swerve.getInstance();
+    private Rotation2d rotation2d;
+    private final PIDController pidController;
 
     /**
      * Creates a new SwerveAutoRotate.
      * @param rot wanted {@link Rotation2d} relative to field
      */
-    public SwerveAutoRotate(Swerve swerve, Rotation2d rot) {
-        this.swerve = swerve;
+    public SwerveAutoRotate(Rotation2d rot) {
         addRequirements(swerve);
         rotation2d = rot;
-        pidController = new PIDController(SwerveConstants.AUTO_ROTATE_P, SwerveConstants.AUTO_ROTATE_I, SwerveConstants.AUTO_ROTATE_D);
-        pidController.setTolerance(SwerveConstants.AUTO_ROTATE_TOLERANCE);
+        pidController = new PIDController(SwerveConstants.ROTATE_P, SwerveConstants.ROTATE_I, SwerveConstants.ROTATE_D);
+        pidController.setTolerance(SwerveConstants.ROTATE_TOLERANCE);
+//        SmartDashboard.putNumber("swerve rotate degrees", 0);
 //        SmartDashboard.putNumber("swerve rotate P", 0);
+//        SmartDashboard.putNumber("swerve rotate ff", 0);
     }
 
     @Override
     public void initialize() {
-//        pidController.setP(SmartDashboard.getNumber("swerve rotate P", 0));
+        pidController.setP(SwerveConstants.ROTATE_P);
+//        SmartDashboard.getNumber("swerve rotate P", 0)
+//        rotation2d = Rotation2d.fromDegrees(SmartDashboard.getNumber("swerve rotate degrees",0));
         pidController.setSetpoint(rotation2d.getRadians());
     }
 
     @Override
     public void execute() {
-        swerve.drive(new Translation2d(), pidController.calculate(swerve.getPose().getRotation().getRadians()), true, false);
+        double feedforward = swerve.getPose().getRotation().getRadians() < rotation2d.getRadians() ? SwerveConstants.ROTATE_FF : -SwerveConstants.ROTATE_FF;
+        swerve.drive(new Translation2d(), pidController.calculate(swerve.getPose().getRotation().getRadians()) + feedforward, true);
     }
 
     @Override
@@ -44,6 +48,6 @@ public class SwerveAutoRotate extends Command {
 
     @Override
     public void end(boolean interrupted) {
-
+        swerve.driveX();
     }
 }

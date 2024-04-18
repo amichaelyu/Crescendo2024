@@ -7,12 +7,14 @@
 
 package frc.robot;
 
-import static edu.wpi.first.apriltag.AprilTagFields.k2024Crescendo;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 import java.io.IOException;
+
+import static edu.wpi.first.apriltag.AprilTagFields.k2024Crescendo;
 
 /**
  * Contains various field dimensions and useful reference points. Dimensions are in meters, and sets
@@ -70,7 +72,7 @@ public class FieldConstants {
     // corners (blue alliance origin)
     public static Translation3d topRightSpeaker =
         new Translation3d(
-            Units.inchesToMeters(18.055),
+            Units.inchesToMeters(6.055), // org: 18.055, shifting back to hopefully increase accuracy
             Units.inchesToMeters(238.815),
             Units.inchesToMeters(83.091));
 
@@ -88,6 +90,27 @@ public class FieldConstants {
     /** Center of the speaker opening (blue alliance) */
     public static Translation3d centerSpeakerOpening =
         bottomLeftSpeaker.interpolate(topRightSpeaker, 0.5);
+  }
+
+  // keeps blue origin
+  public static Pose2d allianceFlipper(Pose2d pose, Alliance alliance) {
+    if (alliance == Alliance.Blue) {
+      return pose;
+    }
+    Translation2d transformedTranslation =
+            new Translation2d(fieldLength - pose.getTranslation().getX(), pose.getTranslation().getY());
+    Rotation2d transformedHolonomicRotation = new Rotation2d(-pose.getRotation().getCos(), pose.getRotation().getSin());
+    return new Pose2d(transformedTranslation, transformedHolonomicRotation);
+  }
+
+  // keeps blue origin
+  public static Pose3d allianceFlipper(Pose3d pose, Alliance alliance) {
+    if (alliance == Alliance.Blue) {
+      return pose;
+    }
+    Translation3d transformedTranslation =
+            new Translation3d(fieldLength - pose.getTranslation().getX(), pose.getTranslation().getY(), pose.getTranslation().getZ());
+    return new Pose3d(transformedTranslation, pose.getRotation());
   }
 
   public static double aprilTagWidth = Units.inchesToMeters(6.50);
